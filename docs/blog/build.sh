@@ -55,9 +55,25 @@ cat > "$OUT/index.html" <<HTML
   tbody tr:last-child td { border-bottom: 1px solid var(--fg); }
   th[style*="right"], td[style*="right"] { text-align: right; }
   th:last-child, td:last-child { padding-right: 0; }
-  figure { margin: 1.5rem 0; padding: .75rem .75rem .5rem; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; }
-  figure img { max-width: 100%; display: block; margin: 0 auto; }
+  figure { margin: 1.5rem 0; padding: .75rem .75rem .5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+  figure img { max-width: 100%; display: block; margin: 0 auto; background: #ffffff; border-radius: 6px; }
   figcaption { font-size: .88rem; color: var(--muted); margin-top: .6rem; line-height: 1.5; }
+  figcaption .figno { font-weight: 600; color: var(--fg); }
+  figure svg { width: 100%; height: auto; display: block; color: var(--fg); }
+  svg text { font-size: 12.5px; fill: currentColor; font-family: inherit; }
+  svg text.h { font-weight: 600; font-size: 13px; }
+  svg text.b { font-weight: 600; }
+  svg text.s { fill: var(--muted); font-size: 11.5px; }
+  svg text.mono { font-family: var(--mono); font-size: 11px; }
+  svg text.tag { fill: var(--accent); font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em; }
+  svg text.lbl { fill: var(--muted); font-size: 11px; }
+  svg .lane { fill: var(--surface-2); stroke: var(--border); stroke-width: 1; }
+  svg .fp, svg .dec { fill: var(--surface); stroke: var(--accent); stroke-width: 1.5; }
+  svg .box { fill: var(--surface-2); stroke: var(--border); stroke-width: 1; }
+  svg .end { fill: var(--surface-2); stroke: var(--accent); stroke-width: 1.5; }
+  svg .flow { fill: none; stroke: currentColor; stroke-width: 1.5; }
+  svg .bar { fill: var(--qc); }
+  svg .warn { fill: var(--loss); }
   hr { border: 0; border-top: 1px solid var(--border); margin: 2rem 0; }
 </style>
 </head>
@@ -78,7 +94,9 @@ import re, sys, html, pathlib
 p = pathlib.Path(sys.argv[1]); s = p.read_text()
 def fig(m):
     src, alt = m.group(1), html.unescape(m.group(2))
-    return f'<figure><img src="{src}" alt="{html.escape(alt, quote=True)}"><figcaption>{html.escape(alt)}</figcaption></figure>'
+    cap = html.escape(alt)
+    cap = re.sub(r'^(Figure \d+\.)\s*', r'<span class="figno">\1</span> ', cap)
+    return f'<figure><img src="{src}" alt="{html.escape(alt, quote=True)}"><figcaption>{cap}</figcaption></figure>'
 s = re.sub(r'<p><img src="([^"]+)" alt="([^"]*)" /></p>', fig, s)
 p.write_text(s)
 PY

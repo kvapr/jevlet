@@ -41,9 +41,25 @@
   tbody tr:last-child td { border-bottom: 1px solid var(--fg); }
   th[style*="right"], td[style*="right"] { text-align: right; }
   th:last-child, td:last-child { padding-right: 0; }
-  figure { margin: 1.5rem 0; padding: .75rem .75rem .5rem; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; }
-  figure img { max-width: 100%; display: block; margin: 0 auto; }
+  figure { margin: 1.5rem 0; padding: .75rem .75rem .5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+  figure img { max-width: 100%; display: block; margin: 0 auto; background: #ffffff; border-radius: 6px; }
   figcaption { font-size: .88rem; color: var(--muted); margin-top: .6rem; line-height: 1.5; }
+  figcaption .figno { font-weight: 600; color: var(--fg); }
+  figure svg { width: 100%; height: auto; display: block; color: var(--fg); }
+  svg text { font-size: 12.5px; fill: currentColor; font-family: inherit; }
+  svg text.h { font-weight: 600; font-size: 13px; }
+  svg text.b { font-weight: 600; }
+  svg text.s { fill: var(--muted); font-size: 11.5px; }
+  svg text.mono { font-family: var(--mono); font-size: 11px; }
+  svg text.tag { fill: var(--accent); font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em; }
+  svg text.lbl { fill: var(--muted); font-size: 11px; }
+  svg .lane { fill: var(--surface-2); stroke: var(--border); stroke-width: 1; }
+  svg .fp, svg .dec { fill: var(--surface); stroke: var(--accent); stroke-width: 1.5; }
+  svg .box { fill: var(--surface-2); stroke: var(--border); stroke-width: 1; }
+  svg .end { fill: var(--surface-2); stroke: var(--accent); stroke-width: 1.5; }
+  svg .flow { fill: none; stroke: currentColor; stroke-width: 1.5; }
+  svg .bar { fill: var(--qc); }
+  svg .warn { fill: var(--loss); }
   hr { border: 0; border-top: 1px solid var(--border); margin: 2rem 0; }
 </style>
 </head>
@@ -60,6 +76,66 @@
 <p>Then Jev shipped.</p>
 <h2 id="what-jev-is-as-a-concept">What Jev is, as a concept</h2>
 <p>TypeSafe's Jev is a "System One model": you give it a <em>state</em> (text) and a map of typed <em>questions</em> — NOUL (is X true? → one probability), CHOICE (which of these K? → a distribution), SCORE (which ordered level? → a distribution and an expected value) — and it answers all of them in one non-autoregressive pass, in tens to hundreds of milliseconds, trained so that the probabilities are calibrated ("RLCD" instead of RLHF). Nothing is generated, so nothing has to be parsed and nothing can come back outside the answer space you defined. The docs recommend acting above confidence 0.9, confirming between 0.5 and 0.9, escalating below, and raising the bar for destructive actions.</p>
+<figure>
+<svg viewBox="0 0 760 400" role="img" aria-label="One text state at the top feeds three typed questions answered together in one non-autoregressive pass. NOUL (is X true?) returns one probability; CHOICE (which of these K?) returns a distribution over the K options plus a confidence; SCORE (which ordered level?) returns a distribution over levels plus an expected value and is not measured in this study. Under each, which of this study's questions use it: is_write, touches_poe_power and the gate question matches_request are NOUL; tool (8 options incl. none) and command (23 commands plus none, 24 options) are CHOICE. The operating rule at the bottom: act above 0.9, confirm between 0.5 and 0.9, escalate below; here a human confirms every write.">
+<defs><marker id="arm1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="currentColor"/></marker></defs>
+<rect class="lane" x="20" y="16" width="720" height="52" rx="6"/>
+<text class="tag" x="32" y="34">STATE (TEXT)</text>
+<text class="s" x="728" y="34" text-anchor="end">all questions answered together, one non-autoregressive pass</text>
+<text x="32" y="55">the operator's sentence — or, for the gate question, the sentence plus the proposed call</text>
+<line class="flow" x1="130" y1="68" x2="130" y2="102" marker-end="url(#arm1)"/>
+<line class="flow" x1="380" y1="68" x2="380" y2="102" marker-end="url(#arm1)"/>
+<line class="flow" x1="630" y1="68" x2="630" y2="102" marker-end="url(#arm1)"/>
+<rect class="fp" x="20" y="104" width="220" height="70" rx="6"/>
+<text class="tag" x="32" y="122">NOUL</text>
+<text class="b" x="32" y="142">Is X true?</text>
+<text class="s" x="32" y="160">binary questions</text>
+<rect class="fp" x="270" y="104" width="220" height="70" rx="6"/>
+<text class="tag" x="282" y="122">CHOICE</text>
+<text class="b" x="282" y="142">Which of these K?</text>
+<text class="s" x="282" y="160">picking from known options</text>
+<line class="flow" x1="130" y1="174" x2="130" y2="206" marker-end="url(#arm1)"/>
+<text class="lbl" x="140" y="194">returns</text>
+<line class="flow" x1="380" y1="174" x2="380" y2="206" marker-end="url(#arm1)"/>
+<text class="lbl" x="390" y="194">returns</text>
+<rect class="end" x="20" y="208" width="220" height="52" rx="6"/>
+<text x="32" y="230">one probability</text>
+<text class="s" x="32" y="246">the probability that X is true</text>
+<rect class="end" x="270" y="208" width="220" height="52" rx="6"/>
+<text x="282" y="230">a distribution over K options</text>
+<text class="s" x="282" y="246">plus a confidence</text>
+<g opacity="0.55">
+<rect class="fp" x="520" y="104" width="220" height="70" rx="6"/>
+<text class="tag" x="532" y="122">SCORE</text>
+<text class="b" x="532" y="142">Which ordered level?</text>
+<text class="s" x="532" y="160">grading on a rubric</text>
+<line class="flow" x1="630" y1="174" x2="630" y2="206" marker-end="url(#arm1)"/>
+<text class="lbl" x="640" y="194">returns</text>
+<rect class="end" x="520" y="208" width="220" height="52" rx="6"/>
+<text x="532" y="230">a distribution over levels</text>
+<text class="s" x="532" y="246">plus an expected value</text>
+</g>
+<text class="tag" x="32" y="288">IN THIS STUDY</text>
+<text class="mono" x="32" y="304">is_write</text>
+<text class="s" x="98" y="304">is this a write?</text>
+<text class="mono" x="32" y="320">touches_poe_power</text>
+<text class="mono" x="32" y="336">matches_request</text>
+<text class="s" x="142" y="336">(the gate)</text>
+<text class="tag" x="282" y="288">IN THIS STUDY</text>
+<text class="mono" x="282" y="304">tool</text>
+<text class="s" x="318" y="304">8 options, incl. none</text>
+<text class="mono" x="282" y="320">command</text>
+<text class="s" x="340" y="320">23 commands + none = 24</text>
+<text class="tag" x="532" y="288">IN THIS STUDY</text>
+<text class="s" x="532" y="304">not measured here</text>
+<text class="s" x="532" y="320">(a natural one: the blast-radius</text>
+<text class="s" x="532" y="336">level, a label the dataset carries)</text>
+<text class="s" x="380" y="368" text-anchor="middle">Operating rule: act above 0.9 · confirm between 0.5 and 0.9 · escalate below.</text>
+<text class="s" x="380" y="386" text-anchor="middle">Here a human confirms every write before it reaches the switch.</text>
+</svg>
+<figcaption><span class="figno">Figure 1.</span> Three question types, one call. Every answer is a distribution over an answer space the application defined, plus a confidence; nothing is generated, so nothing is parsed.</figcaption>
+</figure>
+
 <p>I do not care much whether that particular model is the right one for me — it is cloud-only, and my board has no internet, ever. I care about the <em>interface</em>: a distribution the application thresholds, with a confidence axis. That is exactly the object my confirm gate lacks. Within days of the launch, open reproductions appeared on Hugging Face: a 151M ModernBERT cross-encoder with an abstention slot (openJev-verdict-2.0), a 421M RLCD-trained ModernBERT-large (Laya), a DeBERTa-v3-large with a span-scoring head trained on public gold labels (open-jev-deberta), LoRA adapters with a scalar decision head on Qwen3.5 (Open-Jev-2B/9B), and a log-likelihood readout wrapper for any instruction-tuned LM (OpenJev). Small encoders run on a CPU. So the question became concrete:</p>
 <blockquote>
 <p>How much calibrated, typed decision-making can I serve <em>locally</em>, next to the generative agent, for this workload — and what does it buy the confirm gate?</p>
@@ -72,6 +148,63 @@
 <li><strong>A small encoder fine-tuned on the domain</strong>, using the typed-decisions recipe (<code>[STATE] state [Q] instructions [OPT] option …</code>, span-mean scoring head, cross-entropy plus Brier loss, gold-preserving augmentation), trained on the training groups only.</li>
 <li><strong>Rules.</strong> Regexes and lookup tables. One-hot, no epistemics; the floor every deployment gets.</li>
 </ol>
+<figure>
+<svg viewBox="0 0 760 410" role="img" aria-label="Four backends on the left, each with its own source of probability, converge on one highlighted box: the same per-question object, a probability vector aligned with the options, the pre-softmax scores, and Jev's concentration confidence. That single object feeds one calibration and analysis pipeline whose output is the thresholds the confirm card uses.">
+<defs><marker id="arm2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="currentColor"/></marker></defs>
+<rect class="box" x="20" y="20" width="180" height="84" rx="6"/>
+<text class="b" x="30" y="42">Next-token readout</text>
+<text class="s" x="30" y="60">resident 4B, llama-server</text>
+<text class="s" x="30" y="76">one token with logprobs, CPU</text>
+<text class="s" x="30" y="92">option rotations averaged</text>
+<rect class="box" x="20" y="114" width="180" height="84" rx="6"/>
+<text class="b" x="30" y="136">Open decision encoders</text>
+<text class="s" x="30" y="154">openJev-verdict-2.0, Laya</text>
+<text class="s" x="30" y="170">open-jev-deberta-v3-large</text>
+<text class="s" x="30" y="186">NLI cross-encoder, zero-shot</text>
+<rect class="box" x="20" y="208" width="180" height="84" rx="6"/>
+<text class="b" x="30" y="230">Fine-tuned small encoder</text>
+<text class="s" x="30" y="248">typed-decisions recipe</text>
+<text class="s" x="30" y="264">span-mean head, CE + Brier</text>
+<text class="s" x="30" y="280">trained on training groups</text>
+<rect class="box" x="20" y="302" width="180" height="84" rx="6"/>
+<text class="b" x="30" y="324">Rules</text>
+<text class="s" x="30" y="342">regexes and lookup tables</text>
+<text class="s" x="30" y="358">one-hot, no epistemics</text>
+<text class="s" x="30" y="374">the floor every deployment gets</text>
+<path class="flow" d="M200 62 H295 C325 62 325 165 343 165" fill="none" marker-end="url(#arm2)"/>
+<path class="flow" d="M200 156 H295 C325 156 325 190 343 190" fill="none" marker-end="url(#arm2)"/>
+<path class="flow" d="M200 250 H295 C325 250 325 216 343 216" fill="none" marker-end="url(#arm2)"/>
+<path class="flow" d="M200 344 H295 C325 344 325 241 343 241" fill="none" marker-end="url(#arm2)"/>
+<text class="lbl" x="206" y="56">the LM's own softmax</text>
+<text class="lbl" x="206" y="150">their own training</text>
+<text class="lbl" x="206" y="264">trained on our rows</text>
+<text class="lbl" x="206" y="358">none: one-hot</text>
+<rect class="fp" x="345" y="133" width="160" height="140" rx="6"/>
+<text class="tag" x="357" y="151">ONE OBJECT</text>
+<text class="b" x="357" y="171">Per question</text>
+<text class="s" x="357" y="189">probability vector</text>
+<text class="s" x="357" y="205">aligned with the options</text>
+<text class="s" x="357" y="221">pre-softmax scores</text>
+<text class="s" x="357" y="237">concentration confidence</text>
+<text class="mono" x="357" y="256">(K max p − 1)/(K − 1)</text>
+<text class="s" x="425" y="294" text-anchor="middle">the application thresholds this;</text>
+<text class="s" x="425" y="310" text-anchor="middle">it never sees which backend answered</text>
+<line class="flow" x1="505" y1="203" x2="538" y2="203" marker-end="url(#arm2)"/>
+<rect class="box" x="540" y="153" width="200" height="100" rx="6"/>
+<text class="b" x="550" y="175">One calibration and</text>
+<text class="b" x="550" y="191">analysis pipeline</text>
+<text class="s" x="550" y="209">folds grouped by seed request</text>
+<text class="s" x="550" y="225">temperature fitted out-of-fold</text>
+<text class="s" x="550" y="241">ECE, AUROC, selective accuracy</text>
+<line class="flow" x1="640" y1="253" x2="640" y2="298" marker-end="url(#arm2)"/>
+<text class="lbl" x="648" y="280">output</text>
+<rect class="end" x="540" y="300" width="200" height="44" rx="6"/>
+<text class="b" x="640" y="319" text-anchor="middle">Thresholds</text>
+<text class="s" x="640" y="335" text-anchor="middle">the ones the confirm card uses</text>
+</svg>
+<figcaption><span class="figno">Figure 2.</span> Four backends, one object. Each backend reaches the same per-question object by its own route, and the application thresholds that object alone: it never learns which backend answered.</figcaption>
+</figure>
+
 <h2 id="the-workload-made-into-questions">The workload, made into questions</h2>
 <p>The evaluation set is the application's own: 65 canonical requests in four difficulty levels and 195 paraphrases in three styles (casual, verbose, indirect), all with the correct tool, command and parameters. For this study I added rows the set lacked — 81 adversarial confusables written to sit between adjacent commands ("kill power on 3", "take port 3 down", "not a power issue — just kill the link on 6", "stick port 9 on vlan 100"), 54 symptom-first diagnostics requests, 76 documentation and out-of-scope messages, 48 requests for the tools outside the production 4-tool profile — each with <code>is_write</code>, <code>touches_poe_power</code>, an <code>ambiguity</code> grade (0–3), the acceptable alternatives and a blast-radius level; plus 983 label-preserving paraphrases used only for training. The authored rows were generated by one LLM and verified row-by-row by an independent one (the change log is in the repo; human review is pending and I say so wherever these rows are used). Every split is grouped by seed request: paraphrases of one seed never cross a split.</p>
 <p>Two question batteries:</p>
@@ -83,6 +216,85 @@
 <h2 id="result-1--routing-through-the-same-model-buys-nothing">Result 1 — routing through the same model buys nothing</h2>
 <p>Before any of the fancy stuff, the obvious idea: ask the 4B a CHOICE question ("which tool?") as a <em>text label</em> on the production path, and route on that. Measured live on the board on the 195 paraphrases: the text-label tool choice scored 88.7% (75.4% on indirect phrasing) against 93.3% for the model's own tool call once format slips are normalized; a 24-way command label scored 70.8% against 83.1%; and 7% of the labels changed when I reversed the option order. Classifying into a fixed set is not easier for this model than generating the call. The paraphrase suite also needs only two tools, both already in the 4-tool profile, so dynamic profile selection cannot lift the 77.4% at all — it is a coverage feature for the other eight tools, not an accuracy feature. (<em>Measured; negative result.</em>)</p>
 <h2 id="result-2--the-readout-gives-a-probability-but-not-a-calibrated-one-until-you-fix-it">Result 2 — the readout gives a probability, but not a calibrated one until you fix it</h2>
+<figure>
+<svg viewBox="0 0 760 392" role="img" aria-label="Left to right: a prompt made of a system message (instructions, option legend with single-token labels, answer format; identical across states so it sits in the prefix cache) and a user message (the state, the only tokens evaluated per call) goes to llama-server for one prefill with one token requested and logprobs on. The distribution at the first output position is read as a bar sketch over the labels; case and whitespace variants of a label are summed and the result renormalized over the labels. The option list is rotated and 3 rotations are averaged in option space, then one temperature T about 3.4, fitted out-of-fold on other seeds, yields the calibrated probability vector and confidence.">
+<defs><marker id="arm3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="currentColor"/></marker></defs>
+
+<rect class="fp" x="20" y="30" width="190" height="96" rx="6"/>
+<text class="b" x="30" y="50">SYSTEM</text>
+<text class="tag" x="200" y="50" text-anchor="end">CACHED PREFIX</text>
+<text class="s" x="30" y="68">instructions + option legend</text>
+<text class="s" x="30" y="84">labels: A, B, C … / Yes, No</text>
+<text class="s" x="30" y="100">+ the answer format</text>
+<text class="s" x="30" y="116">identical across states</text>
+
+<rect class="fp" x="20" y="136" width="190" height="64" rx="6"/>
+<text class="b" x="30" y="156">USER</text>
+<text class="tag" x="200" y="156" text-anchor="end">EVALUATED PER CALL</text>
+<text class="s" x="30" y="174">the state: the request</text>
+<text class="s" x="30" y="190">the only tokens paid for per call</text>
+
+<rect class="fp" x="244" y="68" width="166" height="94" rx="6"/>
+<text class="tag" x="254" y="86">ONE PREFILL</text>
+<text class="b" x="254" y="104">llama-server</text>
+<text class="s" x="254" y="122">Qwen3-4B Q4_0, CPU</text>
+<text class="s" x="254" y="138">1 token, logprobs on</text>
+<text class="s" x="254" y="154">no generation</text>
+
+<rect class="fp" x="470" y="30" width="270" height="170" rx="6"/>
+<text class="tag" x="480" y="48">FIRST OUTPUT POSITION</text>
+<text class="b" x="480" y="66">pre-sampling distribution</text>
+<rect class="bar" x="492" y="126" width="18" height="14"/>
+<rect class="bar" x="522" y="80" width="18" height="60"/>
+<rect class="bar" x="552" y="118" width="18" height="22"/>
+<rect class="bar" x="582" y="132" width="18" height="8"/>
+<rect class="bar" x="612" y="106" width="18" height="34"/>
+<line class="flow" x1="486" y1="140.5" x2="636" y2="140.5" opacity="0.4"/>
+<text class="mono" x="501" y="154" text-anchor="middle">A</text>
+<text class="mono" x="531" y="154" text-anchor="middle">B</text>
+<text class="mono" x="561" y="154" text-anchor="middle">C</text>
+<text class="mono" x="591" y="154" text-anchor="middle">D</text>
+<text class="mono" x="621" y="154" text-anchor="middle">E</text>
+<text class="s" x="480" y="172">case and whitespace variants summed,</text>
+<text class="s" x="480" y="188">then renormalized over the labels</text>
+
+<path class="flow" d="M210 115 H226 V168 H210" fill="none"/>
+<line class="flow" x1="226" y1="141" x2="242" y2="141" marker-end="url(#arm3)"/>
+<line class="flow" x1="410" y1="115" x2="468" y2="115" marker-end="url(#arm3)"/>
+<text class="lbl" x="439" y="109" text-anchor="middle">logprobs</text>
+
+<path class="flow" d="M605 200 V226 H170 V248" fill="none" marker-end="url(#arm3)"/>
+<text class="lbl" x="390" y="220" text-anchor="middle">repeat with the option list cyclically rotated</text>
+
+<rect class="fp" x="20" y="250" width="262" height="96" rx="6"/>
+<text class="tag" x="30" y="268">ROTATE AND AVERAGE</text>
+<text class="b" x="30" y="286">average 3 rotations in option space</text>
+<text class="s" x="30" y="304">one ordering alone flipped 15.8% of</text>
+<text class="s" x="30" y="320">predictions when reversed (15-way)</text>
+<text class="s" x="30" y="336">the price: three requests instead of one</text>
+
+<rect class="fp" x="330" y="250" width="196" height="96" rx="6"/>
+<text class="tag" x="340" y="268">CALIBRATE</text>
+<text class="b" x="340" y="286">one temperature, T≈3.4</text>
+<text class="s" x="340" y="304">fit out-of-fold, other seeds</text>
+<text class="s" x="340" y="320">halves ECE and halves the</text>
+<text class="s" x="340" y="336">errors above 0.9 confidence</text>
+
+<rect class="end" x="590" y="250" width="150" height="96" rx="6"/>
+<text class="b" x="665" y="280" text-anchor="middle">calibrated p vector</text>
+<text class="s" x="665" y="298" text-anchor="middle">+ confidence</text>
+<text class="s" x="665" y="318" text-anchor="middle">ECE 0.133 → 0.070</text>
+<text class="s" x="665" y="334" text-anchor="middle">(command, 24-way)</text>
+
+<line class="flow" x1="282" y1="298" x2="328" y2="298" marker-end="url(#arm3)"/>
+<text class="lbl" x="305" y="292" text-anchor="middle">mean p</text>
+<line class="flow" x1="526" y1="298" x2="588" y2="298" marker-end="url(#arm3)"/>
+<text class="lbl" x="557" y="292" text-anchor="middle">scores / T</text>
+
+<p><text class="s" x="380" y="378" text-anchor="middle">needs a llama.cpp server; the compiled NPU path returns no logprobs</text> </svg></p>
+<figcaption><span class="figno">Figure 3.</span> One prefill and no generation already gives a distribution over the options. Averaging over rotations of the option list and fitting one temperature out-of-fold are what make that distribution usable.</figcaption>
+</figure>
+
 <p>The logprob readout (upstream <code>llama-server</code>, CPU, Qwen3-4B Q4_0, 3 rotations averaged) on all 260 evaluation requests:</p>
 <div class="tablewrap"><table>
 <thead>
@@ -127,11 +339,11 @@
 </table></div>
 <p>Two things to read off that table. The command accuracy (84.6%) is about the generative call's semantic command accuracy on paraphrases (83.1%); the readout is not a better router. And the raw probabilities are dangerous: on the 24-way question, 23 of the 40 errors sat above 0.9 confidence. A single fitted temperature (T≈3.4, fitted out-of-fold on other seeds) halves ECE and halves the confident errors; it cannot remove them. An earlier pass with a single option ordering on a 15-way version of the question flipped 15.8% of predictions when the order was reversed; averaging three rotations is the cheap fix, and the price is three requests instead of one.</p>
 <p>The prompt wording matters more than I expected for NOUL. Two phrasings of "does this proposal match the request?" put the raw probability of <em>yes</em> on correct proposals at 0.21 and at 0.82. The ranking survived either way (AUROC 0.91 and 0.95); the thresholds did not. This is the practical meaning of "calibrated": if you did not fit the threshold on your own labeled rows, you do not have one.</p>
-<figure><img src="reliability-readout-command.png" alt="Reliability diagrams of the readout&#x27;s 24-way command answers on the held-out rows. Left, raw next-token confidence: most answers sit in the 0.9–1.0 bin at 74% accuracy, ECE 0.208. Right, one temperature per fold puts the bars on the diagonal, ECE 0.065, and no answer clears 0.9 any more."><figcaption>Reliability diagrams of the readout&#x27;s 24-way command answers on the held-out rows. Left, raw next-token confidence: most answers sit in the 0.9–1.0 bin at 74% accuracy, ECE 0.208. Right, one temperature per fold puts the bars on the diagonal, ECE 0.065, and no answer clears 0.9 any more.</figcaption></figure>
+<figure><img src="reliability-readout-command.png" alt="Figure 4. Reliability diagrams of the readout&#x27;s 24-way command answers on the held-out rows. Left, raw next-token confidence: most answers sit in the 0.9–1.0 bin at 74% accuracy, ECE 0.208. Right, one temperature per fold puts the bars on the diagonal, ECE 0.065, and no answer clears 0.9 any more."><figcaption><span class="figno">Figure 4.</span> Reliability diagrams of the readout&#x27;s 24-way command answers on the held-out rows. Left, raw next-token confidence: most answers sit in the 0.9–1.0 bin at 74% accuracy, ECE 0.208. Right, one temperature per fold puts the bars on the diagonal, ECE 0.065, and no answer clears 0.9 any more.</figcaption></figure>
 <h2 id="result-3--what-the-gate-actually-catches">Result 3 — what the gate actually catches</h2>
 <p>The gate question, readout backend, 939 pairs: AUROC 0.952 overall, ECE 0.108 → 0.030 after scaling. On the synthetic negatives it is nearly airtight — swapped operations accepted 7%, wrong ports 0%, and of 156 <em>dangerous</em> swaps (PoE-off↔︎shutdown, access↔︎trunk, …) it accepted one.</p>
 <p>On the generative model's real calls it is a more honest picture. Of the 20 real command confusions it flags 15 at p&lt;0.5; of the 13 "diagnose instead of read" calls, 7; of the 10 format slips (which do match the request), it false-flags 2; and of the 151 correct calls it false-flags 30 at p&lt;0.5 (76 at p&lt;0.9). So at the 0.5 operating point the card would carry a warning on 3 of 4 dangerous misreads and on 1 in 5 correct proposals. Whether that trade is right is a product decision, and the point of having a probability is that it <em>is</em> a decision: move the threshold to 0.3 and you keep most of the catches with fewer false alarms; the risk–coverage curve below is the whole trade-off.</p>
-<figure><img src="risk-coverage-readout-gate.png" alt="Risk–coverage curve of the readout gate on all 939 pairs after scaling: error rate among the pairs it decides on, as the abstention threshold is relaxed; about 2.5% error at 70% coverage rising to 15% at full coverage."><figcaption>Risk–coverage curve of the readout gate on all 939 pairs after scaling: error rate among the pairs it decides on, as the abstention threshold is relaxed; about 2.5% error at 70% coverage rising to 15% at full coverage.</figcaption></figure>
+<figure><img src="risk-coverage-readout-gate.png" alt="Figure 5. Risk–coverage curve of the readout gate on all 939 pairs after scaling: error rate among the pairs it decides on, as the abstention threshold is relaxed; about 2.5% error at 70% coverage rising to 15% at full coverage."><figcaption><span class="figno">Figure 5.</span> Risk–coverage curve of the readout gate on all 939 pairs after scaling: error rate among the pairs it decides on, as the abstention threshold is relaxed; about 2.5% error at 70% coverage rising to 15% at full coverage.</figcaption></figure>
 <h2 id="result-4--zero-shot-open-jev-clones-do-not-transfer-to-a-23-command-catalog">Result 4 — zero-shot open Jev clones do not transfer to a 23-command catalog</h2>
 <div class="tablewrap"><table>
 <thead>
@@ -236,10 +448,122 @@
 <h2 id="result-8--what-it-costs-on-the-board">Result 8 — what it costs on the board</h2>
 <p>Everything above ran on a Grace host; the numbers that matter are on the QCS9075's own CPU next to the running NPU tenant, which took one trick: the Snapdragon <code>llama-server</code> binary links the Hexagon backend and aborts at start when the NPU is busy, until <code>GGML_HEXAGON_NDEV=0</code> tells it to skip the DSP. With the question legend prefix-cached, a readout router question costs 1.24 s on six Kryo threads (20 evaluated tokens, ~16 tok/s incremental) and the gate question 3.1 s; a four-question battery is about 5 s, sequential. The fine-tuned 150M encoder answers one NOUL in 126 ms at four threads (195 ms at one), the gate question in 183 ms, and the packed four-question battery in 2.5 s (it is a ~1,100-token sequence). Laya: 352 ms per NOUL; the 24-option question dominates every encoder's battery. And co-tenancy is free: a generative turn through the NPU runtime took 4.43–4.52 s idle and 4.32–4.33 s with the CPU readout answering a continuous stream.</p>
 <p>So on this board the split writes itself: the encoder is the per-turn option (router and pre-check, a few hundred milliseconds), the 4B readout is the per-write option (one gate check, three seconds, once per confirmation).</p>
+<figure>
+<svg viewBox="0 0 760 458" role="img" aria-label="Two lanes on one board. The Hexagon NPU lane holds the compiled 4B generative agent; the Kryo CPU lane holds the fine-tuned 150M encoder, the 4B readout via llama-server and Laya 421M, with their per-question timings, running next to the NPU tenant. A strip below shows one write turn: encoder pre-turn, generative turn on the NPU, one 3.1 s gate check by the readout, then a human confirms.">
+<defs><marker id="arm6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="currentColor"/></marker></defs>
+<rect class="lane" x="20" y="16" width="720" height="84" rx="6"/>
+<text class="b" x="32" y="54">Hexagon NPU</text>
+<text class="s" x="32" y="70">generative tenant</text>
+<rect class="box" x="150" y="24" width="580" height="68" rx="6"/>
+<text class="b" x="162" y="44">4B generative agent</text>
+<text class="s" x="162" y="60">compiled for the NPU, GenieX runtime</text>
+<text class="s" x="162" y="76">no logprobs on this path</text>
+<text class="s" x="718" y="44" text-anchor="end">one generative turn, idle: 4.43–4.52 s</text>
+<text class="s" x="718" y="60" text-anchor="end">with the CPU readout busy: 4.32–4.33 s</text>
+<text class="b" x="718" y="76" text-anchor="end">no measurable interference</text>
+<rect class="lane" x="20" y="108" width="720" height="176" rx="6"/>
+<text class="b" x="32" y="190">Kryo CPU</text>
+<text class="s" x="32" y="206">System One layer</text>
+<rect class="fp" x="150" y="116" width="190" height="142" rx="6"/>
+<text class="tag" x="162" y="134">PER TURN</text>
+<text class="b" x="162" y="152">fine-tuned 150M encoder</text>
+<text class="s" x="162" y="168">one NOUL 126 ms, 4 threads</text>
+<text class="s" x="162" y="184">gate question 183 ms</text>
+<text class="s" x="162" y="200">four-question battery 2.5 s</text>
+<rect class="fp" x="350" y="116" width="218" height="142" rx="6"/>
+<text class="tag" x="362" y="134">PER WRITE</text>
+<text class="b" x="362" y="152">4B readout, llama-server</text>
+<text class="s" x="362" y="168">router question 1.24 s, 6 threads</text>
+<text class="s" x="362" y="184">gate question 3.1 s</text>
+<text class="s" x="362" y="200">four-question battery about 5 s</text>
+<text class="s" x="362" y="216">aborts when the NPU is busy,</text>
+<text class="s" x="362" y="232">until GGML_HEXAGON_NDEV=0</text>
+<text class="s" x="362" y="248">tells it to skip the DSP</text>
+<rect class="fp" x="578" y="116" width="152" height="142" rx="6"/>
+<text class="tag" x="590" y="134">COMPARISON</text>
+<text class="b" x="590" y="152">Laya 421M</text>
+<text class="s" x="590" y="168">352 ms per NOUL</text>
+<text class="s" x="162" y="276">the 24-option question dominates every encoder's battery</text>
+<rect class="lane" x="20" y="292" width="720" height="40" rx="6"/>
+<text class="b" x="380" y="309" text-anchor="middle">same board</text>
+<text class="s" x="380" y="324" text-anchor="middle">the CPU readout runs next to the running NPU tenant; co-tenancy is free</text>
+<text class="tag" x="20" y="356">ONE WRITE TURN</text>
+<rect class="fp" x="20" y="366" width="180" height="62" rx="6"/>
+<text class="b" x="32" y="386">pre-turn: encoder</text>
+<text class="s" x="32" y="402">router and pre-check</text>
+<text class="s" x="32" y="418">a few hundred milliseconds</text>
+<line class="flow" x1="202" y1="397" x2="218" y2="397" marker-end="url(#arm6)"/>
+<rect class="box" x="220" y="366" width="140" height="62" rx="6"/>
+<text class="b" x="232" y="386">generative turn</text>
+<text class="s" x="232" y="402">4B agent on the NPU</text>
+<text class="s" x="232" y="418">proposes a call</text>
+<line class="flow" x1="362" y1="397" x2="378" y2="397" marker-end="url(#arm6)"/>
+<rect class="fp" x="380" y="366" width="190" height="62" rx="6"/>
+<text class="b" x="392" y="386">gate check: 4B readout</text>
+<text class="s" x="392" y="402">3.1 s, once per confirmation</text>
+<text class="s" x="392" y="418">on the Kryo CPU</text>
+<line class="flow" x1="572" y1="397" x2="588" y2="397" marker-end="url(#arm6)"/>
+<rect class="end" x="590" y="366" width="150" height="62" rx="6"/>
+<text class="b" x="602" y="386">human confirms</text>
+<text class="s" x="602" y="402">nothing auto-executes</text>
+<text class="lbl" x="380" y="446" text-anchor="middle">the encoder is the per-turn option; the 4B readout is the per-write option</text>
+</svg>
+<figcaption><span class="figno">Figure 6.</span> What runs where on the board. The NPU keeps the generative agent; the CPU runs the System One layer, encoder once per turn and 4B readout once per write, and the two tenants do not measurably slow each other.</figcaption>
+</figure>
+
 <h2 id="where-this-sits-in-the-agent-turn">Where this sits in the agent turn</h2>
-<pre><code>operator text ─► [router: tool / command / is_write / touches_poe] ─► tool profile, clarify hint
-              ─► generative 4B proposes a call ─► [gate: matches_request] ─► confirm card annotation
-                                                                            (a human clicks; nothing auto-executes)</code></pre>
+<figure>
+<svg viewBox="0 0 760 462" role="img" aria-label="One agent turn read left to right in three rows. The operator's sentence goes into the router battery, which decides which four tool schemas enter the 4K context and whether to add a one-line hint. The generative 4B model on the NPU proposes a call; the gate asks matches_request over the request, the proposed call and its one-line description, and puts one sentence and one number on the confirm card. A human clicks before anything reaches the switch. The layer never executes.">
+<defs><marker id="arm7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="currentColor"/></marker></defs>
+
+<rect class="box" x="20" y="24" width="180" height="70" rx="6"/>
+<text class="b" x="110" y="63" text-anchor="middle">operator sentence</text>
+
+<line class="flow" x1="200" y1="59" x2="288" y2="59" marker-end="url(#arm7)"/>
+<text class="lbl" x="245" y="51" text-anchor="middle">the request</text>
+
+<rect class="fp" x="290" y="24" width="450" height="70" rx="6"/>
+<text class="tag" x="302" y="42">ROUTER</text>
+<text class="b" x="302" y="62">router battery: tool, command, is_write, touches_poe</text>
+<text class="s" x="302" y="78">state = the request</text>
+
+<path class="flow" d="M715 94 V130 H145 V168" fill="none" marker-end="url(#arm7)"/>
+<text class="lbl" x="430" y="124" text-anchor="middle">which four tool schemas go into the 4K context; optional one-line hint in the system prompt</text>
+<text class="s" x="430" y="147" text-anchor="middle">"this may mean either X or Y; state your reading in the confirmation"</text>
+
+<rect class="box" x="20" y="170" width="250" height="70" rx="6"/>
+<text class="b" x="145" y="201" text-anchor="middle">generative 4B on the NPU</text>
+<text class="s" x="145" y="219" text-anchor="middle">proposes a call</text>
+
+<line class="flow" x1="270" y1="205" x2="368" y2="205" marker-end="url(#arm7)"/>
+<text class="lbl" x="320" y="197" text-anchor="middle">proposed call</text>
+
+<rect class="fp" x="370" y="170" width="370" height="70" rx="6"/>
+<text class="tag" x="382" y="188">GATE</text>
+<text class="b" x="382" y="208">gate question: matches_request</text>
+<text class="s" x="382" y="224">state = request + proposed call + its one-line description</text>
+
+<path class="flow" d="M555 240 V272 H220 V298" fill="none" marker-end="url(#arm7)"/>
+<text class="lbl" x="388" y="266" text-anchor="middle">one sentence, one number</text>
+
+<rect class="box" x="20" y="300" width="400" height="100" rx="6"/>
+<text class="tag" x="32" y="318">CONFIRM CARD</text>
+<text class="mono" x="32" y="336">the rendered command</text>
+<text class="s" x="32" y="354">"Check: this shuts the interface down (link and PoE</text>
+<text class="s" x="32" y="370">power go down); that may not be what you asked for (p=0.31)."</text>
+<text class="s" x="32" y="388">one sentence, one probability; 0.31 is an illustrative value</text>
+
+<line class="flow" x1="420" y1="350" x2="498" y2="350" marker-end="url(#arm7)"/>
+<text class="lbl" x="460" y="342" text-anchor="middle">human clicks</text>
+
+<rect class="end" x="500" y="300" width="240" height="100" rx="6"/>
+<text class="b" x="620" y="346" text-anchor="middle">switch</text>
+<text class="s" x="620" y="364" text-anchor="middle">nothing auto-executes</text>
+
+<p><text class="s" x="380" y="430" text-anchor="middle">the layer never executes; it changes what the LLM sees and what the human sees</text> <text class="s" x="380" y="448" text-anchor="middle">Jev's “act automatically above 0.9” is deliberately not applied to device writes; the human confirm is the product's invariant</text> </svg></p>
+<figcaption><span class="figno">Figure 7.</span> Two typed decisions bracket one generative turn: before it, the router chooses what the 4B model sees; after it, the gate puts one sentence and one number on the card the human sees. Nothing in the layer executes.</figcaption>
+</figure>
+
 <p>The layer never executes. Before the generative turn it decides which four tool schemas to load into the 4K context and whether to add one line to the system prompt ("this may mean either X or Y; state your reading in the confirmation"). After the turn it puts one sentence and one number on the confirm card: <em>"Check: this shuts the interface down (link and PoE power go down); that may not be what you asked for (p=0.31)."</em> (illustrative value). Jev's "act automatically above 0.9" is deliberately not applied to device writes; the human confirm is the product's invariant.</p>
 <h2 id="serving-path-reality-for-anyone-building-this-on-a-qualcomm-board">Serving-path reality, for anyone building this on a Qualcomm board</h2>
 <p>Probabilities are available only from upstream <code>llama-server</code> on the Hexagon backend (built, not yet deployed on my board, and it cannot share the NPU with the production runtime) or on the CPU, where the readout and every encoder above run beside the NPU agent. With prefix caching a readout question costs the state's tokens plus one decoded token; the whole question legend is the constant part. On the compiled path you get a text label and nothing else.</p>
