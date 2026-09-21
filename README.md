@@ -112,7 +112,8 @@ python -m bench.latency_cpu --models <models> --repo <Verdict-open-jev> --thread
 
 The division of labor this implies: an encoder for the per-turn router, a decoder readout for the
 per-write gate. Full tables, calibration and figures: [results/summary](results/summary),
-[docs/artifact](docs/artifact), the blog draft in [docs/blog](docs/blog), and the preprint in [paper](paper).
+[docs/artifact](docs/artifact), the blog draft in [docs/blog](docs/blog), and the preprint in [paper](paper)
+(`bash paper/build.sh` rebuilds `paper/main.pdf` and an arXiv source bundle).
 
 ## Status
 

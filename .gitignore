@@ -8,3 +8,4 @@ __pycache__/
 venv/
 results/*.json.bak
 .DS_Store
+paper/arxiv-src.tar.gz
