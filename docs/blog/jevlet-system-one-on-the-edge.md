@@ -145,6 +145,8 @@ The ranking survived either way (AUROC 0.91 and 0.95); the thresholds did not. T
 practical meaning of "calibrated": if you did not fit the threshold on your own labeled rows,
 you do not have one.
 
+![Reliability diagrams of the readout's 24-way command answers on the held-out rows. Left, raw next-token confidence: most answers sit in the 0.9–1.0 bin at 74% accuracy, ECE 0.208. Right, one temperature per fold puts the bars on the diagonal, ECE 0.065, and no answer clears 0.9 any more.](reliability-readout-command.png)
+
 ## Result 3 — what the gate actually catches
 
 The gate question, readout backend, 939 pairs: AUROC 0.952 overall, ECE 0.108 → 0.030 after
@@ -157,16 +159,18 @@ slips (which do match the request), it false-flags 2; and of the 151 correct cal
 30 at p<0.5 (76 at p<0.9). So at the 0.5 operating point the card would carry a warning on 3 of
 4 dangerous misreads and on 1 in 5 correct proposals. Whether that trade is right is a product
 decision, and the point of having a probability is that it *is* a decision: move the threshold to
-0.3 and you keep most of the catches with fewer false alarms; the risk–coverage curve is in the
-repo.
+0.3 and you keep most of the catches with fewer false alarms; the risk–coverage curve below is
+the whole trade-off.
+
+![Risk–coverage curve of the readout gate on all 939 pairs after scaling: error rate among the pairs it decides on, as the abstention threshold is relaxed; about 2.5% error at 70% coverage rising to 15% at full coverage.](risk-coverage-readout-gate.png)
 
 ## Result 4 — zero-shot open Jev clones do not transfer to a 23-command catalog
 
 | model | tool (8-way) | command (24-way) | is_write | gate AUROC |
 |---|---:|---:|---:|---:|
-| openJev-verdict-2.0, 151M (ONNX, CPU) | 72.7% | 0.0%* | 69.2% | 0.57 |
-| open-jev-deberta-v3-large, 0.4B | 23.8% | 70.8% | 88.8% | 0.66 |
-| NLI cross-encoder (DeBERTa-v3-base MNLI) | 25.8% | 53.1% | 86.5% | 0.55 |
+| openJev-verdict-2.0, 151M (ONNX, CPU; 260 base rows) | 72.7% | 0.0%* | 69.2% | 0.57 |
+| open-jev-deberta-v3-large, 0.4B (260 base rows) | 23.8% | 70.8% | 88.8% | 0.67 |
+| NLI cross-encoder (DeBERTa-v3-base MNLI; 260 base rows) | 25.8% | 53.1% | 86.5% | 0.56 |
 | Laya typed-decisions checkpoint, 421M (all 519 rows) | 61.7% | 51.4% | 81.1% | 0.73 |
 | Laya English checkpoint, 421M (all 519 rows) | 27.2% | 46.8% | 86.7% | 0.76 |
 
@@ -267,7 +271,7 @@ The layer never executes. Before the generative turn it decides which four tool 
 into the 4K context and whether to add one line to the system prompt ("this may mean either X or
 Y; state your reading in the confirmation"). After the turn it puts one sentence and one number
 on the confirm card: *"Check: this shuts the interface down (link and PoE power go down); that may
-not be what you asked for (p=0.31)."* Jev's "act automatically above 0.9" is deliberately not
+not be what you asked for (p=0.31)."* (illustrative value). Jev's "act automatically above 0.9" is deliberately not
 applied to device writes; the human confirm is the product's invariant.
 
 ## Serving-path reality, for anyone building this on a Qualcomm board
