@@ -2,13 +2,13 @@
  "file": "gate-verdict-zeroshot.json",
  "backend": "openjev-verdict-151m-onnx",
  "n": 939,
- "auroc": 0.566467595664676,
- "acc_at_0.5_raw": 0.43769968051118213,
- "acc_at_0.5_temp_scaled": 0.43769968051118213,
- "ece_raw": 0.29511633433523565,
- "ece_temp_scaled": 0.06734954275039473,
- "brier_raw": 0.33208443627141904,
- "brier_temp_scaled": 0.2506221268962902,
+ "auroc": 0.5662469391685544,
+ "acc_at_0.5_raw": 0.4483493077742279,
+ "acc_at_0.5_temp_scaled": 0.4483493077742279,
+ "ece_raw": 0.28446670707218985,
+ "ece_temp_scaled": 0.056699915487348984,
+ "brier_raw": 0.3271422870211876,
+ "brier_temp_scaled": 0.2505150043812363,
  "temperatures": [
   49.99999999999999,
   49.99999999999999,
@@ -49,15 +49,15 @@
  "by_style": {
   "A": {
    "n": 251,
-   "auroc": 0.634514687100894
+   "auroc": 0.6398137517540503
   },
   "B": {
    "n": 251,
-   "auroc": 0.6006666666666667
+   "auroc": 0.6064761904761905
   },
   "C": {
    "n": 251,
-   "auroc": 0.5548597521200261
+   "auroc": 0.5543157624727459
   },
   "canon": {
    "n": 186,
@@ -65,18 +65,55 @@
   }
  },
  "real_misses": {
-  "n": 44,
+  "n": 34,
   "flagged_raw(p<0.5)": 0,
   "flagged_cal(p<0.5)": 0,
-  "flagged_cal(p<0.9)": 44
+  "flagged_cal(p<0.9)": 34
  },
  "real_correct": {
-  "n": 151,
+  "n": 161,
   "false_flag_raw(p<0.5)": 0,
   "false_flag_cal(p<0.5)": 0,
-  "false_flag_cal(p<0.9)": 151
+  "false_flag_cal(p<0.9)": 161
  },
- "auroc_real_only": 0.6398254063816978,
+ "auroc_real_only": 0.6770186335403726,
+ "real_by_miss_kind": {
+  "confusion": {
+   "n": 20,
+   "label_mean": 0.0,
+   "flagged_cal(p<0.5)": 0,
+   "flagged_cal(p<0.9)": 20,
+   "mean_p_cal": 0.5050480832774752
+  },
+  "diagnose_instead": {
+   "n": 13,
+   "label_mean": 0.0,
+   "flagged_cal(p<0.5)": 0,
+   "flagged_cal(p<0.9)": 13,
+   "mean_p_cal": 0.5044925402742606
+  },
+  "format_only": {
+   "n": 10,
+   "label_mean": 1.0,
+   "flagged_cal(p<0.5)": 0,
+   "flagged_cal(p<0.9)": 10,
+   "mean_p_cal": 0.5050294020817804
+  },
+  "none": {
+   "n": 151,
+   "label_mean": 1.0,
+   "flagged_cal(p<0.5)": 0,
+   "flagged_cal(p<0.9)": 151,
+   "mean_p_cal": 0.505053345873548
+  },
+  "params": {
+   "n": 1,
+   "label_mean": 0.0,
+   "flagged_cal(p<0.5)": 0,
+   "flagged_cal(p<0.9)": 1,
+   "mean_p_cal": 0.5048364949069438
+  }
+ },
  "dangerous_swaps": {
   "n": 156,
   "accepted_raw(p>0.5)": 156,
