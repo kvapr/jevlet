@@ -1,0 +1,10 @@
+data/raw/
+data/raw/**
+*.gguf
+models/
+__pycache__/
+*.pyc
+.venv/
+venv/
+results/*.json.bak
+.DS_Store

@@ -1,0 +1,90 @@
+{
+ "file": "gate-nli-zeroshot.json",
+ "backend": "nli-cross-encoder_nli-deberta-v3-base",
+ "n": 939,
+ "auroc": 0.5471319029713191,
+ "acc_at_0.5_raw": 0.44195953141640043,
+ "acc_at_0.5_temp_scaled": 0.44195953141640043,
+ "ece_raw": 0.4008482651560864,
+ "ece_temp_scaled": 0.06883075171520303,
+ "brier_raw": 0.4198592554782083,
+ "brier_temp_scaled": 0.2508102769796957,
+ "temperatures": [
+  49.99999999999999,
+  49.99999999999999,
+  49.99999999999999,
+  49.99999999999999,
+  49.99999999999999
+ ],
+ "by_kind": {
+  "gold": {
+   "n": 260,
+   "mean_p_yes_raw": 0.8323674355418637,
+   "mean_p_yes_cal": 0.5111001639888345,
+   "frac_accepted_raw(p>0.5)": 0.9461538461538461,
+   "frac_accepted_cal(p>0.5)": 0.9461538461538461
+  },
+  "real": {
+   "n": 195,
+   "mean_p_yes_raw": 0.8150342539143868,
+   "mean_p_yes_cal": 0.5105359825920316,
+   "frac_accepted_raw(p>0.5)": 0.9435897435897436,
+   "frac_accepted_cal(p>0.5)": 0.9435897435897436
+  },
+  "swap_op": {
+   "n": 260,
+   "mean_p_yes_raw": 0.8115219082396764,
+   "mean_p_yes_cal": 0.5087103562489566,
+   "frac_accepted_raw(p>0.5)": 0.9461538461538461,
+   "frac_accepted_cal(p>0.5)": 0.9461538461538461
+  },
+  "wrong_port": {
+   "n": 224,
+   "mean_p_yes_raw": 0.8271558788255788,
+   "mean_p_yes_cal": 0.5106194757889877,
+   "frac_accepted_raw(p>0.5)": 0.9419642857142857,
+   "frac_accepted_cal(p>0.5)": 0.9419642857142857
+  }
+ },
+ "by_style": {
+  "A": {
+   "n": 251,
+   "auroc": 0.5996487867177522
+  },
+  "B": {
+   "n": 251,
+   "auroc": 0.5471428571428572
+  },
+  "C": {
+   "n": 251,
+   "auroc": 0.55662100456621
+  },
+  "canon": {
+   "n": 186,
+   "auroc": 0.48862047043865225
+  }
+ },
+ "real_misses": {
+  "n": 44,
+  "flagged_raw(p<0.5)": 1,
+  "flagged_cal(p<0.5)": 1,
+  "flagged_cal(p<0.9)": 44
+ },
+ "real_correct": {
+  "n": 151,
+  "false_flag_raw(p<0.5)": 10,
+  "false_flag_cal(p<0.5)": 10,
+  "false_flag_cal(p<0.9)": 151
+ },
+ "auroc_real_only": 0.5370258880192655,
+ "dangerous_swaps": {
+  "n": 156,
+  "accepted_raw(p>0.5)": 144,
+  "accepted_cal(p>0.5)": 144,
+  "accepted_cal(p>0.9)": 0
+ },
+ "latency_s": {
+  "median": 0.009006574749946594,
+  "p95": 0.009869331493973732
+ }
+}

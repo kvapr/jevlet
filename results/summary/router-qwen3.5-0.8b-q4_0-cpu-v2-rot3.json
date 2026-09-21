@@ -1,0 +1,819 @@
+{
+ "file": "router-qwen3.5-0.8b-q4_0-cpu-v2-rot3.json",
+ "backend": "llamacpp-readout",
+ "n": 260,
+ "questions": {
+  "tool": {
+   "n": 260,
+   "raw": {
+    "n": 260,
+    "accuracy": 0.7461538461538462,
+    "nll": 1.1809548307075415,
+    "brier": 0.5559075741423232,
+    "ece": 0.38731484382647585,
+    "ece_adaptive": 0.3873148438264759,
+    "aurc": 0.09075988855736959,
+    "mean_conf": 0.3588390023273703,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.03076923076923077,
+      "n": 8,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 0.08846153846153847,
+      "n": 23,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ]
+   },
+   "temp_scaled_oof": {
+    "n": 260,
+    "accuracy": 0.7538461538461538,
+    "nll": 0.6431941774522434,
+    "brier": 0.34830033759121765,
+    "ece": 0.04127733487228541,
+    "ece_adaptive": 0.05733407884168758,
+    "aurc": 0.09875383977981915,
+    "mean_conf": 0.7678119333367831,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.7807692307692308,
+      "n": 203,
+      "error_rate": 0.1724137931034483,
+      "wrong": 35
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.6192307692307693,
+      "n": 161,
+      "error_rate": 0.12422360248447205,
+      "wrong": 20
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.35,
+      "n": 91,
+      "error_rate": 0.04395604395604396,
+      "wrong": 4
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.19615384615384615,
+      "n": 51,
+      "error_rate": 0.0392156862745098,
+      "wrong": 2
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 0.8538461538461538,
+      "n": 222,
+      "error_rate": 0.19369369369369369,
+      "wrong": 43
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.6461538461538462,
+      "n": 168,
+      "error_rate": 0.14285714285714285,
+      "wrong": 24
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.3730769230769231,
+      "n": 97,
+      "error_rate": 0.041237113402061855,
+      "wrong": 4
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.22692307692307692,
+      "n": 59,
+      "error_rate": 0.03389830508474576,
+      "wrong": 2
+     }
+    ]
+   },
+   "temperatures": [
+    0.29363933065947406,
+    0.29363933065947406,
+    0.30401121308247114,
+    0.30401121308247114,
+    0.29363933065947406
+   ],
+   "by_style": {
+    "A": {
+     "n": 65,
+     "acc": 0.6153846153846154
+    },
+    "B": {
+     "n": 65,
+     "acc": 0.8153846153846154
+    },
+    "C": {
+     "n": 65,
+     "acc": 0.7230769230769231
+    },
+    "canon": {
+     "n": 65,
+     "acc": 0.8307692307692308
+    }
+   },
+   "by_split": {
+    "canonical": {
+     "n": 65,
+     "acc": 0.8307692307692308
+    },
+    "paraphrase": {
+     "n": 195,
+     "acc": 0.717948717948718
+    }
+   },
+   "order_flip_rate": 0.95,
+   "acc_single_rotation": 0.6884615384615385,
+   "latency_s": {
+    "median": 0.42871732730418444,
+    "p95": 0.5769085493870079,
+    "mean": 0.45149276001522176
+   },
+   "label_mass_mean": 0.8372550400540935
+  },
+  "command": {
+   "n": 260,
+   "raw": {
+    "n": 260,
+    "accuracy": 0.35,
+    "nll": 2.291270722377932,
+    "brier": 0.7817704568273478,
+    "ece": 0.10793127551054293,
+    "ece_adaptive": 0.11329167781223112,
+    "aurc": 0.3950348841234258,
+    "mean_conf": 0.3113395991366602,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.11923076923076924,
+      "n": 31,
+      "error_rate": 0.0967741935483871,
+      "wrong": 3
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.026923076923076925,
+      "n": 7,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 0.13846153846153847,
+      "n": 36,
+      "error_rate": 0.16666666666666666,
+      "wrong": 6
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.026923076923076925,
+      "n": 7,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ]
+   },
+   "temp_scaled_oof": {
+    "n": 260,
+    "accuracy": 0.36153846153846153,
+    "nll": 2.329209464155448,
+    "brier": 0.8018485885260666,
+    "ece": 0.14502337166481424,
+    "ece_adaptive": 0.15941530458980396,
+    "aurc": 0.397355958556586,
+    "mean_conf": 0.240423473881598,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.046153846153846156,
+      "n": 12,
+      "error_rate": 0.16666666666666666,
+      "wrong": 2
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 0.05,
+      "n": 13,
+      "error_rate": 0.15384615384615385,
+      "wrong": 2
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ]
+   },
+   "temperatures": [
+    1.6656473939673366,
+    1.7853929824502315,
+    1.9813443193507387,
+    1.8484563535975136,
+    1.6656473939673366
+   ],
+   "by_style": {
+    "A": {
+     "n": 65,
+     "acc": 0.26153846153846155
+    },
+    "B": {
+     "n": 65,
+     "acc": 0.4307692307692308
+    },
+    "C": {
+     "n": 65,
+     "acc": 0.27692307692307694
+    },
+    "canon": {
+     "n": 65,
+     "acc": 0.4307692307692308
+    }
+   },
+   "by_split": {
+    "canonical": {
+     "n": 65,
+     "acc": 0.4307692307692308
+    },
+    "paraphrase": {
+     "n": 195,
+     "acc": 0.3230769230769231
+    }
+   },
+   "acc_allowing_alt_ok": 0.35,
+   "top_confusions": [
+    {
+     "true": "configure_port_duplex",
+     "pred": "configure_poe_mode",
+     "n": 21
+    },
+    {
+     "true": "configure_port_speed",
+     "pred": "show_poe_config",
+     "n": 18
+    },
+    {
+     "true": "configure_poe_power_limit",
+     "pred": "configure_poe_mode",
+     "n": 14
+    },
+    {
+     "true": "enable_port",
+     "pred": "disable_port",
+     "n": 12
+    },
+    {
+     "true": "show_port_status",
+     "pred": "show_poe_status",
+     "n": 11
+    },
+    {
+     "true": "set_port_description",
+     "pred": "configure_poe_mode",
+     "n": 10
+    },
+    {
+     "true": "enable_port",
+     "pred": "show_poe_status",
+     "n": 8
+    },
+    {
+     "true": "configure_poe_mode",
+     "pred": "disable_port",
+     "n": 7
+    },
+    {
+     "true": "show_port_status",
+     "pred": "show_all_ports_status",
+     "n": 6
+    },
+    {
+     "true": "configure_port_speed",
+     "pred": "show_poe_status",
+     "n": 6
+    },
+    {
+     "true": "configure_access_vlan",
+     "pred": "show_vlan_membership",
+     "n": 6
+    },
+    {
+     "true": "show_port_status",
+     "pred": "show_all_poe_status",
+     "n": 5
+    }
+   ],
+   "dangerous_confusions": 27,
+   "dangerous_confusions_conf_gt_0.9": {
+    "raw": 0,
+    "temp_scaled": 0
+   },
+   "order_flip_rate": 0.8576923076923076,
+   "acc_single_rotation": 0.3576923076923077,
+   "latency_s": {
+    "median": 0.45100160501897335,
+    "p95": 0.6077858994714914,
+    "mean": 0.48644615737721325
+   },
+   "label_mass_mean": 0.7101114692456082
+  },
+  "is_write": {
+   "n": 260,
+   "raw": {
+    "n": 260,
+    "accuracy": 0.8192307692307692,
+    "nll": 0.4918288813543013,
+    "brier": 0.31440793731732514,
+    "ece": 0.15975382224956072,
+    "ece_adaptive": 0.15975382224956078,
+    "aurc": 0.07234066328628946,
+    "mean_conf": 0.6594769469812084,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.23846153846153847,
+      "n": 62,
+      "error_rate": 0.03225806451612903,
+      "wrong": 2
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.04230769230769231,
+      "n": 11,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 1.0,
+      "n": 260,
+      "error_rate": 0.18076923076923077,
+      "wrong": 47
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.34615384615384615,
+      "n": 90,
+      "error_rate": 0.022222222222222223,
+      "wrong": 2
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0038461538461538464,
+      "n": 1,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ]
+   },
+   "temp_scaled_oof": {
+    "n": 260,
+    "accuracy": 0.8192307692307692,
+    "nll": 0.406828643943922,
+    "brier": 0.26205943436047524,
+    "ece": 0.015817045466407116,
+    "ece_adaptive": 0.03017527441414601,
+    "aurc": 0.07389069712367105,
+    "mean_conf": 0.8134297845116584,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.6615384615384615,
+      "n": 172,
+      "error_rate": 0.10465116279069768,
+      "wrong": 18
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.49230769230769234,
+      "n": 128,
+      "error_rate": 0.0625,
+      "wrong": 8
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.2653846153846154,
+      "n": 69,
+      "error_rate": 0.028985507246376812,
+      "wrong": 2
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.16153846153846155,
+      "n": 42,
+      "error_rate": 0.023809523809523808,
+      "wrong": 1
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 1.0,
+      "n": 260,
+      "error_rate": 0.18076923076923077,
+      "wrong": 47
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.7423076923076923,
+      "n": 193,
+      "error_rate": 0.10880829015544041,
+      "wrong": 21
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.39615384615384613,
+      "n": 103,
+      "error_rate": 0.02912621359223301,
+      "wrong": 3
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.2653846153846154,
+      "n": 69,
+      "error_rate": 0.028985507246376812,
+      "wrong": 2
+     }
+    ]
+   },
+   "temperatures": [
+    0.3876298744314731,
+    0.3492939873392624,
+    0.3492939873392624,
+    0.3492939873392624,
+    0.3373772026555347
+   ],
+   "by_style": {
+    "A": {
+     "n": 65,
+     "acc": 0.8769230769230769
+    },
+    "B": {
+     "n": 65,
+     "acc": 0.8
+    },
+    "C": {
+     "n": 65,
+     "acc": 0.7538461538461538
+    },
+    "canon": {
+     "n": 65,
+     "acc": 0.8461538461538461
+    }
+   },
+   "by_split": {
+    "canonical": {
+     "n": 65,
+     "acc": 0.8461538461538461
+    },
+    "paraphrase": {
+     "n": 195,
+     "acc": 0.8102564102564103
+    }
+   },
+   "order_flip_rate": 0.0,
+   "acc_single_rotation": 0.8192307692307692,
+   "latency_s": {
+    "median": 0.1422977540642023,
+    "p95": 0.19331660633906722,
+    "mean": 0.14479417479238832
+   },
+   "label_mass_mean": 0.9973401757236401
+  },
+  "touches_poe_power": {
+   "n": 260,
+   "raw": {
+    "n": 260,
+    "accuracy": 0.8076923076923077,
+    "nll": 0.35891949154613456,
+    "brier": 0.22379184481981942,
+    "ece": 0.12335213117950855,
+    "ece_adaptive": 0.1305427080152904,
+    "aurc": 0.042295988059735994,
+    "mean_conf": 0.8298917550179642,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.8192307692307692,
+      "n": 213,
+      "error_rate": 0.06572769953051644,
+      "wrong": 14
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.5769230769230769,
+      "n": 150,
+      "error_rate": 0.03333333333333333,
+      "wrong": 5
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.026923076923076925,
+      "n": 7,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 1.0,
+      "n": 260,
+      "error_rate": 0.19230769230769232,
+      "wrong": 50
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.8730769230769231,
+      "n": 227,
+      "error_rate": 0.1013215859030837,
+      "wrong": 23
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.26153846153846155,
+      "n": 68,
+      "error_rate": 0.014705882352941176,
+      "wrong": 1
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.026923076923076925,
+      "n": 7,
+      "error_rate": 0.0,
+      "wrong": 0
+     }
+    ]
+   },
+   "temp_scaled_oof": {
+    "n": 260,
+    "accuracy": 0.8076923076923077,
+    "nll": 0.35941139016043155,
+    "brier": 0.23031174321199419,
+    "ece": 0.09490161015583624,
+    "ece_adaptive": 0.11068555142411747,
+    "aurc": 0.047816988351253094,
+    "mean_conf": 0.8663104478070685,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.8692307692307693,
+      "n": 226,
+      "error_rate": 0.09734513274336283,
+      "wrong": 22
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.7153846153846154,
+      "n": 186,
+      "error_rate": 0.04838709677419355,
+      "wrong": 9
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.15384615384615385,
+      "n": 40,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.026923076923076925,
+      "n": 7,
+      "error_rate": 0.0,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 1.0,
+      "n": 260,
+      "error_rate": 0.19230769230769232,
+      "wrong": 50
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.9,
+      "n": 234,
+      "error_rate": 0.12393162393162394,
+      "wrong": 29
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.5269230769230769,
+      "n": 137,
+      "error_rate": 0.0364963503649635,
+      "wrong": 5
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.15384615384615385,
+      "n": 40,
+      "error_rate": 0.0,
+      "wrong": 0
+     }
+    ]
+   },
+   "temperatures": [
+    0.8035264091308193,
+    0.8917154384659549,
+    0.8612929826993935,
+    0.7761126787135236,
+    0.7496342163930227
+   ],
+   "by_style": {
+    "A": {
+     "n": 65,
+     "acc": 0.7846153846153846
+    },
+    "B": {
+     "n": 65,
+     "acc": 0.7846153846153846
+    },
+    "C": {
+     "n": 65,
+     "acc": 0.8153846153846154
+    },
+    "canon": {
+     "n": 65,
+     "acc": 0.8461538461538461
+    }
+   },
+   "by_split": {
+    "canonical": {
+     "n": 65,
+     "acc": 0.8461538461538461
+    },
+    "paraphrase": {
+     "n": 195,
+     "acc": 0.7948717948717948
+    }
+   },
+   "order_flip_rate": 0.0,
+   "acc_single_rotation": 0.8076923076923077,
+   "latency_s": {
+    "median": 0.14255889505147934,
+    "p95": 0.19001040076836942,
+    "mean": 0.14543977816087694
+   },
+   "label_mass_mean": 0.9961268468725271
+  }
+ }
+}

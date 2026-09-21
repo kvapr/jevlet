@@ -1,0 +1,36 @@
+What a calibrated yes/no buys a confirm gate on an offline edge agent
+
+Consider a network-management assistant that runs a 4-billion-parameter model on the neural processing unit (NPU) of a Qualcomm QCS9075 board. It turns an operator's sentence into one switch command, and a human approves every write before it reaches the hardware. On canonical phrasing it is a 92 to 97 percent agent. On paraphrases it is a 77 percent agent.
+
+The accuracy is not the interesting part. Two other properties are.
+
+𝗧𝗵𝗲 𝗺𝗶𝘀𝘀𝗲𝘀 𝗮𝗿𝗲 𝘀𝘁𝗿𝘂𝗰𝘁𝘂𝗿𝗲𝗱
+
+Of 44 misses on 195 paraphrased requests, 20 are confusions between adjacent commands: put a port in one VLAN versus make it a trunk, cut PoE power versus shut the interface down. Several of those take a camera off the network until someone reverts them.
+
+𝗧𝗵𝗲 𝗺𝗼𝗱𝗲𝗹 𝗲𝗺𝗶𝘁𝘀 𝗻𝗼 𝗽𝗿𝗼𝗯𝗮𝗯𝗶𝗹𝗶𝘁𝘆
+
+A generated tool call is a one-hot event. The confirm card shows the command and the model's own reason, both written by the thing that may have misread the request. And the compiled NPU runtime returns no logprobs at all, so there is nothing to read off the serving stack.
+
+TypeSafe's Jev reframes this class of decision as typed questions over a state (yes/no, one of K, an ordered level), answered in one pass with calibrated probabilities and no generated text. Jev is cloud-only, and this board has no internet. So the question became: how much of that idea can be served locally, next to the generative agent, and what does it buy the gate?
+
+𝗪𝗵𝗮𝘁 𝘄𝗮𝘀 𝗺𝗲𝗮𝘀𝘂𝗿𝗲𝗱
+
+Four local realizations of one interface, on one labeled workload of 519 operator requests:
+
+• A next-token readout of the same 4B over single-token labels, through llama.cpp's server on the CPU. On a 24-way command question it is about as accurate as the generative call (84.6 versus 83.1 percent), but its raw confidence is useless: 23 of 40 errors sat above 0.9. A single fitted temperature halves that. Reversing the option order flips 16 percent of answers on the base rows and up to 36 percent on adversarial ones; averaging three rotations is the cheap fix.
+
+• The same readout as a confirm-gate question, "does this proposal do what was asked?": AUROC 0.95. It flags 15 of the 20 real dangerous confusions the agent made, at the cost of false-flagging 30 of 151 correct proposals at the 0.5 threshold. That trade is now a product decision instead of an absence.
+
+• Three open Jev reproductions (151M to 421M encoders), zero-shot: fast, honest, and at chance on the gate. Above about six options the 151M model collapses to one label.
+
+• A 150M encoder fine-tuned on the domain: 65 to 70 percent on the router at about 10 milliseconds, still 5 to 15 points under the 4B readout, and its gate head needs balanced training.
+
+𝗪𝗵𝗮𝘁 𝗰𝗮𝗿𝗿𝗶𝗲𝘀 𝗼𝘃𝗲𝗿
+
+• Ask for a distribution at the gate, not a sentence. A card with a probability has an operating point.
+• A probability you did not calibrate on your own labeled rows is not a probability. Two phrasings of the same yes/no question put 0.21 and 0.82 on correct proposals before scaling.
+• Do not route through the model you are checking. A text label from the 4B was worse than its own tool call.
+• Measure the serving path before designing around logits. On this board, production has none.
+
+Code, data and result receipts: github.com/kvapr/jevlet. Measured on a Qualcomm Dragonwing IQ-9075 EVK and an aarch64 host, September 2026.

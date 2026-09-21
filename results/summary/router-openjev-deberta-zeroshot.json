@@ -1,0 +1,815 @@
+{
+ "file": "router-openjev-deberta-zeroshot.json",
+ "backend": "com-kotobalabs_open-jev-deberta-v3-large",
+ "n": 260,
+ "questions": {
+  "tool": {
+   "n": 260,
+   "raw": {
+    "n": 260,
+    "accuracy": 0.23846153846153847,
+    "nll": 1.9001204951545039,
+    "brier": 0.8326906756153067,
+    "ece": 0.054742972712980606,
+    "ece_adaptive": 0.09495865250927502,
+    "aurc": 0.6832677579173398,
+    "mean_conf": 0.18371856574855788,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ]
+   },
+   "temp_scaled_oof": {
+    "n": 260,
+    "accuracy": 0.23846153846153847,
+    "nll": 1.803348476089746,
+    "brier": 0.8232778253913632,
+    "ece": 0.05576907298264307,
+    "ece_adaptive": 0.09635527327456202,
+    "aurc": 0.6968786339805787,
+    "mean_conf": 0.29009837600249533,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.0038461538461538464,
+      "n": 1,
+      "error_rate": 1.0,
+      "wrong": 1
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 0.019230769230769232,
+      "n": 5,
+      "error_rate": 0.4,
+      "wrong": 2
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ]
+   },
+   "temperatures": [
+    0.3876298744314731,
+    0.3616316948241769,
+    0.3744051928795012,
+    0.3744051928795012,
+    0.3744051928795012
+   ],
+   "by_style": {
+    "A": {
+     "n": 65,
+     "acc": 0.18461538461538463
+    },
+    "B": {
+     "n": 65,
+     "acc": 0.46153846153846156
+    },
+    "C": {
+     "n": 65,
+     "acc": 0.23076923076923078
+    },
+    "canon": {
+     "n": 65,
+     "acc": 0.07692307692307693
+    }
+   },
+   "by_split": {
+    "canonical": {
+     "n": 65,
+     "acc": 0.07692307692307693
+    },
+    "paraphrase": {
+     "n": 195,
+     "acc": 0.2923076923076923
+    }
+   },
+   "latency_s": {
+    "median": 0.05274425819516182,
+    "p95": 0.054758502170443535,
+    "mean": 0.05484866614525135
+   },
+   "label_mass_mean": 1.0
+  },
+  "command": {
+   "n": 260,
+   "raw": {
+    "n": 260,
+    "accuracy": 0.7076923076923077,
+    "nll": 1.3186475214290472,
+    "brier": 0.51680052812282,
+    "ece": 0.2650851311126693,
+    "ece_adaptive": 0.26508513111266935,
+    "aurc": 0.1193925383806783,
+    "mean_conf": 0.4426071765796384,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.3346153846153846,
+      "n": 87,
+      "error_rate": 0.06896551724137931,
+      "wrong": 6
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.10384615384615385,
+      "n": 27,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 0.38846153846153847,
+      "n": 101,
+      "error_rate": 0.0594059405940594,
+      "wrong": 6
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.11153846153846154,
+      "n": 29,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0038461538461538464,
+      "n": 1,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ]
+   },
+   "temp_scaled_oof": {
+    "n": 260,
+    "accuracy": 0.7076923076923077,
+    "nll": 1.175479131154458,
+    "brier": 0.4469429059344296,
+    "ece": 0.08409621759013339,
+    "ece_adaptive": 0.07920185894635597,
+    "aurc": 0.13448371830057373,
+    "mean_conf": 0.650115347097136,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.6730769230769231,
+      "n": 175,
+      "error_rate": 0.16,
+      "wrong": 28
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.45384615384615384,
+      "n": 118,
+      "error_rate": 0.07627118644067797,
+      "wrong": 9
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.15384615384615385,
+      "n": 40,
+      "error_rate": 0.1,
+      "wrong": 4
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.09230769230769231,
+      "n": 24,
+      "error_rate": 0.08333333333333333,
+      "wrong": 2
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 0.6961538461538461,
+      "n": 181,
+      "error_rate": 0.1712707182320442,
+      "wrong": 31
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.4653846153846154,
+      "n": 121,
+      "error_rate": 0.08264462809917356,
+      "wrong": 10
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.15384615384615385,
+      "n": 40,
+      "error_rate": 0.1,
+      "wrong": 4
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.09615384615384616,
+      "n": 25,
+      "error_rate": 0.08,
+      "wrong": 2
+     }
+    ]
+   },
+   "temperatures": [
+    0.6754967605990133,
+    0.6301914648398637,
+    0.6086913638698307,
+    0.6301914648398637,
+    0.5678666791715526
+   ],
+   "by_style": {
+    "A": {
+     "n": 65,
+     "acc": 0.6
+    },
+    "B": {
+     "n": 65,
+     "acc": 0.9230769230769231
+    },
+    "C": {
+     "n": 65,
+     "acc": 0.676923076923077
+    },
+    "canon": {
+     "n": 65,
+     "acc": 0.6307692307692307
+    }
+   },
+   "by_split": {
+    "canonical": {
+     "n": 65,
+     "acc": 0.6307692307692307
+    },
+    "paraphrase": {
+     "n": 195,
+     "acc": 0.7333333333333333
+    }
+   },
+   "acc_allowing_alt_ok": 0.7076923076923077,
+   "top_confusions": [
+    {
+     "true": "show_port_status",
+     "pred": "disable_port",
+     "n": 23
+    },
+    {
+     "true": "configure_port_speed",
+     "pred": "disable_port",
+     "n": 10
+    },
+    {
+     "true": "configure_poe_mode",
+     "pred": "disable_port",
+     "n": 7
+    },
+    {
+     "true": "show_poe_status",
+     "pred": "configure_poe_mode",
+     "n": 6
+    },
+    {
+     "true": "configure_port_duplex",
+     "pred": "disable_port",
+     "n": 5
+    },
+    {
+     "true": "enable_port",
+     "pred": "disable_port",
+     "n": 5
+    },
+    {
+     "true": "enable_port",
+     "pred": "configure_poe_mode",
+     "n": 3
+    },
+    {
+     "true": "set_port_description",
+     "pred": "configure_access_vlan",
+     "n": 3
+    },
+    {
+     "true": "set_port_description",
+     "pred": "disable_port",
+     "n": 3
+    },
+    {
+     "true": "show_system_info",
+     "pred": "disable_port",
+     "n": 2
+    },
+    {
+     "true": "show_poe_status",
+     "pred": "disable_port",
+     "n": 2
+    },
+    {
+     "true": "show_poe_power_budget",
+     "pred": "configure_poe_mode",
+     "n": 1
+    }
+   ],
+   "dangerous_confusions": 20,
+   "dangerous_confusions_conf_gt_0.9": {
+    "raw": 0,
+    "temp_scaled": 4
+   },
+   "latency_s": {
+    "median": 0.045319694094359875,
+    "p95": 0.04705739840865135,
+    "mean": 0.04629714978285707
+   },
+   "label_mass_mean": 1.0
+  },
+  "is_write": {
+   "n": 260,
+   "raw": {
+    "n": 260,
+    "accuracy": 0.8884615384615384,
+    "nll": 0.29071896467675734,
+    "brier": 0.16223894681045276,
+    "ece": 0.08770457552029533,
+    "ece_adaptive": 0.09126027753719917,
+    "aurc": 0.01904738546458341,
+    "mean_conf": 0.8076818784842125,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.7192307692307692,
+      "n": 187,
+      "error_rate": 0.016042780748663103,
+      "wrong": 3
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.5576923076923077,
+      "n": 145,
+      "error_rate": 0.006896551724137931,
+      "wrong": 1
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 1.0,
+      "n": 260,
+      "error_rate": 0.11153846153846154,
+      "wrong": 29
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.7692307692307693,
+      "n": 200,
+      "error_rate": 0.025,
+      "wrong": 5
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.24615384615384617,
+      "n": 64,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ]
+   },
+   "temp_scaled_oof": {
+    "n": 260,
+    "accuracy": 0.8884615384615384,
+    "nll": 0.240494092405056,
+    "brier": 0.14866893818114937,
+    "ece": 0.037366166727519474,
+    "ece_adaptive": 0.034845300856373225,
+    "aurc": 0.022723028425958323,
+    "mean_conf": 0.9058799874316662,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.8615384615384616,
+      "n": 224,
+      "error_rate": 0.05803571428571429,
+      "wrong": 13
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.7576923076923077,
+      "n": 197,
+      "error_rate": 0.025380710659898477,
+      "wrong": 5
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.6115384615384616,
+      "n": 159,
+      "error_rate": 0.012578616352201259,
+      "wrong": 2
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.49615384615384617,
+      "n": 129,
+      "error_rate": 0.007751937984496124,
+      "wrong": 1
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 1.0,
+      "n": 260,
+      "error_rate": 0.11153846153846154,
+      "wrong": 29
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.9038461538461539,
+      "n": 235,
+      "error_rate": 0.07234042553191489,
+      "wrong": 17
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.6961538461538461,
+      "n": 181,
+      "error_rate": 0.016574585635359115,
+      "wrong": 3
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.6115384615384616,
+      "n": 159,
+      "error_rate": 0.012578616352201259,
+      "wrong": 2
+     }
+    ]
+   },
+   "temperatures": [
+    0.4610989411667164,
+    0.529780089638808,
+    0.4942479523312792,
+    0.5484928989461918,
+    0.5484928989461918
+   ],
+   "by_style": {
+    "A": {
+     "n": 65,
+     "acc": 0.8307692307692308
+    },
+    "B": {
+     "n": 65,
+     "acc": 1.0
+    },
+    "C": {
+     "n": 65,
+     "acc": 0.9230769230769231
+    },
+    "canon": {
+     "n": 65,
+     "acc": 0.8
+    }
+   },
+   "by_split": {
+    "canonical": {
+     "n": 65,
+     "acc": 0.8
+    },
+    "paraphrase": {
+     "n": 195,
+     "acc": 0.9179487179487179
+    }
+   },
+   "latency_s": {
+    "median": 0.02412993460893631,
+    "p95": 0.02518944665789604,
+    "mean": 0.024432101731116956
+   },
+   "label_mass_mean": 1.0
+  },
+  "touches_poe_power": {
+   "n": 260,
+   "raw": {
+    "n": 260,
+    "accuracy": 0.38461538461538464,
+    "nll": 0.8571045460212322,
+    "brier": 0.650771646030433,
+    "ece": 0.32076619657186367,
+    "ece_adaptive": 0.3420600787951396,
+    "aurc": 0.4270216874974309,
+    "mean_conf": 0.7039076215945758,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.38846153846153847,
+      "n": 101,
+      "error_rate": 0.45544554455445546,
+      "wrong": 46
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.14615384615384616,
+      "n": 38,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 1.0,
+      "n": 260,
+      "error_rate": 0.6153846153846154,
+      "wrong": 160
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.5115384615384615,
+      "n": 133,
+      "error_rate": 0.556390977443609,
+      "wrong": 74
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.007692307692307693,
+      "n": 2,
+      "error_rate": 0.0,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ]
+   },
+   "temp_scaled_oof": {
+    "n": 260,
+    "accuracy": 0.38461538461538464,
+    "nll": 0.69732086057221,
+    "brier": 0.5041737772155148,
+    "ece": 0.12449072423180468,
+    "ece_adaptive": 0.20686218038450366,
+    "aurc": 0.5725764485785223,
+    "mean_conf": 0.5091061088471893,
+    "selective_jev": [
+     {
+      "tau": 0.5,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ],
+    "selective_maxp": [
+     {
+      "tau": 0.5,
+      "coverage": 1.0,
+      "n": 260,
+      "error_rate": 0.6153846153846154,
+      "wrong": 160
+     },
+     {
+      "tau": 0.7,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.9,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     },
+     {
+      "tau": 0.95,
+      "coverage": 0.0,
+      "n": 0,
+      "error_rate": null,
+      "wrong": 0
+     }
+    ]
+   },
+   "temperatures": [
+    49.99999999999999,
+    10.48523200661616,
+    37.87625129385957,
+    49.99999999999999,
+    49.99999999999999
+   ],
+   "by_style": {
+    "A": {
+     "n": 65,
+     "acc": 0.3384615384615385
+    },
+    "B": {
+     "n": 65,
+     "acc": 0.5538461538461539
+    },
+    "C": {
+     "n": 65,
+     "acc": 0.4307692307692308
+    },
+    "canon": {
+     "n": 65,
+     "acc": 0.2153846153846154
+    }
+   },
+   "by_split": {
+    "canonical": {
+     "n": 65,
+     "acc": 0.2153846153846154
+    },
+    "paraphrase": {
+     "n": 195,
+     "acc": 0.441025641025641
+    }
+   },
+   "latency_s": {
+    "median": 0.025042876601219177,
+    "p95": 0.026681829802691934,
+    "mean": 0.025781218198916087
+   },
+   "label_mass_mean": 1.0
+  }
+ },
+ "call_latency_s": {
+  "median": 0.14712556917220354,
+  "p95": 0.15233989097177983
+ }
+}

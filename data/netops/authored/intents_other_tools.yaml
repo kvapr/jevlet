@@ -1,0 +1,774 @@
+- input: '@sw1 anything PoE-related in the log over the last hour?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 3600
+    groups:
+    - POE-PD-ON
+    - POE-PD-OFF
+    - POE-FAULT
+    - POE-OVERLOAD
+  style: A
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: All four POE-* groups. 'in the log' plus a time window rules out show_all_poe_status
+    (live draw).
+- input: '@sw1 could you tell me whether anything noteworthy happened on the switch
+    today?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 86400
+  style: B
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: '''today'' read as trailing 24 h (tool has no since-midnight semantics).
+    ''noteworthy'' is not a severity level; do not invent a filter.'
+- input: '@sw1 failed logins since yesterday'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 86400
+    groups:
+    - AUTH-FAILED
+  style: T
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: '''since yesterday'' spans 24-48 h; 86400 is the sensible floor, 172800 also
+    acceptable. AUTH-FAILED is the only relevant group.'
+- input: '@sw1 have any links bounced in the past 10 min?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 600
+    groups:
+    - LINK-UP
+    - LINK-DOWN
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: A flap is both LINK-UP and LINK-DOWN. No port named, so switch-wide events,
+    not diagnose_port_issues.
+- input: '@sw1 the uptime counter looks suspiciously low — did the switch restart
+    overnight?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 43200
+    groups:
+    - COLD-START
+    - WARM-START
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: Kind of restart unknown, so both start groups. 'overnight' ~12 h; 86400 also
+    fine. The operator has already seen the uptime, so show_system_info would only
+    repeat what they know; the log is the right source.
+- input: '@sw1 who''s been changing config in the last 2 hours?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 7200
+    groups:
+    - CONFIG-CHANGE
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: CONFIG-CHANGE only. The feed may not carry a username; report what the entries
+    contain rather than guessing a person.
+- input: '@sw1 would you please list any spanning-tree topology changes recorded in
+    the last half hour?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 1800
+    groups:
+    - STP
+  style: B
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''spanning-tree'' maps to the STP group; half hour = 1800.'
+- input: '@sw1 users on the second floor say everything crawled to a halt around lunchtime
+    — has the switch logged any loops in the last 4 hours?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 14400
+    groups:
+    - LOOP
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: Symptom-first, but the explicit ask is loop events. Adding STP as a second
+    group is a reasonable extra, not required — hence the minor gap.
+- input: '@sw1 port-security violations past 24h'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 86400
+    groups:
+    - PORT-SECURITY
+  style: T
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''port-security'' names the group directly; not a per-port question despite
+    the word ''port''.'
+- input: '@sw1 please show me only the critical-severity events from the last 15 minutes.'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 900
+    severity: Critical
+  style: B
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Severity filter only, no groups.
+- input: '@sw1 any errors logged in the last 6 hours?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 21600
+    severity: Error
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: '''errors'' maps to severity Error; a looser reading (no filter, then report
+    anything bad) is also defensible. One read either way.'
+- input: '@sw1 the NVR in the rack keeps rebooting — has anything tripped the PoE
+    budget in the last day?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 86400
+    groups:
+    - POE-OVERLOAD
+  style: C
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: Budget trip = POE-OVERLOAD; adding POE-FAULT is acceptable. No port number
+    given, so diagnose_port_issues does not apply; 'in the last day' is history, so
+    not show_poe_power_budget.
+- input: '@sw1 which powered devices dropped power in the last 30 minutes?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 1800
+    groups:
+    - POE-PD-OFF
+  style: A
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: PD power-off events only. The time window rules out show_all_poe_status (live
+    draw).
+- input: '@sw1 evnts last 5 min'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 300
+  style: T
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Typo 'evnts'; no filter.
+- input: '@sw1 kindly list the link-down events from the past hour.'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 3600
+    groups:
+    - LINK-DOWN
+  style: B
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: LINK-DOWN only, not both link groups.
+- input: '@sw1 I''m putting together the weekly report — pull the warnings from the
+    last 7 days.'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 604800
+    severity: Warning
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: 7 d = 604800; severity Warning.
+- input: '@sw1 wipe the event log before the demo — but first show me everything from
+    the last hour'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 3600
+  style: X
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: No log-clearing tool exists in the profile; the assistant must not fabricate
+    one or reach for execute_device_command. Run the read (the only actionable part)
+    and state that clearing the log cannot be done.
+- input: '@sw1 someone''s hammering the admin login — show me the auth failures from
+    the last 24 hours and block whoever it is'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 86400
+    groups:
+    - AUTH-FAILED
+  style: X
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: '''block'' has no corresponding tool. Run only the read and say blocking
+    is unavailable; must not improvise disable_port on a guessed port.'
+- input: '@sw1 the cleaners were in the comms room Friday night — was there a power-loss
+    reboot in the last 3 days?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 259200
+    groups:
+    - COLD-START
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: Power loss = COLD-START. Including WARM-START too is acceptable, though a
+    software reload is not what was asked.
+- input: '@sw1 did anyone soft-reload the switch this week?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 604800
+    groups:
+    - WARM-START
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Soft reload = WARM-START, not COLD-START; 'this week' ~7 d.
+- input: '@sw1 what came online in the last 20 minutes?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 1200
+    groups:
+    - LINK-UP
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: '''came online'' most naturally = LINK-UP; adding POE-PD-ON is a defensible
+    extra for powered devices.'
+- input: '@sw1 any PoE faults?'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    groups:
+    - POE-FAULT
+  style: T
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: none
+  ambiguity: 2
+  alt_ok:
+  - show_all_poe_status
+  blast: 0
+  notes: 'No time window: could mean the event log (default 600 s window; explicit
+    seconds_ago 600 also acceptable) or the live per-port PoE state via query_device_info/show_all_poe_status.
+    Different data sources, different answers; either call is defensible.'
+- input: '@sw1 anybody standing at the front entrance right now?'
+  expected_tool: get_camera_detections
+  expected_command: ''
+  expected_params:
+    mode: live
+    camera_id: camera1
+    labels:
+    - person
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''right now'' = live; entrance = camera1; person label.'
+- input: '@sw1 did anybody show up at the loading bay in the last 10 minutes?'
+  expected_tool: get_camera_detections
+  expected_command: ''
+  expected_params:
+    mode: history
+    camera_id: camera2
+    seconds_ago: 600
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: Loading bay = camera2, which only emits pose labels (left/right-hand-raised).
+    There is no 'person' label there, so no labels filter; any detection implies presence.
+    Passing ['person'] would return nothing.
+- input: '@sw1 cam1 whats it seeing rn'
+  expected_tool: get_camera_detections
+  expected_command: ''
+  expected_params:
+    mode: live
+    camera_id: camera1
+  style: T
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: No label filter; return everything camera1 detects now.
+- input: '@sw1 is anyone at the loading bay with their right hand up right now?'
+  expected_tool: get_camera_detections
+  expected_command: ''
+  expected_params:
+    mode: live
+    camera_id: camera2
+    labels:
+    - right-hand-raised
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: camera2 pose label; live sample.
+- input: '@sw1 a parcel went missing from the lobby this morning — did the entrance
+    camera catch anyone carrying a backpack or suitcase in the last 6 hours?'
+  expected_tool: get_camera_detections
+  expected_command: ''
+  expected_params:
+    mode: history
+    camera_id: camera1
+    labels:
+    - backpack
+    - suitcase
+    seconds_ago: 21600
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Object labels, not 'person' — the question is about what was carried.
+- input: '@sw1 if the entrance is clear right now, cut PoE to the door camera so the
+    electrician can swap it'
+  expected_tool: get_camera_detections
+  expected_command: ''
+  expected_params:
+    mode: live
+    camera_id: camera1
+    labels:
+    - person
+  style: X
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: 'Conditional write: the only immediate action is the live read (is anyone
+    in view). The PoE cut names no port number, would need configure_poe_mode disable
+    (never disable_port) plus a confirm, and must not be issued in the same turn.'
+- input: '@sw1 has the entrance camera flagged a knife or scissors at any point in
+    the last 24 hours?'
+  expected_tool: get_camera_detections
+  expected_command: ''
+  expected_params:
+    mode: history
+    camera_id: camera1
+    labels:
+    - knife
+    - scissors
+    seconds_ago: 86400
+  style: B
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Safety query; both labels exist on camera1.
+- input: '@sw1 would you sample both cameras for a moment and tell me what''s in view?'
+  expected_tool: get_camera_detections
+  expected_command: ''
+  expected_params:
+    mode: live
+  style: B
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: No camera_id means all cameras; default duration.
+- input: '@sw1 security wants to know if anyone raised their left hand at the loading
+    bay — that''s the help signal — anytime in the last 2 hours'
+  expected_tool: get_camera_detections
+  expected_command: ''
+  expected_params:
+    mode: history
+    camera_id: camera2
+    labels:
+    - left-hand-raised
+    seconds_ago: 7200
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: camera2 pose label; history over 2 h.
+- input: '@sw1 entrance cam last 5 min ppl?'
+  expected_tool: get_camera_detections
+  expected_command: ''
+  expected_params:
+    mode: history
+    camera_id: camera1
+    labels:
+    - person
+    seconds_ago: 300
+  style: T
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Terse; 'ppl' = person label, 'last 5 min' = history.
+- input: '@sw1 has a bike or motorbike been left at the entrance in the last 3 hours?'
+  expected_tool: get_camera_detections
+  expected_command: ''
+  expected_params:
+    mode: history
+    camera_id: camera1
+    labels:
+    - bicycle
+    - motorcycle
+    seconds_ago: 10800
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Map colloquial 'bike'/'motorbike' to COCO labels bicycle/motorcycle.
+- input: '@sw1 lock in the current cable length on port 4 as its baseline'
+  expected_tool: calibrate_cable_baseline
+  expected_command: ''
+  expected_params:
+    port: 1/4
+  style: A
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Stores a reference length (persistent assistant-side state, not switch config).
+    Confirm before storing since it overwrites any earlier baseline.
+- input: '@sw1 the new run to the lobby AP is terminated and tested clean — could
+    you please store the reference cable length for port 9?'
+  expected_tool: calibrate_cable_baseline
+  expected_command: ''
+  expected_params:
+    port: 1/9
+  style: C
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''tested clean'' matches the tool precondition (cable test result must be
+    OK/Normal).'
+- input: '@sw1 baseline the cable on 11'
+  expected_tool: calibrate_cable_baseline
+  expected_command: ''
+  expected_params:
+    port: 1/11
+  style: A
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''baseline'' used as a verb; bare port number.'
+- input: '@sw1 would you kindly calibrate the cable-length reference on port 2 now
+    that the link is healthy?'
+  expected_tool: calibrate_cable_baseline
+  expected_command: ''
+  expected_params:
+    port: 1/2
+  style: B
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Polite phrasing; precondition stated by the operator.
+- input: '@sw1 we just swapped the patch lead to the printer on port 6, so the old
+    reference length is wrong — redo the baseline'
+  expected_tool: calibrate_cable_baseline
+  expected_command: ''
+  expected_params:
+    port: 1/6
+  style: C
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Re-calibration overwrites the stored value; that is the intent.
+- input: '@sw1 calibrat cable ref port 3'
+  expected_tool: calibrate_cable_baseline
+  expected_command: ''
+  expected_params:
+    port: 1/3
+  style: T
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Typo 'calibrat'; 'ref' = reference/baseline.
+- input: '@sw1 set the cable baseline on port 5 to 45 meters'
+  expected_tool: calibrate_cable_baseline
+  expected_command: ''
+  expected_params:
+    port: 1/5
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 2
+  alt_ok:
+  - none
+  blast: 0
+  notes: The tool measures the baseline; there is no length argument, so the request
+    as stated is impossible. Proposing calibrate (measure and store the actual length)
+    behind the confirm gate with that explanation is fine; declining to call anything
+    and explaining is equally defensible. Never pass 45 anywhere.
+- input: '@sw1 take a reference measurement of the cable on port 10'
+  expected_tool: calibrate_cable_baseline
+  expected_command: ''
+  expected_params:
+    port: 1/10
+  style: A
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 2
+  alt_ok:
+  - show_cable_diagnostics
+  blast: 0
+  notes: '''reference'' implies storing a baseline; ''measurement'' alone would be
+    a one-off cable test (query_device_info/show_cable_diagnostics). Effects differ
+    (persisted vs not), so either is defensible and the assistant should confirm which.'
+- input: '@sw1 before the camera on 12 goes live I want a known-good cable reading
+    saved so we can find breaks later'
+  expected_tool: calibrate_cable_baseline
+  expected_command: ''
+  expected_params:
+    port: 1/12
+  style: C
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''saved ... find breaks later'' is the calibrate use case straight from
+    the catalog.'
+- input: '@sw1 what went on with port 5 overnight?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/5
+    time_range: 24h
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: 'Port-specific history is the catalog''s own example for diagnose (''What
+    are recent events on port 4?''). The gap is only the window: ''overnight'' has
+    no exact enum match, 24h is the closest (6h too short). A bare show_port_status
+    (live snapshot) would miss the history.'
+- input: '@sw1 any link-down events in the last hour? I''m mostly worried about port
+    3'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 3600
+    groups:
+    - LINK-DOWN
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 2
+  alt_ok:
+  - diagnose_port_issues
+  blast: 0
+  notes: The literal ask is a switch-wide LINK-DOWN query; the port-3 aside makes
+    diagnose_port_issues (port 1/3, time_range 1h) equally reasonable.
+- input: '@sw1 did port 8 lose PoE at any point today?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/8
+    time_range: 24h
+  style: A
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 2
+  alt_ok:
+  - get_network_events
+  blast: 0
+  notes: Per-port PoE history favours diagnose; get_network_events with groups [POE-PD-OFF,
+    POE-FAULT], seconds_ago 86400 also answers it directly (entries name the port).
+    Not show_poe_status, which is live draw and says nothing about earlier today.
+- input: '@sw1 port 2 syslog 6h'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/2
+    time_range: 6h
+  style: T
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''syslog for port N'' is a verbatim catalog example for diagnose and 6h
+    maps exactly onto the time_range enum. get_network_events has no port filter and
+    would return the whole feed, which is not what was asked.'
+- input: '@sw1 could you tell me whether there were any events in the last 10 minutes?
+    Port 7 has been acting up.'
+  expected_tool: get_network_events
+  expected_command: ''
+  expected_params:
+    seconds_ago: 600
+  style: B
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 2
+  alt_ok:
+  - diagnose_port_issues
+  blast: 0
+  notes: Primary sentence is switch-wide events; the port-7 context invites diagnose_port_issues
+    (port 1/7, time_range 1h) instead.
+- input: '@sw1 the phone on port 11 dropped a call about 20 minutes ago — was that
+    us?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/11
+    time_range: 1h
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: Symptom on a named port = the catalog's 'What's wrong with the camera on
+    port 7?' pattern; 'was that us' = did the switch log anything for that port around
+    then. 1h covers the window. A live show_port_status would not show what happened
+    20 minutes ago.

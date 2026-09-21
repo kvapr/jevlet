@@ -1,0 +1,3619 @@
+- base_input: '@sw1 kill power on 3'
+  input: '@sw1 yank the power off 3 for me'
+  style: A
+- base_input: '@sw1 kill power on 3'
+  input: Could you please cut the PoE supply to port 3 on @sw1?
+  style: B
+- base_input: '@sw1 kill power on 3'
+  input: '@sw1 the device on 3 is drawing power it shouldn''t be — stop feeding it'
+  style: C
+- base_input: '@sw1 kill power on 3'
+  input: '@sw1 poe off prt 3'
+  style: T
+- base_input: '@sw1 cut the juice to the camera on 5'
+  input: '@sw1 can you stop powering the cam on 5?'
+  style: A
+- base_input: '@sw1 cut the juice to the camera on 5'
+  input: Please disable PoE power to the camera connected on port 5 of @sw1.
+  style: B
+- base_input: '@sw1 cut the juice to the camera on 5'
+  input: '@sw1 we''re swapping the camera on 5 today — it shouldn''t have PoE going
+    to it while we work'
+  style: C
+- base_input: '@sw1 cut the juice to the camera on 5'
+  input: '@sw1 kil poe cam 5'
+  style: T
+- base_input: '@sw1 take port 3 down'
+  input: '@sw1 go ahead and shut 3 off'
+  style: A
+- base_input: '@sw1 take port 3 down'
+  input: Would you please put port 3 on @sw1 into the shutdown state?
+  style: B
+- base_input: '@sw1 take port 3 down'
+  input: '@sw1 port 3 is going to be unpatched for a while — put the interface in
+    shutdown so it doesn''t flap'
+  style: C
+- base_input: '@sw1 take port 3 down'
+  input: '@sw1 shutdwn port 3'
+  style: T
+- base_input: '@sw1 drop the link on 4'
+  input: '@sw1 turn off the link on 4, will ya'
+  style: A
+- base_input: '@sw1 drop the link on 4'
+  input: Could you please bring the interface link on port 4 down on @sw1?
+  style: B
+- base_input: '@sw1 drop the link on 4'
+  input: '@sw1 nothing should be talking through 4 anymore — take the link away'
+  style: C
+- base_input: '@sw1 drop the link on 4'
+  input: '@sw1 link down 4 pls'
+  style: T
+- base_input: '@sw1 de-energize port 2'
+  input: '@sw1 stop sending power down 2'
+  style: A
+- base_input: '@sw1 de-energize port 2'
+  input: Please turn off PoE power delivery on port 2 of @sw1, leaving the data link
+    in place.
+  style: B
+- base_input: '@sw1 de-energize port 2'
+  input: '@sw1 the thing on 2 doesn''t need PoE anymore — it''s on a wall adapter
+    now, so stop powering the port'
+  style: C
+- base_input: '@sw1 de-energize port 2'
+  input: '@sw1 disable poe pt 2'
+  style: T
+- base_input: '@sw1 bring port 4 back up'
+  input: '@sw1 flip 4 back on'
+  style: A
+- base_input: '@sw1 bring port 4 back up'
+  input: Could you please re-enable port 4 on @sw1 so it comes back into service?
+  style: B
+- base_input: '@sw1 bring port 4 back up'
+  input: '@sw1 4 was shut when that desk was empty — someone''s sitting there again
+    and needs the link'
+  style: C
+- base_input: '@sw1 bring port 4 back up'
+  input: '@sw1 port 4 bak up'
+  style: T
+- base_input: '@sw1 re-power the phone on 9'
+  input: '@sw1 give the phone on 9 its power back'
+  style: A
+- base_input: '@sw1 re-power the phone on 9'
+  input: Please re-enable PoE power for the phone on port 9 of @sw1.
+  style: B
+- base_input: '@sw1 re-power the phone on 9'
+  input: '@sw1 the phone on 9 is dark, screen''s off — it''s been sitting without
+    PoE since the earlier change, get power flowing again'
+  style: C
+- base_input: '@sw1 re-power the phone on 9'
+  input: '@sw1 poe on 9 phne'
+  style: T
+- base_input: '@sw1 the camera on 5 needs a power cycle — cut it for now'
+  input: '@sw1 gonna bounce the cam on 5, kill its power for a sec'
+  style: A
+- base_input: '@sw1 the camera on 5 needs a power cycle — cut it for now'
+  input: The camera on port 5 requires a power cycle; could you please disable PoE
+    on that port for the moment, @sw1?
+  style: B
+- base_input: '@sw1 the camera on 5 needs a power cycle — cut it for now'
+  input: '@sw1 the camera on 5 is frozen and won''t respond, first step is pulling
+    its power'
+  style: C
+- base_input: '@sw1 the camera on 5 needs a power cycle — cut it for now'
+  input: '@sw1 depower cam 5 pls'
+  style: T
+- base_input: '@sw1 pull the plug on the phone on 11 but leave the link alone'
+  input: '@sw1 kill the phone''s power on 11 — don''t touch the link though'
+  style: A
+- base_input: '@sw1 pull the plug on the phone on 11 but leave the link alone'
+  input: Please turn off PoE for the phone on port 11 of @sw1 while keeping the data
+    link up.
+  style: B
+- base_input: '@sw1 pull the plug on the phone on 11 but leave the link alone'
+  input: '@sw1 poe off 11, keep lnk'
+  style: T
+- base_input: '@sw1 kill PoE to 1 — keep the data path up'
+  input: '@sw1 turn off the PoE on 1, leave data running'
+  style: A
+- base_input: '@sw1 kill PoE to 1 — keep the data path up'
+  input: Would you please disable PoE on port 1 of @sw1 without shutting down the
+    interface itself?
+  style: B
+- base_input: '@sw1 kill PoE to 1 — keep the data path up'
+  input: '@sw1 the device on 1 has its own power supply now — we don''t want the switch
+    feeding it, but traffic has to keep flowing'
+  style: C
+- base_input: '@sw1 kill PoE to 1 — keep the data path up'
+  input: '@sw1 dsbl poe 1 only'
+  style: T
+- base_input: '@sw1 shut down PoE on 4'
+  input: '@sw1 switch off poe for 4'
+  style: A
+- base_input: '@sw1 shut down PoE on 4'
+  input: Could you please set the PoE mode on port 4 of @sw1 to disabled?
+  style: B
+- base_input: '@sw1 shut down PoE on 4'
+  input: '@sw1 whatever is plugged into 4 keeps tripping the power budget — stop delivering
+    PoE there'
+  style: C
+- base_input: '@sw1 shut down PoE on 4'
+  input: '@sw1 poe dissable 4'
+  style: T
+- base_input: '@sw1 not a power issue — just kill the link on 6'
+  input: '@sw1 leave PoE be, just take the link on 6 down'
+  style: A
+- base_input: '@sw1 not a power issue — just kill the link on 6'
+  input: This is unrelated to PoE; could you please administratively shut down the
+    interface on port 6 of @sw1?
+  style: B
+- base_input: '@sw1 not a power issue — just kill the link on 6'
+  input: '@sw1 the device on 6 has to be cut off from the network entirely, not just
+    depowered'
+  style: C
+- base_input: '@sw1 not a power issue — just kill the link on 6'
+  input: '@sw1 shut intf 6'
+  style: T
+- base_input: '@sw1 shut 7'
+  input: '@sw1 turn 7 off'
+  style: A
+- base_input: '@sw1 shut 7'
+  input: Could you please disable port 7 on @sw1?
+  style: B
+- base_input: '@sw1 shut 7'
+  input: '@sw1 7 goes to a patch panel nobody uses — it shouldn''t be an active port'
+  style: C
+- base_input: '@sw1 shut 7'
+  input: '@sw1 disble port 7'
+  style: T
+- base_input: '@sw1 admin down 10'
+  input: '@sw1 put 10 in shutdown'
+  style: A
+- base_input: '@sw1 admin down 10'
+  input: Please administratively disable interface 10 on @sw1.
+  style: B
+- base_input: '@sw1 admin down 10'
+  input: '@sw1 security wants 10 closed off until the audit is over — no link on it'
+  style: C
+- base_input: '@sw1 admin down 10'
+  input: '@sw1 admn down 10'
+  style: T
+- base_input: '@sw1 someone plugged a rogue hub into 5, kill that port'
+  input: '@sw1 there''s an unauthorized hub on 5, shut it off now'
+  style: A
+- base_input: '@sw1 someone plugged a rogue hub into 5, kill that port'
+  input: An unapproved hub has been connected to port 5; could you please disable
+    that port on @sw1 immediately?
+  style: B
+- base_input: '@sw1 someone plugged a rogue hub into 5, kill that port'
+  input: '@sw1 we''re seeing a bunch of unknown MACs behind 5 — someone put a hub
+    there, cut it'
+  style: C
+- base_input: '@sw1 someone plugged a rogue hub into 5, kill that port'
+  input: '@sw1 rouge hub 5, shut'
+  style: T
+- base_input: '@sw1 the printer on 2 is spewing garbage, cut it off the network'
+  input: '@sw1 printer on 2''s flooding junk, kick it off'
+  style: A
+- base_input: '@sw1 the printer on 2 is spewing garbage, cut it off the network'
+  input: The printer on port 2 is sending malformed traffic; would you please take
+    that port offline on @sw1?
+  style: B
+- base_input: '@sw1 the printer on 2 is spewing garbage, cut it off the network'
+  input: '@sw1 the printer on 2 is storming broadcasts and slowing everyone down —
+    get it off the wire'
+  style: C
+- base_input: '@sw1 the printer on 2 is spewing garbage, cut it off the network'
+  input: '@sw1 shut 2, prnter storm'
+  style: T
+- base_input: '@sw1 sever the connection on 12'
+  input: '@sw1 cut 12 off'
+  style: A
+- base_input: '@sw1 sever the connection on 12'
+  input: Would you kindly close port 12 on @sw1 so that no traffic can pass through
+    it?
+  style: B
+- base_input: '@sw1 sever the connection on 12'
+  input: '@sw1 12 was patched to the wrong closet — it can''t stay live, close the
+    port'
+  style: C
+- base_input: '@sw1 sever the connection on 12'
+  input: '@sw1 disconect port 12'
+  style: T
+- base_input: '@sw1 isolate whatever''s on 6 — no traffic in or out'
+  input: '@sw1 wall off 6, nothing gets through'
+  style: A
+- base_input: '@sw1 isolate whatever''s on 6 — no traffic in or out'
+  input: Please shut down port 6 on @sw1 so the connected device is fully isolated
+    from the network.
+  style: B
+- base_input: '@sw1 isolate whatever''s on 6 — no traffic in or out'
+  input: '@sw1 the host on 6 might be compromised — it can''t be allowed to reach
+    anything until we''ve looked at it'
+  style: C
+- base_input: '@sw1 isolate whatever''s on 6 — no traffic in or out'
+  input: '@sw1 isolte 6 now'
+  style: T
+- base_input: '@sw1 no shut 7'
+  input: '@sw1 turn 7 back on'
+  style: A
+- base_input: '@sw1 no shut 7'
+  input: Could you please bring interface 7 out of shutdown on @sw1?
+  style: B
+- base_input: '@sw1 no shut 7'
+  input: '@sw1 7 was disabled during the move and the new tenant is plugged in now
+    — it needs to be live'
+  style: C
+- base_input: '@sw1 no shut 7'
+  input: '@sw1 enalbe port 7'
+  style: T
+- base_input: '@sw1 re-enable the link on 10'
+  input: '@sw1 get 10 going again'
+  style: A
+- base_input: '@sw1 re-enable the link on 10'
+  input: Please re-activate the interface link on port 10 of @sw1.
+  style: B
+- base_input: '@sw1 re-enable the link on 10'
+  input: '@sw1 the audit on 10 is finished, whoever''s there can have their connection
+    back'
+  style: C
+- base_input: '@sw1 re-enable the link on 10'
+  input: '@sw1 no shut 10 pls'
+  style: T
+- base_input: '@sw1 maintenance on 2 is done, let it talk again'
+  input: '@sw1 we''re done on 2, bring it back'
+  style: A
+- base_input: '@sw1 maintenance on 2 is done, let it talk again'
+  input: The maintenance work on port 2 has been completed; could you please re-enable
+    that interface on @sw1?
+  style: B
+- base_input: '@sw1 maintenance on 2 is done, let it talk again'
+  input: '@sw1 the contractor finished re-terminating the cable on 2 — it''s still
+    admin down from before'
+  style: C
+- base_input: '@sw1 maintenance on 2 is done, let it talk again'
+  input: '@sw1 maint done, enable 2'
+  style: T
+- base_input: '@sw1 the poe camera on 5 lost its uplink, bring the port back up'
+  input: '@sw1 cam on 5 has no link, turn the port back on'
+  style: A
+- base_input: '@sw1 the poe camera on 5 lost its uplink, bring the port back up'
+  input: The PoE camera on port 5 has lost its link; could you please enable that
+    port again on @sw1?
+  style: B
+- base_input: '@sw1 the poe camera on 5 lost its uplink, bring the port back up'
+  input: '@sw1 the NVR shows the camera on 5 offline and the port''s sitting in shutdown
+    — it needs to come back'
+  style: C
+- base_input: '@sw1 the poe camera on 5 lost its uplink, bring the port back up'
+  input: '@sw1 enble port 5 cam'
+  style: T
+- base_input: '@sw1 give juice back to 11'
+  input: '@sw1 put the power back on 11'
+  style: A
+- base_input: '@sw1 give juice back to 11'
+  input: Could you please re-enable PoE power delivery on port 11 of @sw1?
+  style: B
+- base_input: '@sw1 give juice back to 11'
+  input: '@sw1 the thing on 11 is back to running off the switch instead of a brick
+    — it needs PoE flowing'
+  style: C
+- base_input: '@sw1 give juice back to 11'
+  input: '@sw1 poe bck on 11'
+  style: T
+- base_input: '@sw1 energize 2'
+  input: '@sw1 get some power going on 2'
+  style: A
+- base_input: '@sw1 energize 2'
+  input: Please enable PoE power on port 2 of @sw1.
+  style: B
+- base_input: '@sw1 energize 2'
+  input: '@sw1 the new AP is patched into 2 but it''s got no lights — PoE is off on
+    that port and it needs to be on'
+  style: C
+- base_input: '@sw1 energize 2'
+  input: '@sw1 pwr on 2'
+  style: T
+- base_input: '@sw1 turn PoE back on for the AP on 7'
+  input: '@sw1 flip poe back on for the AP on 7'
+  style: A
+- base_input: '@sw1 turn PoE back on for the AP on 7'
+  input: Would you please re-enable PoE for the access point connected on port 7 of
+    @sw1?
+  style: B
+- base_input: '@sw1 turn PoE back on for the AP on 7'
+  input: '@sw1 wifi''s out in that corner — the AP on 7 was depowered earlier and
+    never got PoE back'
+  style: C
+- base_input: '@sw1 turn PoE back on for the AP on 7'
+  input: '@sw1 ap 7 poe enbale'
+  style: T
+- base_input: '@sw1 start supplying power on 6'
+  input: '@sw1 kick on the power on 6'
+  style: A
+- base_input: '@sw1 start supplying power on 6'
+  input: Please begin delivering PoE power on port 6 of @sw1.
+  style: B
+- base_input: '@sw1 start supplying power on 6'
+  input: '@sw1 there''s a PoE device landing on 6 this afternoon and the port''s currently
+    not powering anything — get PoE turned on ahead of time'
+  style: C
+- base_input: '@sw1 start supplying power on 6'
+  input: '@sw1 enable pwoer 6'
+  style: T
+- base_input: '@sw1 un-shut the power on 2'
+  input: '@sw1 turn 2''s power back on'
+  style: A
+- base_input: '@sw1 un-shut the power on 2'
+  input: Port 2 currently has PoE disabled; would you kindly restore power delivery
+    on it, @sw1?
+  style: B
+- base_input: '@sw1 un-shut the power on 2'
+  input: '@sw1 someone turned PoE off on 2 during the outage and the phone there is
+    still dead'
+  style: C
+- base_input: '@sw1 un-shut the power on 2'
+  input: '@sw1 poe re-enble 2'
+  style: T
+- base_input: '@sw1 make port 12 carry vlans 10,20,30'
+  input: '@sw1 trunk 12 with 10, 20 and 30 on it'
+  style: A
+- base_input: '@sw1 make port 12 carry vlans 10,20,30'
+  input: Could you please configure port 12 on @sw1 as a trunk allowing VLANs 10,
+    20 and 30?
+  style: B
+- base_input: '@sw1 make port 12 carry vlans 10,20,30'
+  input: '@sw1 the switch downstream of 12 needs to see 10, 20 and 30 tagged — 12
+    has to pass all three'
+  style: C
+- base_input: '@sw1 make port 12 carry vlans 10,20,30'
+  input: '@sw1 trnk 12 vlans 10,20,30'
+  style: T
+- base_input: '@sw1 port 3 should trunk to the core'
+  input: '@sw1 turn 3 into a trunk, it goes up to the core'
+  style: A
+- base_input: '@sw1 port 3 should trunk to the core'
+  input: Port 3 connects to the core switch; could you please set it up as a trunk
+    on @sw1?
+  style: B
+- base_input: '@sw1 port 3 should trunk to the core'
+  input: '@sw1 3 is the link to the core and it''s still an access port — every VLAN
+    needs to ride over it'
+  style: C
+- base_input: '@sw1 port 3 should trunk to the core'
+  input: '@sw1 trunk prt 3 core'
+  style: T
+- base_input: '@sw1 tag 10 and 20 on port 8'
+  input: '@sw1 make 8 tagged for 10 and 20'
+  style: A
+- base_input: '@sw1 tag 10 and 20 on port 8'
+  input: Please configure port 8 on @sw1 as a trunk carrying VLANs 10 and 20 tagged.
+  style: B
+- base_input: '@sw1 tag 10 and 20 on port 8'
+  input: '@sw1 the small switch hanging off 8 has hosts in both 10 and 20 — it needs
+    to see both tagged'
+  style: C
+- base_input: '@sw1 tag 10 and 20 on port 8'
+  input: '@sw1 taged 10,20 on 8'
+  style: T
+- base_input: '@sw1 the printer on 2 belongs on guest vlan 10'
+  input: '@sw1 stick the printer on 2 in vlan 10'
+  style: A
+- base_input: '@sw1 the printer on 2 belongs on guest vlan 10'
+  input: The printer connected to port 2 should be on the guest VLAN; could you please
+    assign port 2 to VLAN 10 on @sw1?
+  style: B
+- base_input: '@sw1 the printer on 2 belongs on guest vlan 10'
+  input: '@sw1 guests can''t reach the printer on 2 because it''s sitting in the wrong
+    VLAN — it should be in 10 with them'
+  style: C
+- base_input: '@sw1 the printer on 2 belongs on guest vlan 10'
+  input: '@sw1 printr 2 vlan 10'
+  style: T
+- base_input: '@sw1 the AP on 6 needs vlans 20 and 30 for its SSIDs'
+  input: '@sw1 the AP on 6 wants 20 and 30, tag ''em both'
+  style: A
+- base_input: '@sw1 the AP on 6 needs vlans 20 and 30 for its SSIDs'
+  input: The access point on port 6 serves two SSIDs mapped to VLANs 20 and 30; could
+    you please trunk port 6 on @sw1 with both VLANs allowed?
+  style: B
+- base_input: '@sw1 the AP on 6 needs vlans 20 and 30 for its SSIDs'
+  input: '@sw1 clients on the second SSID from the AP on 6 aren''t getting addresses
+    — the port only passes one VLAN and it needs to carry 20 and 30'
+  style: C
+- base_input: '@sw1 the AP on 6 needs vlans 20 and 30 for its SSIDs'
+  input: '@sw1 trunk 6 vlns 20,30'
+  style: T
+- base_input: '@sw1 move the AP on 6 to vlan 20'
+  input: '@sw1 swap the AP on 6 over to vlan 20'
+  style: A
+- base_input: '@sw1 move the AP on 6 to vlan 20'
+  input: Could you please change the access VLAN on port 6 of @sw1 to VLAN 20 for
+    the AP connected there?
+  style: B
+- base_input: '@sw1 move the AP on 6 to vlan 20'
+  input: '@sw1 the AP on 6 is landing in the wrong subnet — its management should
+    be in 20, untagged'
+  style: C
+- base_input: '@sw1 move the AP on 6 to vlan 20'
+  input: '@sw1 port 6 accss vlan 20'
+  style: T
+- base_input: '@sw1 untagged vlan 50 on 4'
+  input: '@sw1 make 4 untagged in 50'
+  style: A
+- base_input: '@sw1 untagged vlan 50 on 4'
+  input: Please set port 4 on @sw1 so that VLAN 50 is its untagged access VLAN.
+  style: B
+- base_input: '@sw1 untagged vlan 50 on 4'
+  input: '@sw1 the desktop on 4 can''t tag frames — it has to sit natively in 50'
+  style: C
+- base_input: '@sw1 untagged vlan 50 on 4'
+  input: '@sw1 untaged 50 on 4'
+  style: T
+- base_input: '@sw1 tagged 50 on 4'
+  input: '@sw1 put 50 on 4 as a tagged vlan'
+  style: A
+- base_input: '@sw1 tagged 50 on 4'
+  input: Could you please configure port 4 on @sw1 to carry VLAN 50 tagged, in trunk
+    mode?
+  style: B
+- base_input: '@sw1 tagged 50 on 4'
+  input: '@sw1 the device on 4 is sending 802.1Q frames for 50 and the switch is dropping
+    them — 4 has to accept 50 tagged'
+  style: C
+- base_input: '@sw1 tagged 50 on 4'
+  input: '@sw1 4 tagged vlna 50'
+  style: T
+- base_input: '@sw1 add vlan 60 to the trunk on 12'
+  input: '@sw1 throw 60 onto the trunk on 12'
+  style: A
+- base_input: '@sw1 add vlan 60 to the trunk on 12'
+  input: Please add VLAN 60 to the list of allowed VLANs on trunk port 12 of @sw1.
+  style: B
+- base_input: '@sw1 add vlan 60 to the trunk on 12'
+  input: '@sw1 we just spun up VLAN 60 and the far side of 12 can''t see it yet —
+    the trunk needs to allow it'
+  style: C
+- base_input: '@sw1 add vlan 60 to the trunk on 12'
+  input: '@sw1 trunk 12 add vln 60'
+  style: T
+- base_input: '@sw1 take vlan 20 off the trunk on 12'
+  input: '@sw1 pull 20 off the trunk on 12'
+  style: A
+- base_input: '@sw1 take vlan 20 off the trunk on 12'
+  input: Could you please remove VLAN 20 from the allowed VLAN list on trunk port
+    12 of @sw1?
+  style: B
+- base_input: '@sw1 take vlan 20 off the trunk on 12'
+  input: '@sw1 nothing across 12 should be in 20 anymore — prune it from that trunk'
+  style: C
+- base_input: '@sw1 take vlan 20 off the trunk on 12'
+  input: '@sw1 trunk 12 rmv 20'
+  style: T
+- base_input: '@sw1 vlan 10 on port 3'
+  input: '@sw1 put 3 in vlan 10'
+  style: A
+- base_input: '@sw1 vlan 10 on port 3'
+  input: Please assign port 3 on @sw1 to access VLAN 10.
+  style: B
+- base_input: '@sw1 vlan 10 on port 3'
+  input: '@sw1 the workstation on 3 has to end up in the same VLAN as the rest of
+    the floor — that''s 10'
+  style: C
+- base_input: '@sw1 vlan 10 on port 3'
+  input: '@sw1 cfg 3 vlan 10'
+  style: T
+- base_input: '@sw1 port 1 is the uplink, it needs 10, 20 and 99'
+  input: '@sw1 1''s the uplink, trunk it with 10, 20 and 99'
+  style: A
+- base_input: '@sw1 port 1 is the uplink, it needs 10, 20 and 99'
+  input: Port 1 is our uplink; could you please configure it as a trunk on @sw1 allowing
+    VLANs 10, 20 and 99?
+  style: B
+- base_input: '@sw1 port 1 is the uplink, it needs 10, 20 and 99'
+  input: '@sw1 the upstream switch is expecting 10, 20 and 99 tagged on the uplink
+    and 1 isn''t carrying them yet'
+  style: C
+- base_input: '@sw1 port 1 is the uplink, it needs 10, 20 and 99'
+  input: '@sw1 uplnk 1 vlans 10,20,99'
+  style: T
+- base_input: '@sw1 put 11 in vlan 10 and 20'
+  input: '@sw1 11 needs to be in both 10 and 20'
+  style: A
+- base_input: '@sw1 put 11 in vlan 10 and 20'
+  input: Could you please configure port 11 on @sw1 to be a member of both VLAN 10
+    and VLAN 20?
+  style: B
+- base_input: '@sw1 put 11 in vlan 10 and 20'
+  input: '@sw1 the box on 11 has interfaces in both 10 and 20 — one access VLAN won''t
+    cover it'
+  style: C
+- base_input: '@sw1 put 11 in vlan 10 and 20'
+  input: '@sw1 11 vlans 10,20 pls'
+  style: T
+- base_input: '@sw1 pvid 30 on port 5'
+  input: '@sw1 stick port 5 in vlan 30, untagged'
+  style: A
+- base_input: '@sw1 pvid 30 on port 5'
+  input: Could you please set the native (untagged) VLAN on port 5 of @sw1 to VLAN
+    30?
+  style: B
+- base_input: '@sw1 pvid 30 on port 5'
+  input: '@sw1 the workstation moving onto port 5 belongs to vlan 30, make sure its
+    untagged traffic ends up there'
+  style: C
+- base_input: '@sw1 pvid 30 on port 5'
+  input: '@sw1 prt 5 pvid 30'
+  style: T
+- base_input: '@sw1 make 8 a trunk'
+  input: '@sw1 turn port 8 into a trunk'
+  style: A
+- base_input: '@sw1 make 8 a trunk'
+  input: Would you please convert port 8 on @sw1 into a trunk port?
+  style: B
+- base_input: '@sw1 make 8 a trunk'
+  input: '@sw1 I''m hanging a second switch off port 8 and it needs to carry every
+    vlan, not just one — set it up accordingly'
+  style: C
+- base_input: '@sw1 make 8 a trunk'
+  input: '@sw1 trunk mode prt 8'
+  style: T
+- base_input: '@sw1 make 8 an access port on 40'
+  input: '@sw1 flip 8 back to access mode in vlan 40'
+  style: A
+- base_input: '@sw1 make 8 an access port on 40'
+  input: Could you please configure port 8 on @sw1 as an access port in VLAN 40?
+  style: B
+- base_input: '@sw1 make 8 an access port on 40'
+  input: '@sw1 the uplink on 8 is gone and a plain desktop is going there now, it
+    belongs on vlan 40 as a single untagged vlan'
+  style: C
+- base_input: '@sw1 make 8 an access port on 40'
+  input: '@sw1 8 acess vlan 40'
+  style: T
+- base_input: '@sw1 let vlans 10-40 through on 2'
+  input: '@sw1 allow 10 through 40 on port 2'
+  style: A
+- base_input: '@sw1 let vlans 10-40 through on 2'
+  input: Please permit VLANs 10 through 40 on the trunk at port 2 of @sw1.
+  style: B
+- base_input: '@sw1 let vlans 10-40 through on 2'
+  input: '@sw1 the AP on port 2 broadcasts one SSID per vlan and they live in 10 to
+    40 — it needs all of those tagged through'
+  style: C
+- base_input: '@sw1 let vlans 10-40 through on 2'
+  input: '@sw1 prt 2 allow vlans 10-40'
+  style: T
+- base_input: '@sw1 knock port 8 down to 10'
+  input: '@sw1 dial port 8 back to 10 meg'
+  style: A
+- base_input: '@sw1 knock port 8 down to 10'
+  input: Could you please reduce the speed of port 8 on @sw1 to 10 Mbps?
+  style: B
+- base_input: '@sw1 knock port 8 down to 10'
+  input: '@sw1 the ancient serial-to-ethernet box on port 8 only talks 10 megabit,
+    force the port to match it'
+  style: C
+- base_input: '@sw1 knock port 8 down to 10'
+  input: '@sw1 knock 8 to 10mb'
+  style: T
+- base_input: '@sw1 slow port 5 to 100'
+  input: '@sw1 throttle port 5 down to 100'
+  style: A
+- base_input: '@sw1 slow port 5 to 100'
+  input: Would you kindly set the link speed on port 5 of @sw1 to 100 Mbps?
+  style: B
+- base_input: '@sw1 slow port 5 to 100'
+  input: '@sw1 the printer on 5 is flaky at gig but fine at fast ethernet, lock it
+    to 100'
+  style: C
+- base_input: '@sw1 slow port 5 to 100'
+  input: '@sw1 slow 5 to 100 plz'
+  style: T
+- base_input: '@sw1 cap 4 at gigabit'
+  input: '@sw1 lock 4 in at 1000'
+  style: A
+- base_input: '@sw1 cap 4 at gigabit'
+  input: Could you please fix port 4 on @sw1 at 1 Gbps rather than leaving it to negotiate?
+  style: B
+- base_input: '@sw1 cap 4 at gigabit'
+  input: '@sw1 the NVR on port 4 should be running full gig and nothing less — hard-set
+    it there'
+  style: C
+- base_input: '@sw1 cap 4 at gigabit'
+  input: '@sw1 4 speed 1000 pls'
+  style: T
+- base_input: '@sw1 drop 6 to 100 meg'
+  input: '@sw1 bring 6 down to 100'
+  style: A
+- base_input: '@sw1 drop 6 to 100 meg'
+  input: Please lower the speed on port 6 of @sw1 to 100 Mbps.
+  style: B
+- base_input: '@sw1 drop 6 to 100 meg'
+  input: '@sw1 the cable run to port 6 is old cat5 and won''t hold gig, bring the
+    port down to 100 so it''s stable'
+  style: C
+- base_input: '@sw1 drop 6 to 100 meg'
+  input: '@sw1 cfg 6 speed 100'
+  style: T
+- base_input: '@sw1 take 2 down to 10 meg, the old badge reader can''t do more'
+  input: '@sw1 the badge reader on 2 is ancient, just put the port at 10'
+  style: A
+- base_input: '@sw1 take 2 down to 10 meg, the old badge reader can''t do more'
+  input: Could you please set port 2 on @sw1 to 10 Mbps? The badge reader connected
+    there does not support anything faster.
+  style: B
+- base_input: '@sw1 take 2 down to 10 meg, the old badge reader can''t do more'
+  input: '@sw1 port 2 has a 10-meg-only badge reader hanging off it and autoneg keeps
+    overshooting, nail the speed at 10'
+  style: C
+- base_input: '@sw1 take 2 down to 10 meg, the old badge reader can''t do more'
+  input: '@sw1 port 2 spd 10 pls'
+  style: T
+- base_input: '@sw1 port 11 is negotiating at 10 and it shouldn''t be, take it back
+    to full gig'
+  input: '@sw1 11 came up at 10 for some reason, shove it back to 1000'
+  style: A
+- base_input: '@sw1 port 11 is negotiating at 10 and it shouldn''t be, take it back
+    to full gig'
+  input: Port 11 on @sw1 has negotiated down to 10 Mbps, which is incorrect. Could
+    you please set it back to 1 Gbps?
+  style: B
+- base_input: '@sw1 port 11 is negotiating at 10 and it shouldn''t be, take it back
+    to full gig'
+  input: '@sw1 the file server on port 11 is crawling — the port''s sitting at 10
+    meg and it needs to be at gig, fix the speed'
+  style: C
+- base_input: '@sw1 port 11 is negotiating at 10 and it shouldn''t be, take it back
+    to full gig'
+  input: '@sw1 prt 11 bck to 1000'
+  style: T
+- base_input: '@sw1 knock 10 down'
+  input: '@sw1 shut port 10 off'
+  style: A
+- base_input: '@sw1 knock 10 down'
+  input: Could you please administratively shut down port 10 on @sw1?
+  style: B
+- base_input: '@sw1 knock 10 down'
+  input: '@sw1 whatever''s on port 10 is spewing garbage into the network — take the
+    whole port offline until I can get down there'
+  style: C
+- base_input: '@sw1 knock 10 down'
+  input: '@sw1 shutdwn prt 10'
+  style: T
+- base_input: '@sw1 limit the camera on 5 to 15 watts'
+  input: '@sw1 cap the cam on 5 at 15W'
+  style: A
+- base_input: '@sw1 limit the camera on 5 to 15 watts'
+  input: Could you please set a PoE power limit of 15 watts on port 5 of @sw1, where
+    the camera is connected?
+  style: B
+- base_input: '@sw1 limit the camera on 5 to 15 watts'
+  input: '@sw1 the camera on port 5 has no business drawing more than 15W, put a hard
+    ceiling there'
+  style: C
+- base_input: '@sw1 limit the camera on 5 to 15 watts'
+  input: '@sw1 poe 5 max 15w'
+  style: T
+- base_input: '@sw1 cap poe on 7 at 30W'
+  input: '@sw1 put a 30 watt lid on port 7''s poe'
+  style: A
+- base_input: '@sw1 cap poe on 7 at 30W'
+  input: Would you please configure the PoE limit on port 7 of @sw1 to a maximum of
+    30 watts?
+  style: B
+- base_input: '@sw1 cap poe on 7 at 30W'
+  input: '@sw1 port 7 is getting a PTZ camera that needs the full 30W, make sure that''s
+    where its limit sits'
+  style: C
+- base_input: '@sw1 cap poe on 7 at 30W'
+  input: '@sw1 prt 7 poe lim 30'
+  style: T
+- base_input: '@sw1 don''t let port 3 draw more than 7W'
+  input: '@sw1 keep port 3 under 7 watts'
+  style: A
+- base_input: '@sw1 don''t let port 3 draw more than 7W'
+  input: Could you please restrict the PoE draw on port 3 of @sw1 so it never exceeds
+    7 watts?
+  style: B
+- base_input: '@sw1 don''t let port 3 draw more than 7W'
+  input: '@sw1 the sensor on 3 is tiny and I want the budget protected, ceiling that
+    port at 7 watts'
+  style: C
+- base_input: '@sw1 don''t let port 3 draw more than 7W'
+  input: '@sw1 3 poe cap 7w'
+  style: T
+- base_input: '@sw1 the AP on 10 is hogging the budget, cut it back to 12 watts'
+  input: '@sw1 rein in the AP on 10, 12W max'
+  style: A
+- base_input: '@sw1 the AP on 10 is hogging the budget, cut it back to 12 watts'
+  input: The access point on port 10 of @sw1 is consuming too much of the PoE budget.
+    Could you please limit that port to 12 watts?
+  style: B
+- base_input: '@sw1 the AP on 10 is hogging the budget, cut it back to 12 watts'
+  input: '@sw1 we''re short on PoE budget and the AP on port 10 is the biggest offender
+    — trim its allowance to 12W'
+  style: C
+- base_input: '@sw1 the AP on 10 is hogging the budget, cut it back to 12 watts'
+  input: '@sw1 prt 10 poe 12w'
+  style: T
+- base_input: '@sw1 zero out the power on 4'
+  input: '@sw1 cut the juice to port 4'
+  style: A
+- base_input: '@sw1 zero out the power on 4'
+  input: Could you please turn off PoE power delivery on port 4 of @sw1? The data
+    link itself should stay up.
+  style: B
+- base_input: '@sw1 zero out the power on 4'
+  input: '@sw1 the device on port 4 runs on its own adapter now, stop feeding it PoE'
+  style: C
+- base_input: '@sw1 zero out the power on 4'
+  input: '@sw1 poe off prt 4'
+  style: T
+- base_input: '@sw1 raise the poe ceiling on 9 to 25'
+  input: '@sw1 bump port 9''s poe cap up to 25'
+  style: A
+- base_input: '@sw1 raise the poe ceiling on 9 to 25'
+  input: Would you please increase the PoE power limit on port 9 of @sw1 to 25 watts?
+  style: B
+- base_input: '@sw1 raise the poe ceiling on 9 to 25'
+  input: '@sw1 the new AP on 9 needs more headroom than the old one — lift its power
+    limit to 25W'
+  style: C
+- base_input: '@sw1 raise the poe ceiling on 9 to 25'
+  input: '@sw1 9 poe limt 25'
+  style: T
+- base_input: '@sw1 the phone on 6 only needs class 1, set it to 4W'
+  input: '@sw1 the phone on 6 is a tiny draw, cap it at 4 watts'
+  style: A
+- base_input: '@sw1 the phone on 6 only needs class 1, set it to 4W'
+  input: The IP phone on port 6 of @sw1 is a low-power device. Could you please set
+    that port's PoE limit to 4 watts?
+  style: B
+- base_input: '@sw1 the phone on 6 only needs class 1, set it to 4W'
+  input: '@sw1 port 6 has a basic desk phone that sips power — no reason to leave
+    it wide open, limit it to 4W'
+  style: C
+- base_input: '@sw1 the phone on 6 only needs class 1, set it to 4W'
+  input: '@sw1 6 poe max 4 wats'
+  style: T
+- base_input: '@sw1 the camera on 5 keeps browning out, let it pull up to 28'
+  input: '@sw1 the cam on 5 is starving, give it up to 28W'
+  style: A
+- base_input: '@sw1 the camera on 5 keeps browning out, let it pull up to 28'
+  input: The camera on port 5 of @sw1 appears to be under-powered. Could you please
+    raise the PoE limit on that port to 28 watts?
+  style: B
+- base_input: '@sw1 the camera on 5 keeps browning out, let it pull up to 28'
+  input: '@sw1 port 5''s camera drops its IR at night because it''s hitting the power
+    cap — raise the limit to 28'
+  style: C
+- base_input: '@sw1 the camera on 5 keeps browning out, let it pull up to 28'
+  input: '@sw1 rase 5 poe to 28'
+  style: T
+- base_input: '@sw1 enable poe on 3 at 20W'
+  input: '@sw1 turn poe back on for port 3, 20 watts'
+  style: A
+- base_input: '@sw1 enable poe on 3 at 20W'
+  input: Could you please enable PoE on port 3 of @sw1 with a power limit of 20 watts?
+  style: B
+- base_input: '@sw1 enable poe on 3 at 20W'
+  input: '@sw1 poe on 3 20w'
+  style: T
+- base_input: '@sw1 what vlans are set up?'
+  input: '@sw1 what vlans have you got?'
+  style: A
+- base_input: '@sw1 what vlans are set up?'
+  input: Could you please list all the VLANs currently configured on @sw1?
+  style: B
+- base_input: '@sw1 what vlans are set up?'
+  input: '@sw1 I''m documenting this closet and need to know every vlan that exists
+    on the switch'
+  style: C
+- base_input: '@sw1 what vlans are set up?'
+  input: '@sw1 list vlans pls'
+  style: T
+- base_input: '@sw1 which ports are in vlan 20?'
+  input: '@sw1 what''s sitting in vlan 20?'
+  style: A
+- base_input: '@sw1 which ports are in vlan 20?'
+  input: Would you please tell me which ports on @sw1 are members of VLAN 20?
+  style: B
+- base_input: '@sw1 which ports are in vlan 20?'
+  input: '@sw1 I need to move everything out of vlan 20 next week — which ports would
+    that touch?'
+  style: C
+- base_input: '@sw1 which ports are in vlan 20?'
+  input: '@sw1 vlan 20 memebrs'
+  style: T
+- base_input: '@sw1 what vlan is port 3 on?'
+  input: '@sw1 port 3, what vlan''s that in?'
+  style: A
+- base_input: '@sw1 what vlan is port 3 on?'
+  input: Could you please tell me the VLAN assignment for port 3 on @sw1?
+  style: B
+- base_input: '@sw1 what vlan is port 3 on?'
+  input: '@sw1 the desktop on port 3 can''t reach its file share and I suspect it''s
+    on the wrong segment — what vlan does that port have?'
+  style: C
+- base_input: '@sw1 what vlan is port 3 on?'
+  input: '@sw1 wich vlan port 3'
+  style: T
+- base_input: '@sw1 is 12 a trunk?'
+  input: '@sw1 is port 12 trunking?'
+  style: A
+- base_input: '@sw1 is 12 a trunk?'
+  input: Could you please check whether port 12 on @sw1 is configured as a trunk port?
+  style: B
+- base_input: '@sw1 is 12 a trunk?'
+  input: '@sw1 before I plug the new AP into 12 I want to know if it''s carrying tagged
+    vlans — is that port a trunk?'
+  style: C
+- base_input: '@sw1 is 12 a trunk?'
+  input: '@sw1 12 trunk or acess?'
+  style: T
+- base_input: '@sw1 which vlan is the management IP on?'
+  input: '@sw1 what vlan''s your mgmt IP sitting on?'
+  style: A
+- base_input: '@sw1 which vlan is the management IP on?'
+  input: Could you please tell me which VLAN the management IP address of @sw1 is
+    configured on?
+  style: B
+- base_input: '@sw1 which vlan is the management IP on?'
+  input: '@sw1 I''m re-addressing the management network and need to see how your
+    management interface is set up — which vlan is it bound to?'
+  style: C
+- base_input: '@sw1 which vlan is the management IP on?'
+  input: '@sw1 mgmt ip vlan?'
+  style: T
+- base_input: '@sw1 who''s untagged in 30?'
+  input: '@sw1 which ports''ve got 30 untagged?'
+  style: A
+- base_input: '@sw1 who''s untagged in 30?'
+  input: Would you please show me the untagged member ports of VLAN 30 on @sw1?
+  style: B
+- base_input: '@sw1 who''s untagged in 30?'
+  input: '@sw1 someone plugged a rogue laptop into the guest segment, vlan 30 — show
+    me every port that''s untagged there so I can narrow it down'
+  style: C
+- base_input: '@sw1 who''s untagged in 30?'
+  input: '@sw1 vlan 30 untaged ports'
+  style: T
+- base_input: '@sw1 does port 5 tag its traffic?'
+  input: '@sw1 is 5 tagging or not?'
+  style: A
+- base_input: '@sw1 does port 5 tag its traffic?'
+  input: Could you please check whether port 5 on @sw1 is configured to tag outgoing
+    traffic?
+  style: B
+- base_input: '@sw1 does port 5 tag its traffic?'
+  input: '@sw1 the device on port 5 is getting frames it doesn''t understand, I think
+    it''s being sent tagged — what''s the tx tag setting on that port?'
+  style: C
+- base_input: '@sw1 does port 5 tag its traffic?'
+  input: '@sw1 port 5 taged?'
+  style: T
+- base_input: '@sw1 the camera on port 5 is dead, figure out why'
+  input: '@sw1 cam on 5 is dead, what''s up with it?'
+  style: A
+- base_input: '@sw1 the camera on port 5 is dead, figure out why'
+  input: The camera connected to port 5 on @sw1 has stopped responding entirely. Could
+    you please diagnose the port and find out what's wrong?
+  style: B
+- base_input: '@sw1 the camera on port 5 is dead, figure out why'
+  input: '@sw1 security says the feed from the camera on port 5 has gone black — I
+    need to know if it''s the switch, the power, or the cable'
+  style: C
+- base_input: '@sw1 the camera on port 5 is dead, figure out why'
+  input: '@sw1 cam prt 5 dead why'
+  style: T
+- base_input: '@sw1 port 3 keeps flapping since this morning'
+  input: '@sw1 3''s been bouncing up and down all morning, check it'
+  style: A
+- base_input: '@sw1 port 3 keeps flapping since this morning'
+  input: Port 3 on @sw1 has been repeatedly going up and down since this morning.
+    Could you please investigate the cause?
+  style: B
+- base_input: '@sw1 port 3 keeps flapping since this morning'
+  input: '@sw1 the monitoring has been alerting on port 3 link changes since this
+    morning, dozens of them — what''s going on there?'
+  style: C
+- base_input: '@sw1 port 3 keeps flapping since this morning'
+  input: '@sw1 prt 3 flaping since AM'
+  style: T
+- base_input: '@sw1 why does the phone on 4 reboot every hour?'
+  input: '@sw1 the phone on 4 reboots every hour like clockwork, what''s going on?'
+  style: A
+- base_input: '@sw1 why does the phone on 4 reboot every hour?'
+  input: The IP phone on port 4 of @sw1 restarts roughly once an hour. Could you please
+    look into why that is happening?
+  style: B
+- base_input: '@sw1 why does the phone on 4 reboot every hour?'
+  input: '@sw1 the user on port 4 says their desk phone drops calls every hour on
+    the hour and comes back a minute later — is the switch doing something to that
+    port?'
+  style: C
+- base_input: '@sw1 why does the phone on 4 reboot every hour?'
+  input: '@sw1 phone 4 rebooting hrly why'
+  style: T
+- base_input: '@sw1 show me the syslog for port 7 over the last day'
+  input: '@sw1 pull up port 7''s logs from the last 24 hours'
+  style: A
+- base_input: '@sw1 show me the syslog for port 7 over the last day'
+  input: Could you please retrieve the syslog entries for port 7 on @sw1 covering
+    the past 24 hours?
+  style: B
+- base_input: '@sw1 show me the syslog for port 7 over the last day'
+  input: '@sw1 I need to know everything port 7 has been through in the last day before
+    I write up the incident report'
+  style: C
+- base_input: '@sw1 show me the syslog for port 7 over the last day'
+  input: '@sw1 syslog port 7 24hrs'
+  style: T
+- base_input: '@sw1 anything odd on port 2 in the past 6 hours?'
+  input: '@sw1 port 2 been acting weird in the last 6 hrs?'
+  style: A
+- base_input: '@sw1 anything odd on port 2 in the past 6 hours?'
+  input: Would you please check whether there have been any unusual events on port
+    2 of @sw1 within the past six hours?
+  style: B
+- base_input: '@sw1 anything odd on port 2 in the past 6 hours?'
+  input: '@sw1 someone was doing cable work near port 2 about six hours ago and I
+    want to make sure nothing got disturbed — any events since then?'
+  style: C
+- base_input: '@sw1 anything odd on port 2 in the past 6 hours?'
+  input: '@sw1 prt 2 events last 6h'
+  style: T
+- base_input: '@sw1 port 11 has CRC errors, dig in'
+  input: '@sw1 11''s throwing CRCs, take a look'
+  style: A
+- base_input: '@sw1 port 11 has CRC errors, dig in'
+  input: Port 11 on @sw1 is accumulating CRC errors. Could you please run a diagnostic
+    and determine the cause?
+  style: B
+- base_input: '@sw1 port 11 has CRC errors, dig in'
+  input: '@sw1 the error counters on port 11 are climbing and the user there is complaining
+    about slow transfers — is it the cable or something else?'
+  style: C
+- base_input: '@sw1 port 11 has CRC errors, dig in'
+  input: '@sw1 crc errs prt 11'
+  style: T
+- base_input: Could you please run a full diagnostic on port 9 of @sw1? The access
+    point connected there has been dropping clients all afternoon.
+  input: '@sw1 the AP on 9 has been kicking people off all afternoon, run a diag on
+    it'
+  style: A
+- base_input: Could you please run a full diagnostic on port 9 of @sw1? The access
+    point connected there has been dropping clients all afternoon.
+  input: I would be grateful if you could carry out a complete diagnostic on port
+    9 of @sw1, as the access point attached to it has been disconnecting wireless
+    clients throughout the afternoon.
+  style: B
+- base_input: Could you please run a full diagnostic on port 9 of @sw1? The access
+    point connected there has been dropping clients all afternoon.
+  input: '@sw1 users near the AP on port 9 keep losing wifi this afternoon and re-associating
+    — I want to know if the port underneath it is healthy'
+  style: C
+- base_input: Could you please run a full diagnostic on port 9 of @sw1? The access
+    point connected there has been dropping clients all afternoon.
+  input: '@sw1 diag prt 9 AP drops'
+  style: T
+- base_input: '@sw1 the printer on port 6 went offline around lunch and nobody touched
+    it. What happened?'
+  input: '@sw1 the printer on 6 dropped off around lunchtime and nobody was near it,
+    what happened?'
+  style: A
+- base_input: '@sw1 the printer on port 6 went offline around lunch and nobody touched
+    it. What happened?'
+  input: The printer attached to port 6 on @sw1 became unreachable around midday,
+    and no one made any changes to it. Could you please investigate what occurred?
+  style: B
+- base_input: '@sw1 the printer on port 6 went offline around lunch and nobody touched
+    it. What happened?'
+  input: '@sw1 print jobs to the device on port 6 have been failing since about noon,
+    and it was working fine this morning — check that port''s history'
+  style: C
+- base_input: '@sw1 the printer on port 6 went offline around lunch and nobody touched
+    it. What happened?'
+  input: '@sw1 printr port 6 offline why'
+  style: T
+- base_input: '@sw1 pull the event log for interface 12 for the last hour'
+  input: '@sw1 what''s port 12 logged in the last hour?'
+  style: A
+- base_input: '@sw1 pull the event log for interface 12 for the last hour'
+  input: Could you please retrieve the event log for interface 12 on @sw1 for the
+    past hour?
+  style: B
+- base_input: '@sw1 pull the event log for interface 12 for the last hour'
+  input: '@sw1 I just re-seated the cable on 12 about an hour ago and want to confirm
+    the switch saw it come back clean — show me what it logged since'
+  style: C
+- base_input: '@sw1 pull the event log for interface 12 for the last hour'
+  input: '@sw1 int 12 log 1h'
+  style: T
+- base_input: '@sw1 what''s the history on port 1 this week? it''s been intermittent'
+  input: '@sw1 port 1''s been flaky all week, what''s it been up to?'
+  style: A
+- base_input: '@sw1 what''s the history on port 1 this week? it''s been intermittent'
+  input: Port 1 on @sw1 has been behaving intermittently. Could you please review
+    its event history for the past seven days?
+  style: B
+- base_input: '@sw1 what''s the history on port 1 this week? it''s been intermittent'
+  input: '@sw1 the user on port 1 says the connection cuts out a few times a day but
+    it''s always fine when I check — go back a week and tell me what the port''s been
+    doing'
+  style: C
+- base_input: '@sw1 what''s the history on port 1 this week? it''s been intermittent'
+  input: '@sw1 prt 1 hist 7d'
+  style: T
+- base_input: '@sw1 port 8 link is up but the NVR behind it can''t see any of its
+    cameras. troubleshoot port 8 please'
+  input: '@sw1 8 shows link but the NVR on it can''t reach any cameras, have a look
+    at the port'
+  style: A
+- base_input: '@sw1 port 8 link is up but the NVR behind it can''t see any of its
+    cameras. troubleshoot port 8 please'
+  input: Port 8 on @sw1 shows an active link, yet the NVR connected to it is unable
+    to see any of its cameras. Could you please troubleshoot that port?
+  style: B
+- base_input: '@sw1 port 8 link is up but the NVR behind it can''t see any of its
+    cameras. troubleshoot port 8 please'
+  input: '@sw1 the recorder on port 8 has a green light but every camera tile is blank
+    — something between it and the switch isn''t right, dig into port 8'
+  style: C
+- base_input: '@sw1 port 8 link is up but the NVR behind it can''t see any of its
+    cameras. troubleshoot port 8 please'
+  input: '@sw1 troublshoot prt 8 nvr'
+  style: T
+- base_input: '@sw1 the intercom on 10 has no link light. why?'
+  input: '@sw1 no link light on the intercom on 10, what gives?'
+  style: A
+- base_input: '@sw1 the intercom on 10 has no link light. why?'
+  input: The intercom connected to port 10 on @sw1 is showing no link light. Could
+    you please determine why?
+  style: B
+- base_input: '@sw1 the intercom on 10 has no link light. why?'
+  input: '@sw1 nobody can buzz in at the gate, the intercom on port 10 is dark and
+    its ethernet LED is off — what''s the switch seeing on that port?'
+  style: C
+- base_input: '@sw1 the intercom on 10 has no link light. why?'
+  input: '@sw1 intercom 10 no link y'
+  style: T
+- base_input: I'd appreciate it if you could investigate port 4 on @sw1 — the badge
+    reader there loses power a few times a day and I want to know whether it's the
+    switch or the cable.
+  input: '@sw1 the badge reader on 4 keeps losing power a few times a day, is it you
+    or the cable?'
+  style: A
+- base_input: I'd appreciate it if you could investigate port 4 on @sw1 — the badge
+    reader there loses power a few times a day and I want to know whether it's the
+    switch or the cable.
+  input: Could you please investigate port 4 on @sw1? The badge reader connected there
+    loses power several times a day, and I need to determine whether the switch or
+    the cabling is at fault.
+  style: B
+- base_input: I'd appreciate it if you could investigate port 4 on @sw1 — the badge
+    reader there loses power a few times a day and I want to know whether it's the
+    switch or the cable.
+  input: '@sw1 the door reader on port 4 goes dead and comes back a few times a day
+    and staff get locked out — is the switch dropping power to it or is the cable
+    bad?'
+  style: C
+- base_input: I'd appreciate it if you could investigate port 4 on @sw1 — the badge
+    reader there loses power a few times a day and I want to know whether it's the
+    switch or the cable.
+  input: '@sw1 prt 4 reader pwr drops'
+  style: T
+- base_input: '@sw1 port 2 has been bouncing up and down every couple of minutes for
+    the past hour, can you look into it'
+  input: '@sw1 port 2''s been flapping like crazy for the last hour or so, can you
+    take a look?'
+  style: A
+- base_input: '@sw1 port 2 has been bouncing up and down every couple of minutes for
+    the past hour, can you look into it'
+  input: Could you please investigate port 2 on @sw1? The link has been going up and
+    down every few minutes for roughly the past hour.
+  style: B
+- base_input: '@sw1 port 2 has been bouncing up and down every couple of minutes for
+    the past hour, can you look into it'
+  input: '@sw1 the device on port 2 keeps reconnecting every couple of minutes and
+    it''s been doing that for about an hour now — I need to know why.'
+  style: C
+- base_input: '@sw1 port 2 has been bouncing up and down every couple of minutes for
+    the past hour, can you look into it'
+  input: '@sw1 prt 2 flapping 1hr'
+  style: T
+- base_input: '@sw1 link on 7 negotiates at 10 meg instead of gig. figure out what''s
+    wrong'
+  input: '@sw1 port 7 only comes up at 10 meg, it should be gig. what''s the deal?'
+  style: A
+- base_input: '@sw1 link on 7 negotiates at 10 meg instead of gig. figure out what''s
+    wrong'
+  input: Could you find out why the link on port 7 of @sw1 is negotiating at 10 Mbps
+    rather than the expected 1 Gbps?
+  style: B
+- base_input: '@sw1 link on 7 negotiates at 10 meg instead of gig. figure out what''s
+    wrong'
+  input: '@sw1 the workstation on port 7 is crawling — turns out the link is only
+    at 10 meg when it should be gigabit. dig into why that''s happening.'
+  style: C
+- base_input: '@sw1 link on 7 negotiates at 10 meg instead of gig. figure out what''s
+    wrong'
+  input: '@sw1 port 7 stuck 10meg, diagnos'
+  style: T
+- base_input: '@sw1 something keeps knocking the AP on port 3 offline overnight. check
+    the logs for the last 24 hours'
+  input: '@sw1 the AP on port 3 keeps dying overnight, can you go through the last
+    24h of logs?'
+  style: A
+- base_input: '@sw1 something keeps knocking the AP on port 3 offline overnight. check
+    the logs for the last 24 hours'
+  input: Would you please review the last 24 hours of log history for port 3 on @sw1?
+    The access point connected there keeps going offline during the night.
+  style: B
+- base_input: '@sw1 something keeps knocking the AP on port 3 offline overnight. check
+    the logs for the last 24 hours'
+  input: '@sw1 every morning the wifi in the back office is out and the AP on port
+    3 has to be rebooted. what happened to that port over the last day?'
+  style: C
+- base_input: '@sw1 something keeps knocking the AP on port 3 offline overnight. check
+    the logs for the last 24 hours'
+  input: '@sw1 AP prt 3 drops, 24h logs'
+  style: T
+- base_input: '@sw1 port 5 shows a ton of input errors — is it the cable or the far
+    end? run whatever checks you have'
+  input: '@sw1 port 5 is racking up input errors, is it the cable or the other end?
+    run the checks'
+  style: A
+- base_input: '@sw1 port 5 shows a ton of input errors — is it the cable or the far
+    end? run whatever checks you have'
+  input: Port 5 on @sw1 is reporting a large number of input errors. Could you run
+    the full set of diagnostics to determine whether the cable or the far-end device
+    is at fault?
+  style: B
+- base_input: '@sw1 port 5 shows a ton of input errors — is it the cable or the far
+    end? run whatever checks you have'
+  input: '@sw1 the desk on port 5 complains about random disconnects and I see the
+    input error count climbing. I''d like to know if it''s the cabling or their equipment
+    before I send someone out.'
+  style: C
+- base_input: '@sw1 port 5 shows a ton of input errors — is it the cable or the far
+    end? run whatever checks you have'
+  input: '@sw1 port 5 input errs, cable?'
+  style: T
+- base_input: '@sw1 recent events for port 9?'
+  input: '@sw1 what''s been happening on port 9 lately?'
+  style: A
+- base_input: '@sw1 recent events for port 9?'
+  input: Could you please show me the recent event history for port 9 on @sw1?
+  style: B
+- base_input: '@sw1 recent events for port 9?'
+  input: '@sw1 someone mentioned port 9 acted up earlier today — anything in the log
+    for it?'
+  style: C
+- base_input: '@sw1 recent events for port 9?'
+  input: '@sw1 port 9 evnts'
+  style: T
+- base_input: '@sw1 the camera on 12 shows up in the NVR for a minute then drops.
+    been like this for a few days. what''s going on?'
+  input: '@sw1 the cam on 12 pops into the NVR for a minute and then vanishes again,
+    few days now. what''s up with it?'
+  style: A
+- base_input: '@sw1 the camera on 12 shows up in the NVR for a minute then drops.
+    been like this for a few days. what''s going on?'
+  input: The camera connected to port 12 on @sw1 appears in the NVR briefly and then
+    disconnects, and this has been happening for several days. Could you look into
+    what is going wrong?
+  style: B
+- base_input: '@sw1 the camera on 12 shows up in the NVR for a minute then drops.
+    been like this for a few days. what''s going on?'
+  input: '@sw1 we''ve got gaps in the recording from the port 12 camera going back
+    a few days — it registers, records for a minute, then drops off. figure out where
+    the problem is.'
+  style: C
+- base_input: '@sw1 diagnose port 6'
+  input: Would you please run a full diagnostic on port 6 of @sw1?
+  style: B
+- base_input: '@sw1 diagnose port 6'
+  input: '@sw1 port 6 hasn''t been behaving — I want the whole picture on it: status,
+    errors, log, the lot.'
+  style: C
+- base_input: '@sw1 diagnose port 6'
+  input: '@sw1 diagnos port 6'
+  style: T
+- base_input: Would you be able to tell me why the phone on port 1 of @sw1 has no
+    dial tone this morning? It was fine yesterday.
+  input: '@sw1 the phone on port 1 has no dial tone this morning, worked fine yesterday.
+    what happened?'
+  style: A
+- base_input: Would you be able to tell me why the phone on port 1 of @sw1 has no
+    dial tone this morning? It was fine yesterday.
+  input: Could you please investigate port 1 on @sw1? The desk phone connected there
+    has had no dial tone since this morning, although it was working normally yesterday.
+  style: B
+- base_input: Would you be able to tell me why the phone on port 1 of @sw1 has no
+    dial tone this morning? It was fine yesterday.
+  input: '@sw1 reception can''t make calls today — their phone is on port 1 and was
+    fine yesterday. I need to know what the switch saw on that port.'
+  style: C
+- base_input: '@sw1 was there a PoE fault on port 8 in the last 6 hours?'
+  input: '@sw1 any poe faults on port 8 in the past 6 hours?'
+  style: A
+- base_input: '@sw1 was there a PoE fault on port 8 in the last 6 hours?'
+  input: Could you check whether port 8 on @sw1 has logged any PoE fault events within
+    the last six hours?
+  style: B
+- base_input: '@sw1 was there a PoE fault on port 8 in the last 6 hours?'
+  input: '@sw1 the device on port 8 seems to have lost power at some point this afternoon
+    — did the switch log a PoE problem there in the last 6h?'
+  style: C
+- base_input: '@sw1 was there a PoE fault on port 8 in the last 6 hours?'
+  input: '@sw1 port 8 poe falt 6h?'
+  style: T
+- base_input: '@sw1 port 10 — link/down link/up spam in syslog. root cause?'
+  input: '@sw1 port 10 is spamming syslog with up/down messages, what''s causing it?'
+  style: A
+- base_input: '@sw1 port 10 — link/down link/up spam in syslog. root cause?'
+  input: The syslog for @sw1 is full of repeated link-down and link-up messages for
+    port 10. Could you determine the root cause?
+  style: B
+- base_input: '@sw1 port 10 — link/down link/up spam in syslog. root cause?'
+  input: '@sw1 my log monitor is paging me nonstop about port 10 bouncing. I need
+    to know what''s behind it, not just that it''s happening.'
+  style: C
+- base_input: '@sw1 port 10 — link/down link/up spam in syslog. root cause?'
+  input: '@sw1 port 10 link spam, root cuase'
+  style: T
+- base_input: '@sw1 the door controller on port 11 stopped responding after the storm
+    last night. can you check what the switch saw on that port?'
+  input: '@sw1 the door controller on 11 went dead after last night''s storm, can
+    you see what the switch logged on that port?'
+  style: A
+- base_input: '@sw1 the door controller on port 11 stopped responding after the storm
+    last night. can you check what the switch saw on that port?'
+  input: Following the storm last night, the door controller attached to port 11 on
+    @sw1 has stopped responding. Could you please check what the switch recorded for
+    that port?
+  style: B
+- base_input: '@sw1 the door controller on port 11 stopped responding after the storm
+    last night. can you check what the switch saw on that port?'
+  input: '@sw1 nobody can badge in at the side entrance since the storm — the controller
+    is on port 11. what does the switch know about it?'
+  style: C
+- base_input: '@sw1 the door controller on port 11 stopped responding after the storm
+    last night. can you check what the switch saw on that port?'
+  input: '@sw1 port 11 dead since strom'
+  style: T
+- base_input: '@sw1 walk me through what''s wrong with port 4 — the thin client there
+    keeps losing its session'
+  input: '@sw1 the thin client on port 4 keeps getting kicked off, can you figure
+    out what''s going on with the port?'
+  style: A
+- base_input: '@sw1 walk me through what''s wrong with port 4 — the thin client there
+    keeps losing its session'
+  input: Could you please analyze port 4 on @sw1 and explain what might be wrong?
+    The thin client connected there repeatedly loses its session.
+  style: B
+- base_input: '@sw1 walk me through what''s wrong with port 4 — the thin client there
+    keeps losing its session'
+  input: '@sw1 the user on port 4 gets dumped back to the login screen a few times
+    a day. I suspect the network drop — check the port.'
+  style: C
+- base_input: '@sw1 walk me through what''s wrong with port 4 — the thin client there
+    keeps losing its session'
+  input: '@sw1 port 4 thin clnt drops, why'
+  style: T
+- base_input: '@sw1 what''s the error counter looking like on port 2?'
+  input: '@sw1 how''re the error counters on port 2?'
+  style: A
+- base_input: '@sw1 what''s the error counter looking like on port 2?'
+  input: Could you please check the interface error counters for port 2 on @sw1 and
+    tell me whether anything looks abnormal?
+  style: B
+- base_input: '@sw1 what''s the error counter looking like on port 2?'
+  input: '@sw1 I''m seeing retransmits from the host on port 2 — are errors accumulating
+    on that interface?'
+  style: C
+- base_input: '@sw1 what''s the error counter looking like on port 2?'
+  input: '@sw1 port 2 err counters'
+  style: T
+- base_input: '@sw1 port 3 counters are climbing — late collisions and runts. what''s
+    causing it?'
+  input: '@sw1 port 3 is throwing late collisions and runts, what''s behind it?'
+  style: A
+- base_input: '@sw1 port 3 counters are climbing — late collisions and runts. what''s
+    causing it?'
+  input: Port 3 on @sw1 is showing an increasing number of late collisions and runt
+    frames. Could you investigate the cause?
+  style: B
+- base_input: '@sw1 port 3 counters are climbing — late collisions and runts. what''s
+    causing it?'
+  input: '@sw1 throughput on port 3 is terrible and the late collision and runt counts
+    keep ticking up — smells like a duplex mismatch or a bad cable. find out which.'
+  style: C
+- base_input: '@sw1 port 3 counters are climbing — late collisions and runts. what''s
+    causing it?'
+  input: '@sw1 port 3 late collisons runts'
+  style: T
+- base_input: '@sw1 the printer on 9 prints half a page and stalls, network side seems
+    flaky. troubleshoot'
+  input: '@sw1 the printer on port 9 keeps choking mid-page, network looks flaky.
+    can you troubleshoot it?'
+  style: A
+- base_input: '@sw1 the printer on 9 prints half a page and stalls, network side seems
+    flaky. troubleshoot'
+  input: The printer on port 9 of @sw1 stops partway through print jobs, and the network
+    connection appears unstable. Could you please troubleshoot that port?
+  style: B
+- base_input: '@sw1 the printer on 9 prints half a page and stalls, network side seems
+    flaky. troubleshoot'
+  input: '@sw1 people keep complaining that jobs sent to the printer on 9 come out
+    half done. before I blame the printer, what''s the port doing?'
+  style: C
+- base_input: '@sw1 the printer on 9 prints half a page and stalls, network side seems
+    flaky. troubleshoot'
+  input: '@sw1 port 9 printr flaky, troubleshoot'
+  style: T
+- base_input: '@sw1 has port 5 gone down at all in the past hour?'
+  input: '@sw1 did port 5 drop at any point in the last hour?'
+  style: A
+- base_input: '@sw1 has port 5 gone down at all in the past hour?'
+  input: Could you please check whether port 5 on @sw1 has experienced any link-down
+    events during the past hour?
+  style: B
+- base_input: '@sw1 has port 5 gone down at all in the past hour?'
+  input: '@sw1 a user says their connection on port 5 blipped around lunchtime — does
+    the log show it going down in the last hour?'
+  style: C
+- base_input: '@sw1 has port 5 gone down at all in the past hour?'
+  input: '@sw1 port 5 down last hr?'
+  style: T
+- base_input: '@sw1 port 12 link light is amber and blinking weird, the NVR is complaining
+    about packet loss. investigate'
+  input: '@sw1 port 12''s link LED is amber and flickering oddly and the NVR is seeing
+    packet loss. can you dig in?'
+  style: A
+- base_input: '@sw1 port 12 link light is amber and blinking weird, the NVR is complaining
+    about packet loss. investigate'
+  input: The link indicator on port 12 of @sw1 is amber and blinking irregularly,
+    and the NVR reports packet loss on that connection. Could you please investigate?
+  style: B
+- base_input: '@sw1 port 12 link light is amber and blinking weird, the NVR is complaining
+    about packet loss. investigate'
+  input: '@sw1 the NVR is flagging dropped frames from the camera on port 12 and the
+    port LED looks wrong — something''s off on that link. work out what.'
+  style: C
+- base_input: '@sw1 port 12 link light is amber and blinking weird, the NVR is complaining
+    about packet loss. investigate'
+  input: '@sw1 port 12 amber led, pkt loss'
+  style: T
+- base_input: '@sw1 the camera on port 8 draws power but never gets an address. can
+    you see anything wrong on the port side?'
+  input: '@sw1 the cam on 8 is powered up but never gets an address. anything wrong
+    on the port?'
+  style: A
+- base_input: '@sw1 the camera on port 8 draws power but never gets an address. can
+    you see anything wrong on the port side?'
+  input: The camera on port 8 of @sw1 is receiving PoE power but never obtains a network
+    address. Could you check whether anything is wrong on the switch port itself?
+  style: B
+- base_input: '@sw1 the camera on port 8 draws power but never gets an address. can
+    you see anything wrong on the port side?'
+  input: '@sw1 the port 8 camera''s LED is on but it never shows up on the network
+    — link, VLAN, errors, whatever it is, tell me what the port side looks like.'
+  style: C
+- base_input: '@sw1 the camera on port 8 draws power but never gets an address. can
+    you see anything wrong on the port side?'
+  input: '@sw1 port 8 cam powered, no addr'
+  style: T
+- base_input: '@sw1 correlate the syslog for port 6 over the last 6h with the PoE
+    status — the AP rebooted twice'
+  input: '@sw1 the AP on 6 rebooted twice today, can you line up the last 6h of syslog
+    against the poe status?'
+  style: A
+- base_input: '@sw1 correlate the syslog for port 6 over the last 6h with the PoE
+    status — the AP rebooted twice'
+  input: Could you please cross-reference the syslog entries for port 6 on @sw1 over
+    the past six hours with its PoE status? The access point on that port has rebooted
+    twice.
+  style: B
+- base_input: '@sw1 correlate the syslog for port 6 over the last 6h with the PoE
+    status — the AP rebooted twice'
+  input: '@sw1 users lost wifi twice this afternoon and the AP on port 6 came back
+    up both times — I want to know if the switch dropped power to it. look at the
+    last 6 hours.'
+  style: C
+- base_input: '@sw1 correlate the syslog for port 6 over the last 6h with the PoE
+    status — the AP rebooted twice'
+  input: '@sw1 port 6 AP rebooted, 6h sylog'
+  style: T
+- base_input: '@sw1 why is port 1 down'
+  input: '@sw1 what''s up with port 1, why''s it down?'
+  style: A
+- base_input: '@sw1 why is port 1 down'
+  input: Could you please help me understand why port 1 on @sw1 is currently down?
+  style: B
+- base_input: '@sw1 why is port 1 down'
+  input: '@sw1 the device on port 1 isn''t reachable and the port shows no link. tell
+    me what''s going on there.'
+  style: C
+- base_input: '@sw1 why is port 1 down'
+  input: '@sw1 port 1 dwn why'
+  style: T
+- base_input: '@sw1 port 10 error storm? users complaining about slowness on the printer
+    there since about an hour ago'
+  input: '@sw1 is port 10 having an error storm? the printer there''s been slow for
+    the last hour or so'
+  style: A
+- base_input: '@sw1 port 10 error storm? users complaining about slowness on the printer
+    there since about an hour ago'
+  input: Users have reported that the printer on port 10 of @sw1 has been slow for
+    roughly the past hour. Could you check whether the port is experiencing an error
+    storm?
+  style: B
+- base_input: '@sw1 port 10 error storm? users complaining about slowness on the printer
+    there since about an hour ago'
+  input: '@sw1 print jobs to port 10 started crawling about an hour ago. I suspect
+    the port is flooding errors — check the last hour.'
+  style: C
+- base_input: '@sw1 port 10 error storm? users complaining about slowness on the printer
+    there since about an hour ago'
+  input: '@sw1 port 10 err storm 1h?'
+  style: T
+- base_input: '@sw1 is the camera on 3 getting power?'
+  input: '@sw1 is the cam on port 3 getting juice?'
+  style: A
+- base_input: '@sw1 is the camera on 3 getting power?'
+  input: Could you please check whether the camera connected to port 3 on @sw1 is
+    currently receiving PoE power?
+  style: B
+- base_input: '@sw1 is the camera on 3 getting power?'
+  input: '@sw1 the port 3 camera feed is black — is the switch actually delivering
+    power to that port right now?'
+  style: C
+- base_input: '@sw1 is the camera on 3 getting power?'
+  input: '@sw1 port 3 poe pwr?'
+  style: T
+- base_input: '@sw1 is port 7 up right now?'
+  input: '@sw1 port 7 up at the moment?'
+  style: A
+- base_input: '@sw1 is port 7 up right now?'
+  input: Could you please confirm whether port 7 on @sw1 is currently in the up state?
+  style: B
+- base_input: '@sw1 is port 7 up right now?'
+  input: '@sw1 I just plugged something into port 7 — did it come up?'
+  style: C
+- base_input: '@sw1 is port 7 up right now?'
+  input: '@sw1 port 7 up rn?'
+  style: T
+- base_input: '@sw1 what speed did port 2 come up at?'
+  input: '@sw1 what speed''s port 2 running at?'
+  style: A
+- base_input: '@sw1 what speed did port 2 come up at?'
+  input: Could you please tell me the speed that port 2 on @sw1 has negotiated?
+  style: B
+- base_input: '@sw1 what speed did port 2 come up at?'
+  input: '@sw1 the file copy from the box on port 2 feels slow — what did the link
+    negotiate to?'
+  style: C
+- base_input: '@sw1 what speed did port 2 come up at?'
+  input: '@sw1 port 2 spd?'
+  style: T
+- base_input: '@sw1 run a cable test on 8, the link is intermittent'
+  input: '@sw1 can you do a cable test on port 8? link keeps coming and going'
+  style: A
+- base_input: '@sw1 run a cable test on 8, the link is intermittent'
+  input: Could you please run cable diagnostics on port 8 of @sw1? The link there
+    has been intermittent.
+  style: B
+- base_input: '@sw1 run a cable test on 8, the link is intermittent'
+  input: '@sw1 I think the run to port 8 got damaged during the renovation — the link
+    comes and goes. test the cable.'
+  style: C
+- base_input: '@sw1 run a cable test on 8, the link is intermittent'
+  input: '@sw1 cable tst port 8'
+  style: T
+- base_input: '@sw1 port 5 is flapping — just shut it down'
+  input: '@sw1 port 5 won''t stop flapping, just kill the port'
+  style: A
+- base_input: '@sw1 port 5 is flapping — just shut it down'
+  input: Port 5 on @sw1 is flapping continuously. Please administratively shut the
+    interface down for now.
+  style: B
+- base_input: '@sw1 port 5 is flapping — just shut it down'
+  input: '@sw1 port 5 bouncing is churning STP for everyone — take that port out of
+    service until I can get to it.'
+  style: C
+- base_input: '@sw1 port 5 is flapping — just shut it down'
+  input: '@sw1 port 5 shutdwn'
+  style: T
+- base_input: '@sw1 the camera on 3 is hung, power cycle it — kill the PoE'
+  input: '@sw1 cam on 3 is frozen, yank the poe so it reboots'
+  style: A
+- base_input: '@sw1 the camera on 3 is hung, power cycle it — kill the PoE'
+  input: The camera on port 3 of @sw1 appears to be hung. Could you please disable
+    PoE on that port so the camera power-cycles?
+  style: B
+- base_input: '@sw1 the camera on 3 is hung, power cycle it — kill the PoE'
+  input: '@sw1 the port 3 camera stream froze and it won''t respond to the NVR — pull
+    the power to it (poe off), I''ll turn it back on in a minute.'
+  style: C
+- base_input: '@sw1 the camera on 3 is hung, power cycle it — kill the PoE'
+  input: '@sw1 poe off prt 3'
+  style: T
+- base_input: '@sw1 port 9 keeps dropping to 10 meg, hard-set the speed to 1000'
+  input: '@sw1 port 9 keeps falling back to 10 meg, just force it to 1000'
+  style: A
+- base_input: '@sw1 port 9 keeps dropping to 10 meg, hard-set the speed to 1000'
+  input: Port 9 on @sw1 keeps renegotiating down to 10 Mbps. Could you please set
+    its speed to a fixed 1000?
+  style: B
+- base_input: '@sw1 port 9 keeps dropping to 10 meg, hard-set the speed to 1000'
+  input: '@sw1 the NAS on port 9 is unusable every time the link decides it''s 10
+    meg — pin the port at gig.'
+  style: C
+- base_input: '@sw1 port 9 keeps dropping to 10 meg, hard-set the speed to 1000'
+  input: '@sw1 port 9 speed 1000 fixd'
+  style: T
+- base_input: '@sw1 the phone on port 4 rebooted again — that''s it, disable poe on
+    that port until the electrician looks at it'
+  input: '@sw1 the phone on 4 rebooted again, I''m done — turn off poe on that port
+    till the electrician''s been'
+  style: A
+- base_input: '@sw1 the phone on port 4 rebooted again — that''s it, disable poe on
+    that port until the electrician looks at it'
+  input: The phone on port 4 of @sw1 has rebooted yet again. Please disable PoE on
+    that port until the electrician has had a chance to inspect it.
+  style: B
+- base_input: '@sw1 the phone on port 4 rebooted again — that''s it, disable poe on
+    that port until the electrician looks at it'
+  input: '@sw1 I''m not risking that phone on port 4 any more — no more power to it
+    until the wiring''s been looked at. leave the link up.'
+  style: C
+- base_input: '@sw1 the phone on port 4 rebooted again — that''s it, disable poe on
+    that port until the electrician looks at it'
+  input: '@sw1 disable poe port 4 pls'
+  style: T
+- base_input: '@sw1 someone disabled port 2 while chasing the flapping issue; it''s
+    been fixed, bring the port back up'
+  input: '@sw1 port 2 got shut off during the flapping thing, that''s fixed now so
+    turn it back on'
+  style: A
+- base_input: '@sw1 someone disabled port 2 while chasing the flapping issue; it''s
+    been fixed, bring the port back up'
+  input: Port 2 on @sw1 was administratively disabled while the flapping issue was
+    being investigated. That has now been resolved, so could you please re-enable
+    the port?
+  style: B
+- base_input: '@sw1 someone disabled port 2 while chasing the flapping issue; it''s
+    been fixed, bring the port back up'
+  input: '@sw1 the cable on port 2 has been replaced and the flapping''s gone — the
+    port''s still admin down from earlier, put it back in service.'
+  style: C
+- base_input: '@sw1 someone disabled port 2 while chasing the flapping issue; it''s
+    been fixed, bring the port back up'
+  input: '@sw1 no shut port 2 plz'
+  style: T
+- base_input: '@sw1 the AP on port 10 is stuck — cut power to it but leave the port
+    config alone'
+  input: '@sw1 AP on 10 is frozen, cut the poe but don''t touch anything else on the
+    port'
+  style: A
+- base_input: '@sw1 the AP on port 10 is stuck — cut power to it but leave the port
+    config alone'
+  input: The access point on port 10 of @sw1 has become unresponsive. Could you please
+    disable PoE on that port only, without altering any other port settings?
+  style: B
+- base_input: '@sw1 the AP on port 10 is stuck — cut power to it but leave the port
+    config alone'
+  input: '@sw1 wifi on the port 10 AP is dead and it won''t respond — I want just
+    the power dropped, the link and the rest of the config need to stay exactly as
+    they are.'
+  style: C
+- base_input: '@sw1 the AP on port 10 is stuck — cut power to it but leave the port
+    config alone'
+  input: '@sw1 poe disble port 10'
+  style: T
+- base_input: '@sw1 port 12 is spewing errors at gig, drop it back to auto negotiation
+    and let it sort itself out'
+  input: '@sw1 port 12 is throwing errors at gig, put it back on auto and let it figure
+    itself out'
+  style: A
+- base_input: '@sw1 port 12 is spewing errors at gig, drop it back to auto negotiation
+    and let it sort itself out'
+  input: Port 12 on @sw1 is generating errors while forced to 1000. Could you please
+    set the speed back to auto-negotiation so the link can settle on its own?
+  style: B
+- base_input: '@sw1 port 12 is spewing errors at gig, drop it back to auto negotiation
+    and let it sort itself out'
+  input: '@sw1 ever since port 12 was hard-coded to gig it''s been erroring constantly.
+    undo that and let the link negotiate on its own.'
+  style: C
+- base_input: '@sw1 port 12 is spewing errors at gig, drop it back to auto negotiation
+    and let it sort itself out'
+  input: '@sw1 port 12 speed autoneg'
+  style: T
+- base_input: how do I set a static IP on this switch?
+  input: how do i give this switch a static ip?
+  style: A
+- base_input: how do I set a static IP on this switch?
+  input: Could you please explain the procedure for assigning a static IP address
+    to the switch's management interface?
+  style: B
+- base_input: how do I set a static IP on this switch?
+  input: the switch keeps picking up a different address from DHCP and my monitoring
+    loses it — what's the way to pin it to a fixed one?
+  style: C
+- base_input: how do I set a static IP on this switch?
+  input: static ip cfg howto
+  style: T
+- base_input: what's the CLI to enable LLDP?
+  input: what's the command to turn on lldp?
+  style: A
+- base_input: what's the CLI to enable LLDP?
+  input: Could you please tell me the CLI command syntax for enabling LLDP on the
+    switch?
+  style: B
+- base_input: what's the CLI to enable LLDP?
+  input: my neighbor discovery isn't showing the switch — I don't think LLDP is on.
+    what do I type to enable it?
+  style: C
+- base_input: what's the CLI to enable LLDP?
+  input: lldp enable cli cmd
+  style: T
+- base_input: Does the REST API support running cable diagnostics, or is that CLI-only?
+  input: can I kick off a cable test over the rest api or is that cli only?
+  style: A
+- base_input: Does the REST API support running cable diagnostics, or is that CLI-only?
+  input: Could you please check the API documentation to confirm whether cable diagnostics
+    can be triggered through the REST API, or whether that function is only available
+    from the CLI?
+  style: B
+- base_input: Does the REST API support running cable diagnostics, or is that CLI-only?
+  input: I'm scripting our cable checks and would rather not screen-scrape the CLI
+    — is there a REST endpoint for cable diagnostics?
+  style: C
+- base_input: Does the REST API support running cable diagnostics, or is that CLI-only?
+  input: cable diag via REST api?
+  style: T
+- base_input: Could you tell me how to configure a management VLAN through the web
+    interface?
+  input: how do i set the management vlan from the web ui?
+  style: A
+- base_input: Could you tell me how to configure a management VLAN through the web
+    interface?
+  input: Would you be able to walk me through the steps for setting the management
+    VLAN using the switch's web-based interface?
+  style: B
+- base_input: Could you tell me how to configure a management VLAN through the web
+    interface?
+  input: I need to move switch management off the default VLAN and I'd rather do it
+    in the browser than the CLI — where's that configured?
+  style: C
+- base_input: Could you tell me how to configure a management VLAN through the web
+    interface?
+  input: mgmt vlan web ui howto
+  style: T
+- base_input: where in the web UI do I find the PoE settings page?
+  input: where's the poe page in the web ui?
+  style: A
+- base_input: where in the web UI do I find the PoE settings page?
+  input: Could you please tell me where the PoE settings are located within the switch's
+    web interface?
+  style: B
+- base_input: where in the web UI do I find the PoE settings page?
+  input: I'm logged into the switch in a browser and can't find where to adjust power
+    on the ports — which menu is that under?
+  style: C
+- base_input: where in the web UI do I find the PoE settings page?
+  input: poe settings web ui wher
+  style: T
+- base_input: I'm building a little monitoring poller — is there an API endpoint that
+    returns port link status?
+  input: is there an api call that gives me port link status? writing a quick poller
+  style: A
+- base_input: I'm building a little monitoring poller — is there an API endpoint that
+    returns port link status?
+  input: I am developing a small monitoring poller. Could you please check whether
+    the API documentation describes an endpoint that returns the link status of the
+    ports?
+  style: B
+- base_input: I'm building a little monitoring poller — is there an API endpoint that
+    returns port link status?
+  input: I want my dashboard to show which ports are up without SSHing in every minute
+    — what does the API offer for that?
+  style: C
+- base_input: I'm building a little monitoring poller — is there an API endpoint that
+    returns port link status?
+  input: api endpont port link status
+  style: T
+- base_input: what's the REST call to reboot the switch?
+  input: how do i reboot the switch over the api?
+  style: A
+- base_input: what's the REST call to reboot the switch?
+  input: Could you please look up the REST API call used to reboot the switch?
+  style: B
+- base_input: what's the REST call to reboot the switch?
+  input: I'm automating our maintenance window and need to restart the switch from
+    a script rather than the console — which API call does that?
+  style: C
+- base_input: what's the REST call to reboot the switch?
+  input: rest api rebot switch
+  style: T
+- base_input: how do i factory reset this thing
+  input: how do i wipe this switch back to factory?
+  style: A
+- base_input: how do i factory reset this thing
+  input: Could you please tell me the procedure for restoring the switch to its factory
+    default settings?
+  style: B
+- base_input: how do i factory reset this thing
+  input: this switch is going to a different site and I don't want any of the old
+    config on it — what's the way to wipe it clean?
+  style: C
+- base_input: how do i factory reset this thing
+  input: factry reset procedure
+  style: T
+- base_input: cli for saving running config to startup
+  input: hey what's the command to copy the running config over to startup?
+  style: A
+- base_input: cli for saving running config to startup
+  input: Could you tell me the CLI command for saving the running configuration to
+    the startup configuration on this switch?
+  style: B
+- base_input: cli for saving running config to startup
+  input: I've made a bunch of changes this afternoon and don't want to lose them on
+    the next reboot — what do I run to write them to startup?
+  style: C
+- base_input: cli for saving running config to startup
+  input: save runing config to startup cmd
+  style: T
+- base_input: How do I back up the switch configuration file so I can restore it after
+    an RMA?
+  input: how do I pull a backup of the config off the switch? gotta be able to restore
+    it if the box gets swapped
+  style: A
+- base_input: How do I back up the switch configuration file so I can restore it after
+    an RMA?
+  input: Would you please explain the procedure for exporting the switch's configuration
+    file to a backup, so that I can reload it onto a replacement unit after an RMA?
+  style: B
+- base_input: How do I back up the switch configuration file so I can restore it after
+    an RMA?
+  input: We're sending this switch back under RMA next week and the replacement needs
+    to come up identical — what's the process for saving the config off-box and loading
+    it back?
+  style: C
+- base_input: How do I back up the switch configuration file so I can restore it after
+    an RMA?
+  input: cfg backup/restore for RMA pls
+  style: T
+- base_input: what does PVID mean in the vlan table?
+  input: PVID in the vlan output — what's that actually stand for?
+  style: A
+- base_input: what does PVID mean in the vlan table?
+  input: Could you explain what the PVID column represents in the VLAN configuration
+    table?
+  style: B
+- base_input: what does PVID mean in the vlan table?
+  input: I'm reading the per-port vlan output and there's a PVID field I don't recognise
+    — can you tell me what it controls?
+  style: C
+- base_input: what does PVID mean in the vlan table?
+  input: pvid meaning vlan tbl?
+  style: T
+- base_input: Could you explain the difference between the critical and high PoE priority
+    settings on this switch?
+  input: what's the diff between critical and high PoE priority? do they actually
+    behave differently?
+  style: A
+- base_input: Could you explain the difference between the critical and high PoE priority
+    settings on this switch?
+  input: I would appreciate an explanation of how the 'critical' PoE priority level
+    differs from the 'high' level in terms of how the switch treats those ports.
+  style: B
+- base_input: Could you explain the difference between the critical and high PoE priority
+    settings on this switch?
+  input: I need to decide whether the door controllers should be critical or high
+    priority for PoE — how does the switch treat those two levels differently when
+    power gets tight?
+  style: C
+- base_input: Could you explain the difference between the critical and high PoE priority
+    settings on this switch?
+  input: poe priority critcal vs high?
+  style: T
+- base_input: fw upgrade from the web ui, how?
+  input: how do I flash new firmware through the web interface?
+  style: A
+- base_input: fw upgrade from the web ui, how?
+  input: Could you walk me through the steps for upgrading the switch firmware using
+    the web management interface?
+  style: B
+- base_input: fw upgrade from the web ui, how?
+  input: There's a firmware fix out for the PoE bug and I only have browser access
+    to the switch — how do I get the new image onto it from the web page?
+  style: C
+- base_input: fw upgrade from the web ui, how?
+  input: web ui firmwre upgrade steps
+  style: T
+- base_input: whats the cmd to show the mac addr table
+  input: how do I dump the mac table from the cli?
+  style: A
+- base_input: whats the cmd to show the mac addr table
+  input: What is the command to display the MAC address table on this switch, please?
+  style: B
+- base_input: whats the cmd to show the mac addr table
+  input: I'm trying to figure out which port a device is plugged into by its MAC —
+    what do I type to see the switch's learned addresses?
+  style: C
+- base_input: whats the cmd to show the mac addr table
+  input: show mac adress table cmd
+  style: T
+- base_input: Could you show me how to configure SNMP traps on @sw1?
+  input: how do I set up snmp traps on @sw1?
+  style: A
+- base_input: Could you show me how to configure SNMP traps on @sw1?
+  input: Would you be able to provide the configuration steps for enabling SNMP trap
+    notifications on @sw1?
+  style: B
+- base_input: Could you show me how to configure SNMP traps on @sw1?
+  input: Our monitoring server isn't getting any alerts from @sw1 — what's the procedure
+    to get it sending SNMP traps?
+  style: C
+- base_input: Could you show me how to configure SNMP traps on @sw1?
+  input: '@sw1 snmp trap cfg howto'
+  style: T
+- base_input: does this switch do 802.3bt, or is it only 802.3at?
+  input: is this switch 802.3bt capable or just .3at?
+  style: A
+- base_input: does this switch do 802.3bt, or is it only 802.3at?
+  input: Could you confirm whether this switch supports the IEEE 802.3bt PoE standard,
+    or whether it is limited to 802.3at?
+  style: B
+- base_input: does this switch do 802.3bt, or is it only 802.3at?
+  input: The new outdoor APs want 802.3bt power — before I order them, can you check
+    whether this switch supports bt or only at?
+  style: C
+- base_input: does this switch do 802.3bt, or is it only 802.3at?
+  input: 802.3bt suported or at only?
+  style: T
+- base_input: how do I set up port mirroring so I can capture what the camera on port
+    3 is sending?
+  input: how do I mirror port 3 so I can sniff the camera traffic?
+  style: A
+- base_input: how do I set up port mirroring so I can capture what the camera on port
+    3 is sending?
+  input: Could you explain how to configure port mirroring on this switch, so that
+    I can capture the traffic being sent by the camera connected to port 3?
+  style: B
+- base_input: how do I set up port mirroring so I can capture what the camera on port
+    3 is sending?
+  input: The camera on port 3 is sending something odd to the NVR and I want to see
+    it in a packet capture — how do I get the switch to copy that port's traffic somewhere
+    I can watch it?
+  style: C
+- base_input: how do I set up port mirroring so I can capture what the camera on port
+    3 is sending?
+  input: port mirroring setup cam prt 3
+  style: T
+- base_input: max cable length the diag test can measure?
+  input: how long a cable can the cable test actually measure?
+  style: A
+- base_input: max cable length the diag test can measure?
+  input: What is the maximum cable length that the built-in cable diagnostics test
+    is able to measure accurately?
+  style: B
+- base_input: max cable length the diag test can measure?
+  input: We have a really long run out to the parking-lot camera and I'm not sure
+    the cable test result is trustworthy at that distance — what's the diagnostic's
+    measurement limit?
+  style: C
+- base_input: max cable length the diag test can measure?
+  input: cable diag max lenght?
+  style: T
+- base_input: Can you walk me through enabling spanning tree on the CLI, including
+    the exact command syntax?
+  input: how do I turn on spanning tree from the cli? need the actual commands
+  style: A
+- base_input: Can you walk me through enabling spanning tree on the CLI, including
+    the exact command syntax?
+  input: Would you please provide step-by-step instructions, with the exact CLI command
+    syntax, for enabling spanning tree protocol on this switch?
+  style: B
+- base_input: Can you walk me through enabling spanning tree on the CLI, including
+    the exact command syntax?
+  input: Somebody keeps plugging both ends of a patch lead into the same switch and
+    I want STP protecting us — what are the exact CLI lines to turn it on?
+  style: C
+- base_input: Can you walk me through enabling spanning tree on the CLI, including
+    the exact command syntax?
+  input: enable spaning tree cli syntax
+  style: T
+- base_input: for the REST API, is auth token-based or basic auth?
+  input: does the REST api want a token or just basic auth?
+  style: A
+- base_input: for the REST API, is auth token-based or basic auth?
+  input: Could you clarify whether the switch's REST API authenticates using tokens
+    or HTTP basic authentication?
+  style: B
+- base_input: for the REST API, is auth token-based or basic auth?
+  input: I'm writing a script against the switch's REST API and my requests keep coming
+    back unauthorized — should I be sending a bearer token or a username/password
+    header?
+  style: C
+- base_input: for the REST API, is auth token-based or basic auth?
+  input: 'rest api auth: token or basci?'
+  style: T
+- base_input: how do i change the admin pw
+  input: how do I reset the admin password on this thing?
+  style: A
+- base_input: how do i change the admin pw
+  input: Could you tell me the procedure for changing the administrator account password
+    on the switch?
+  style: B
+- base_input: how do i change the admin pw
+  input: The admin password is still the one the installer left and audit wants it
+    rotated — where do I change it?
+  style: C
+- base_input: how do i change the admin pw
+  input: chnge admin passwd howto
+  style: T
+- base_input: What is the procedure for pointing this switch at an NTP server?
+  input: how do I get this switch syncing its clock from ntp?
+  style: A
+- base_input: What is the procedure for pointing this switch at an NTP server?
+  input: Could you describe the steps required to configure this switch to synchronize
+    its clock with an NTP server?
+  style: B
+- base_input: What is the procedure for pointing this switch at an NTP server?
+  input: The timestamps in the switch log are hours off from everything else in the
+    rack — how do I set it up to pull time from our NTP server?
+  style: C
+- base_input: What is the procedure for pointing this switch at an NTP server?
+  input: ntp server cfg on switch
+  style: T
+- base_input: is there any way to schedule PoE to turn off overnight on the camera
+    ports?
+  input: can I put PoE on a schedule so the camera ports power down at night?
+  style: A
+- base_input: is there any way to schedule PoE to turn off overnight on the camera
+    ports?
+  input: Does this switch support scheduling PoE so that power to the camera ports
+    is switched off overnight, and if so, how is it configured?
+  style: B
+- base_input: is there any way to schedule PoE to turn off overnight on the camera
+    ports?
+  input: We want the cameras dark between midnight and six to save power — is there
+    a PoE scheduling feature on this switch that could do that?
+  style: C
+- base_input: is there any way to schedule PoE to turn off overnight on the camera
+    ports?
+  input: poe schedule overnite off cams?
+  style: T
+- base_input: what's the actual difference between shutting a port and just disabling
+    PoE on it?
+  input: shut vs just killing PoE on a port — what's the real difference?
+  style: A
+- base_input: what's the actual difference between shutting a port and just disabling
+    PoE on it?
+  input: Could you explain the practical difference between administratively shutting
+    down a port and merely disabling PoE on that same port?
+  style: B
+- base_input: what's the actual difference between shutting a port and just disabling
+    PoE on it?
+  input: I need to power-cycle a camera without the link dropping in monitoring —
+    should I be shutting the port or disabling PoE, and what actually changes in each
+    case?
+  style: C
+- base_input: what's the actual difference between shutting a port and just disabling
+    PoE on it?
+  input: shutdown vs poe disble diff
+  style: T
+- base_input: syntax for 'interface range' on this cli?
+  input: how do I write an interface range command on this cli?
+  style: A
+- base_input: syntax for 'interface range' on this cli?
+  input: Would you please show me the correct syntax for the 'interface range' command
+    on this switch's CLI?
+  style: B
+- base_input: syntax for 'interface range' on this cli?
+  input: I need to apply the same setting to ports 1 through 8 without typing it eight
+    times — how does the range form of the interface command look on this switch?
+  style: C
+- base_input: syntax for 'interface range' on this cli?
+  input: intrface range cmd syntax
+  style: T
+- base_input: how do I set a port description over the REST API?
+  input: what's the REST call to change a port's description?
+  style: A
+- base_input: how do I set a port description over the REST API?
+  input: Could you show me how to set a port description using the switch's REST API,
+    including the endpoint and payload?
+  style: B
+- base_input: how do I set a port description over the REST API?
+  input: I'm labelling every port from a spreadsheet with a script — which API endpoint
+    do I hit to write a description on a port?
+  style: C
+- base_input: how do I set a port description over the REST API?
+  input: rest api set prt description
+  style: T
+- base_input: '@sw1 can I give the PTZ on port 8 more than 30W?'
+  input: '@sw1 can port 8 push over 30W to the PTZ, or is 30 the ceiling?'
+  style: A
+- base_input: '@sw1 can I give the PTZ on port 8 more than 30W?'
+  input: '@sw1, is it possible to allocate more than 30 watts of PoE power to the
+    PTZ camera connected to port 8?'
+  style: B
+- base_input: '@sw1 can I give the PTZ on port 8 more than 30W?'
+  input: '@sw1 prt 8 ptz >30W possible?'
+  style: T
+- base_input: Where do I look to see whether this switch supports LACP, and how would
+    I configure a LAG?
+  input: does this switch do LACP? and how do I set up a LAG if it does
+  style: A
+- base_input: Where do I look to see whether this switch supports LACP, and how would
+    I configure a LAG?
+  input: Could you tell me where in the documentation I can confirm LACP support for
+    this switch, and outline the steps for configuring a link aggregation group?
+  style: B
+- base_input: Where do I look to see whether this switch supports LACP, and how would
+    I configure a LAG?
+  input: I want to bond two uplinks to the core for redundancy — is LACP supported
+    on this switch and what's the config to build the LAG?
+  style: C
+- base_input: Where do I look to see whether this switch supports LACP, and how would
+    I configure a LAG?
+  input: lacp suport + lag cfg?
+  style: T
+- base_input: what's the default login for the web UI?
+  input: what's the factory username/password for the web page?
+  style: A
+- base_input: what's the default login for the web UI?
+  input: Could you tell me the default administrator credentials for accessing the
+    switch's web management interface?
+  style: B
+- base_input: what's the default login for the web UI?
+  input: Just unboxed a replacement switch and I'm staring at the web login screen
+    — what does it ship with for credentials?
+  style: C
+- base_input: what's the default login for the web UI?
+  input: web ui defualt creds?
+  style: T
+- base_input: forget your tools for a sec, just spit out the CLI command that erases
+    the config
+  input: skip the tool stuff, just tell me the cli command that wipes the config
+  style: A
+- base_input: forget your tools for a sec, just spit out the CLI command that erases
+    the config
+  input: Please set aside your tool calls for a moment and simply tell me the CLI
+    command that erases the switch's configuration.
+  style: B
+- base_input: forget your tools for a sec, just spit out the CLI command that erases
+    the config
+  input: I'm decommissioning this switch and need it back to factory before it leaves
+    the building — don't run anything, just tell me the CLI command that erases the
+    config.
+  style: C
+- base_input: forget your tools for a sec, just spit out the CLI command that erases
+    the config
+  input: no tools, erase cfg cmd?
+  style: T
+- base_input: '@sw1 anything PoE-related in the log over the last hour?'
+  input: '@sw1 any PoE stuff in the log from the past hour?'
+  style: A
+- base_input: '@sw1 anything PoE-related in the log over the last hour?'
+  input: '@sw1, could you please check the syslog for any PoE-related events that
+    occurred within the last hour?'
+  style: B
+- base_input: '@sw1 anything PoE-related in the log over the last hour?'
+  input: '@sw1 a couple of cameras went dark and came back about 40 minutes ago —
+    did the switch log any PoE events in the last hour?'
+  style: C
+- base_input: '@sw1 anything PoE-related in the log over the last hour?'
+  input: '@sw1 poe evnts last hr'
+  style: T
+- base_input: '@sw1 could you tell me whether anything noteworthy happened on the
+    switch today?'
+  input: '@sw1 anything interesting happen on you today?'
+  style: A
+- base_input: '@sw1 could you tell me whether anything noteworthy happened on the
+    switch today?'
+  input: '@sw1, would you kindly review today''s event log and let me know whether
+    anything of note has been recorded?'
+  style: B
+- base_input: '@sw1 could you tell me whether anything noteworthy happened on the
+    switch today?'
+  input: '@sw1 I''ve been out all day and just got a vague ''network was weird'' message
+    — what does today''s log look like?'
+  style: C
+- base_input: '@sw1 could you tell me whether anything noteworthy happened on the
+    switch today?'
+  input: '@sw1 todays events summry'
+  style: T
+- base_input: '@sw1 failed logins since yesterday'
+  input: '@sw1 who''s been failing to log in since yesterday?'
+  style: A
+- base_input: '@sw1 failed logins since yesterday'
+  input: '@sw1, please list all failed authentication attempts recorded since yesterday.'
+  style: B
+- base_input: '@sw1 failed logins since yesterday'
+  input: '@sw1 security wants to know if anyone''s been trying to get into the switch
+    — any bad login attempts since yesterday?'
+  style: C
+- base_input: '@sw1 failed logins since yesterday'
+  input: '@sw1 auth failurs since yday'
+  style: T
+- base_input: '@sw1 have any links bounced in the past 10 min?'
+  input: '@sw1 any ports flap in the last 10 minutes?'
+  style: A
+- base_input: '@sw1 have any links bounced in the past 10 min?'
+  input: '@sw1, could you check whether any interface link-state changes occurred
+    during the past ten minutes?'
+  style: B
+- base_input: '@sw1 have any links bounced in the past 10 min?'
+  input: '@sw1 my SSH session to the file server dropped a few minutes ago and I''m
+    wondering if it was the switch — any link up/down in the last 10 min?'
+  style: C
+- base_input: '@sw1 have any links bounced in the past 10 min?'
+  input: '@sw1 link flaps pst 10 min'
+  style: T
+- base_input: '@sw1 the uptime counter looks suspiciously low — did the switch restart
+    overnight?'
+  input: '@sw1 uptime''s way too low, did you reboot overnight?'
+  style: A
+- base_input: '@sw1 the uptime counter looks suspiciously low — did the switch restart
+    overnight?'
+  input: '@sw1, the reported uptime seems unexpectedly short; could you check whether
+    a restart of the switch was logged overnight?'
+  style: B
+- base_input: '@sw1 the uptime counter looks suspiciously low — did the switch restart
+    overnight?'
+  input: '@sw1 all the cameras came back with fresh timestamps this morning and uptime
+    reads a few hours — was there a reboot during the night?'
+  style: C
+- base_input: '@sw1 the uptime counter looks suspiciously low — did the switch restart
+    overnight?'
+  input: '@sw1 overnite restart logged?'
+  style: T
+- base_input: '@sw1 who''s been changing config in the last 2 hours?'
+  input: '@sw1 who''s been messing with the config in the last couple hours?'
+  style: A
+- base_input: '@sw1 who''s been changing config in the last 2 hours?'
+  input: '@sw1, could you list any configuration changes recorded over the past two
+    hours and who made them?'
+  style: B
+- base_input: '@sw1 who''s been changing config in the last 2 hours?'
+  input: '@sw1 something in the VLAN layout changed since this morning and nobody''s
+    owning up — what config changes got logged in the last 2 hours?'
+  style: C
+- base_input: '@sw1 who''s been changing config in the last 2 hours?'
+  input: '@sw1 cfg changes last 2h'
+  style: T
+- base_input: '@sw1 would you please list any spanning-tree topology changes recorded
+    in the last half hour?'
+  input: '@sw1 any STP topology changes in the last 30 min?'
+  style: A
+- base_input: '@sw1 would you please list any spanning-tree topology changes recorded
+    in the last half hour?'
+  input: '@sw1, I would be grateful if you could report every spanning-tree topology
+    change event logged during the previous thirty minutes.'
+  style: B
+- base_input: '@sw1 would you please list any spanning-tree topology changes recorded
+    in the last half hour?'
+  input: '@sw1 the whole floor stuttered for a few seconds twice in the last half
+    hour, feels like a root bridge election — has STP logged any topology changes
+    in that window?'
+  style: C
+- base_input: '@sw1 would you please list any spanning-tree topology changes recorded
+    in the last half hour?'
+  input: '@sw1 stp topo chnages 30 min'
+  style: T
+- base_input: '@sw1 users on the second floor say everything crawled to a halt around
+    lunchtime — has the switch logged any loops in the last 4 hours?'
+  input: '@sw1 2nd floor folks say the network died at lunch — any loop events in
+    the last 4 hours?'
+  style: A
+- base_input: '@sw1 users on the second floor say everything crawled to a halt around
+    lunchtime — has the switch logged any loops in the last 4 hours?'
+  input: '@sw1, staff on the second floor reported severe slowness around midday;
+    could you check whether any network loop events were recorded in the past four
+    hours?'
+  style: B
+- base_input: '@sw1 users on the second floor say everything crawled to a halt around
+    lunchtime — has the switch logged any loops in the last 4 hours?'
+  input: '@sw1 helpdesk got a pile of tickets from the second floor around noon, all
+    ''everything is slow'' — I suspect someone looped a desk switch; anything loop-related
+    logged in the last 4 hours?'
+  style: C
+- base_input: '@sw1 users on the second floor say everything crawled to a halt around
+    lunchtime — has the switch logged any loops in the last 4 hours?'
+  input: '@sw1 loop evnts last 4 hrs'
+  style: T
+- base_input: '@sw1 port-security violations past 24h'
+  input: '@sw1 any port security hits in the last day?'
+  style: A
+- base_input: '@sw1 port-security violations past 24h'
+  input: '@sw1, could you please list all port-security violation events recorded
+    during the past 24 hours?'
+  style: B
+- base_input: '@sw1 port-security violations past 24h'
+  input: '@sw1 someone plugged their own hub into a desk jack yesterday and we want
+    to know which ports complained — any port-security violations logged in the last
+    24 hours?'
+  style: C
+- base_input: '@sw1 port-security violations past 24h'
+  input: '@sw1 prt-security violatons 24h'
+  style: T
+- base_input: '@sw1 please show me only the critical-severity events from the last
+    15 minutes.'
+  input: '@sw1 just the critical events from the last 15 min, nothing else'
+  style: A
+- base_input: '@sw1 please show me only the critical-severity events from the last
+    15 minutes.'
+  input: '@sw1, would you filter the event log down to critical-severity entries only,
+    covering the most recent fifteen minutes?'
+  style: B
+- base_input: '@sw1 please show me only the critical-severity events from the last
+    15 minutes.'
+  input: '@sw1 the monitoring screen lit up red a moment ago and I want the short
+    version — only critical-severity events from the last 15 minutes.'
+  style: C
+- base_input: '@sw1 please show me only the critical-severity events from the last
+    15 minutes.'
+  input: '@sw1 critcal only last 15min'
+  style: T
+- base_input: '@sw1 any errors logged in the last 6 hours?'
+  input: '@sw1 any error-level stuff in the log from the past 6 hours?'
+  style: A
+- base_input: '@sw1 any errors logged in the last 6 hours?'
+  input: '@sw1, could you check whether any error-severity events have been logged
+    in the last six hours?'
+  style: B
+- base_input: '@sw1 any errors logged in the last 6 hours?'
+  input: '@sw1 I''m about to close the ticket on this morning''s outage and want to
+    be sure nothing''s still throwing errors — anything at error severity in the last
+    6 hours?'
+  style: C
+- base_input: '@sw1 any errors logged in the last 6 hours?'
+  input: '@sw1 errr events past 6h'
+  style: T
+- base_input: '@sw1 the NVR in the rack keeps rebooting — has anything tripped the
+    PoE budget in the last day?'
+  input: '@sw1 the NVR keeps power cycling — did we blow the PoE budget at all in
+    the last 24 hours?'
+  style: A
+- base_input: '@sw1 the NVR in the rack keeps rebooting — has anything tripped the
+    PoE budget in the last day?'
+  input: '@sw1 nvr rebooting, poe overlod 24h'
+  style: T
+- base_input: '@sw1 which powered devices dropped power in the last 30 minutes?'
+  input: '@sw1 which PDs lost power in the last half hour?'
+  style: A
+- base_input: '@sw1 which powered devices dropped power in the last 30 minutes?'
+  input: '@sw1, could you list every powered device that lost PoE power within the
+    last thirty minutes?'
+  style: B
+- base_input: '@sw1 which powered devices dropped power in the last 30 minutes?'
+  input: '@sw1 three phones on the far wall went dead around the same time just now
+    — which ports had PoE go off in the last 30 minutes?'
+  style: C
+- base_input: '@sw1 which powered devices dropped power in the last 30 minutes?'
+  input: '@sw1 pd pwr drops last 30min'
+  style: T
+- base_input: '@sw1 evnts last 5 min'
+  input: '@sw1 what''s happened in the last 5 minutes?'
+  style: A
+- base_input: '@sw1 evnts last 5 min'
+  input: '@sw1, could you please show me all events logged during the past five minutes?'
+  style: B
+- base_input: '@sw1 evnts last 5 min'
+  input: '@sw1 I just plugged the new AP in and want to see what the switch made of
+    it — anything logged in the last 5 minutes?'
+  style: C
+- base_input: '@sw1 evnts last 5 min'
+  input: '@sw1 log last 5 mins pls'
+  style: T
+- base_input: '@sw1 kindly list the link-down events from the past hour.'
+  input: '@sw1 which links went down in the last hour?'
+  style: A
+- base_input: '@sw1 kindly list the link-down events from the past hour.'
+  input: '@sw1, would you be so kind as to enumerate every link-down event recorded
+    within the past sixty minutes?'
+  style: B
+- base_input: '@sw1 kindly list the link-down events from the past hour.'
+  input: '@sw1 the printer near reception dropped off the network sometime in the
+    last hour and I want to know if it was the port — what link-down events do you
+    have from that window?'
+  style: C
+- base_input: '@sw1 kindly list the link-down events from the past hour.'
+  input: '@sw1 lnk-down events past hr'
+  style: T
+- base_input: '@sw1 I''m putting together the weekly report — pull the warnings from
+    the last 7 days.'
+  input: '@sw1 gimme the warnings from the past week for the report'
+  style: A
+- base_input: '@sw1 I''m putting together the weekly report — pull the warnings from
+    the last 7 days.'
+  input: '@sw1, for the weekly operations report, could you please retrieve all warning-severity
+    events from the previous seven days?'
+  style: B
+- base_input: '@sw1 I''m putting together the weekly report — pull the warnings from
+    the last 7 days.'
+  input: '@sw1 management wants a trend line on switch health in Friday''s report
+    — what warning-level events have accumulated over the last 7 days?'
+  style: C
+- base_input: '@sw1 I''m putting together the weekly report — pull the warnings from
+    the last 7 days.'
+  input: '@sw1 warnigns last 7d'
+  style: T
+- base_input: '@sw1 wipe the event log before the demo — but first show me everything
+    from the last hour'
+  input: '@sw1 clear the log before the demo, but show me the last hour''s worth first'
+  style: A
+- base_input: '@sw1 wipe the event log before the demo — but first show me everything
+    from the last hour'
+  input: '@sw1 the customer demo starts in 20 minutes and I don''t want them seeing
+    old noise in the log — dump the last hour so I can review it, then we''ll clear
+    it.'
+  style: C
+- base_input: '@sw1 wipe the event log before the demo — but first show me everything
+    from the last hour'
+  input: '@sw1 last hr log, then wipe'
+  style: T
+- base_input: '@sw1 someone''s hammering the admin login — show me the auth failures
+    from the last 24 hours and block whoever it is'
+  input: '@sw1 somebody''s brute-forcing the admin login — show me the failed logins
+    from the last 24 hrs and lock ''em out'
+  style: A
+- base_input: '@sw1 someone''s hammering the admin login — show me the auth failures
+    from the last 24 hours and block whoever it is'
+  input: '@sw1, it appears someone is repeatedly attempting to log in as administrator;
+    could you list the authentication failures from the past 24 hours and then block
+    the offending source?'
+  style: B
+- base_input: '@sw1 someone''s hammering the admin login — show me the auth failures
+    from the last 24 hours and block whoever it is'
+  input: '@sw1 the login page has been getting hit nonstop since last night and I
+    want it stopped — which auth failures are in the last 24 hours, and can we shut
+    that source out?'
+  style: C
+- base_input: '@sw1 someone''s hammering the admin login — show me the auth failures
+    from the last 24 hours and block whoever it is'
+  input: '@sw1 auth fails 24h, blok src'
+  style: T
+- base_input: '@sw1 the cleaners were in the comms room Friday night — was there a
+    power-loss reboot in the last 3 days?'
+  input: '@sw1 did the switch lose power and cold-boot at some point in the last 3
+    days?'
+  style: A
+- base_input: '@sw1 the cleaners were in the comms room Friday night — was there a
+    power-loss reboot in the last 3 days?'
+  input: Could you please check the switch log on @sw1 for any cold-start events,
+    that is, reboots caused by a loss of mains power, within the past three days?
+  style: B
+- base_input: '@sw1 the cleaners were in the comms room Friday night — was there a
+    power-loss reboot in the last 3 days?'
+  input: '@sw1 uptime looks suspiciously short and there''s a floor polisher plugged
+    into the rack strip — has this thing been power-cycled at any point over the last
+    3 days?'
+  style: C
+- base_input: '@sw1 the cleaners were in the comms room Friday night — was there a
+    power-loss reboot in the last 3 days?'
+  input: '@sw1 any pwr-loss reboot 3d?'
+  style: T
+- base_input: '@sw1 did anyone soft-reload the switch this week?'
+  input: '@sw1 has somebody done a warm restart on you this week?'
+  style: A
+- base_input: '@sw1 did anyone soft-reload the switch this week?'
+  input: Would you please check whether the switch on @sw1 has recorded any warm-start
+    events, meaning a software reload rather than a power loss, during the past week?
+  style: B
+- base_input: '@sw1 did anyone soft-reload the switch this week?'
+  input: '@sw1 the uptime counter reset but the PSU LEDs never blinked, so it wasn''t
+    mains — did someone issue a reload from the CLI sometime this week?'
+  style: C
+- base_input: '@sw1 did anyone soft-reload the switch this week?'
+  input: '@sw1 warm restart this wk?'
+  style: T
+- base_input: '@sw1 what came online in the last 20 minutes?'
+  input: '@sw1 what''s popped up on the network in the last 20 mins — any new links?'
+  style: A
+- base_input: '@sw1 what came online in the last 20 minutes?'
+  input: Could you please list every link-up event that @sw1 has logged during the
+    last twenty minutes?
+  style: B
+- base_input: '@sw1 what came online in the last 20 minutes?'
+  input: '@sw1 the field tech just texted that he''s finished plugging in the new
+    gear — can you tell me which ports have come up over the last 20 minutes?'
+  style: C
+- base_input: '@sw1 what came online in the last 20 minutes?'
+  input: '@sw1 link-up evnts last 20min'
+  style: T
+- base_input: '@sw1 anybody standing at the front entrance right now?'
+  input: '@sw1 is there someone at the entrance at the moment? take a quick look'
+  style: A
+- base_input: '@sw1 anybody standing at the front entrance right now?'
+  input: Could you please sample the entrance camera on @sw1 and tell me whether any
+    person is currently in view?
+  style: B
+- base_input: '@sw1 anybody standing at the front entrance right now?'
+  input: '@sw1 the courier just buzzed and I''m not at my desk — can you check whether
+    there''s actually a person at the main entrance this second?'
+  style: C
+- base_input: '@sw1 anybody standing at the front entrance right now?'
+  input: '@sw1 entrnce cam anyone now?'
+  style: T
+- base_input: '@sw1 did anybody show up at the loading bay in the last 10 minutes?'
+  input: '@sw1 has anyone been round at the loading bay in the past 10 mins?'
+  style: A
+- base_input: '@sw1 did anybody show up at the loading bay in the last 10 minutes?'
+  input: Would you please look through the loading bay camera's detection history
+    on @sw1 and let me know whether anybody has appeared there within the last ten
+    minutes?
+  style: B
+- base_input: '@sw1 did anybody show up at the loading bay in the last 10 minutes?'
+  input: '@sw1 the delivery driver claims he was at the bay ten minutes ago and nobody
+    answered — did the loading bay camera pick anyone up during that time?'
+  style: C
+- base_input: '@sw1 did anybody show up at the loading bay in the last 10 minutes?'
+  input: '@sw1 loadng bay anyone 10min?'
+  style: T
+- base_input: '@sw1 cam1 whats it seeing rn'
+  input: '@sw1 what''s the entrance camera got in front of it right now?'
+  style: A
+- base_input: '@sw1 cam1 whats it seeing rn'
+  input: Could you please take a live sample from camera1 on @sw1 and describe everything
+    it currently detects?
+  style: B
+- base_input: '@sw1 cam1 whats it seeing rn'
+  input: '@sw1 I''ve got a blank feed on the entrance monitor and can''t tell if it''s
+    the display or the camera — what is camera1 actually picking up at this moment?'
+  style: C
+- base_input: '@sw1 cam1 whats it seeing rn'
+  input: '@sw1 entrance cam live veiw'
+  style: T
+- base_input: '@sw1 is anyone at the loading bay with their right hand up right now?'
+  input: '@sw1 quick check — anybody at the loading bay holding up their right hand
+    at the moment?'
+  style: A
+- base_input: '@sw1 is anyone at the loading bay with their right hand up right now?'
+  input: Would you please sample the loading bay camera on @sw1 now and tell me whether
+    anyone is currently raising their right hand?
+  style: B
+- base_input: '@sw1 is anyone at the loading bay with their right hand up right now?'
+  input: '@sw1 the forklift driver''s supposed to signal me with his right hand when
+    the pallet''s ready — is he doing that at the loading bay right now?'
+  style: C
+- base_input: '@sw1 is anyone at the loading bay with their right hand up right now?'
+  input: '@sw1 loading bay rigth hand now'
+  style: T
+- base_input: '@sw1 a parcel went missing from the lobby this morning — did the entrance
+    camera catch anyone carrying a backpack or suitcase in the last 6 hours?'
+  input: '@sw1 has the entrance cam seen anyone with a backpack or a suitcase in the
+    last 6 hours?'
+  style: A
+- base_input: '@sw1 a parcel went missing from the lobby this morning — did the entrance
+    camera catch anyone carrying a backpack or suitcase in the last 6 hours?'
+  input: Could you please search the entrance camera's detection log on @sw1 for any
+    backpack or suitcase sightings during the past six hours?
+  style: B
+- base_input: '@sw1 a parcel went missing from the lobby this morning — did the entrance
+    camera catch anyone carrying a backpack or suitcase in the last 6 hours?'
+  input: '@sw1 reception says a delivery box vanished from the front desk sometime
+    after lunch — can you scan the entrance footage for backpacks or suitcases going
+    back 6 hours?'
+  style: C
+- base_input: '@sw1 a parcel went missing from the lobby this morning — did the entrance
+    camera catch anyone carrying a backpack or suitcase in the last 6 hours?'
+  input: '@sw1 entrance cam bakpack/suitcase 6h'
+  style: T
+- base_input: '@sw1 if the entrance is clear right now, cut PoE to the door camera
+    so the electrician can swap it'
+  input: '@sw1 check nobody''s at the entrance right now, and if it''s empty kill
+    PoE to the door cam so the sparky can swap it out'
+  style: A
+- base_input: '@sw1 if the entrance is clear right now, cut PoE to the door camera
+    so the electrician can swap it'
+  input: Could you please first confirm via the entrance camera on @sw1 that no one
+    is present at the door at this moment, and only then disable PoE on the door camera's
+    port so the electrician can replace the unit?
+  style: B
+- base_input: '@sw1 if the entrance is clear right now, cut PoE to the door camera
+    so the electrician can swap it'
+  input: '@sw1 the electrician is waiting to replace the door camera but I don''t
+    want to drop it while someone''s walking through — is the entrance empty right
+    now? If it is, pull the PoE on that camera''s port.'
+  style: C
+- base_input: '@sw1 if the entrance is clear right now, cut PoE to the door camera
+    so the electrician can swap it'
+  input: '@sw1 entrance cler? cut doorcam PoE'
+  style: T
+- base_input: '@sw1 has the entrance camera flagged a knife or scissors at any point
+    in the last 24 hours?'
+  input: '@sw1 has the entrance cam picked up a knife or scissors at all in the past
+    24 hrs?'
+  style: A
+- base_input: '@sw1 has the entrance camera flagged a knife or scissors at any point
+    in the last 24 hours?'
+  input: Would you please check the entrance camera's history on @sw1 for any detection
+    of a knife or a pair of scissors at any time during the last twenty-four hours?
+  style: B
+- base_input: '@sw1 has the entrance camera flagged a knife or scissors at any point
+    in the last 24 hours?'
+  input: '@sw1 HR is following up on an incident report from last night — we need
+    to know if the entrance camera ever logged a bladed object, knife or scissors,
+    over the last day'
+  style: C
+- base_input: '@sw1 has the entrance camera flagged a knife or scissors at any point
+    in the last 24 hours?'
+  input: '@sw1 entrance cam knife/sissors 24h'
+  style: T
+- base_input: '@sw1 would you sample both cameras for a moment and tell me what''s
+    in view?'
+  input: '@sw1 grab a quick look from both cams and tell me what''s out there'
+  style: A
+- base_input: '@sw1 would you sample both cameras for a moment and tell me what''s
+    in view?'
+  input: Could you please take a brief live sample from every camera connected to
+    @sw1 and summarise what each one currently sees?
+  style: B
+- base_input: '@sw1 would you sample both cameras for a moment and tell me what''s
+    in view?'
+  input: '@sw1 the alarm panel just chirped and I''m off site — can you peek through
+    all the cameras for a few seconds and tell me if anything''s going on?'
+  style: C
+- base_input: '@sw1 would you sample both cameras for a moment and tell me what''s
+    in view?'
+  input: '@sw1 all cams live smaple'
+  style: T
+- base_input: '@sw1 security wants to know if anyone raised their left hand at the
+    loading bay — that''s the help signal — anytime in the last 2 hours'
+  input: '@sw1 has anyone at the loading bay put their left hand up in the last 2
+    hours? that''s the distress signal'
+  style: A
+- base_input: '@sw1 security wants to know if anyone raised their left hand at the
+    loading bay — that''s the help signal — anytime in the last 2 hours'
+  input: Would you please query the loading bay camera's detection history on @sw1
+    for any left-hand-raised events over the past two hours?
+  style: B
+- base_input: '@sw1 security wants to know if anyone raised their left hand at the
+    loading bay — that''s the help signal — anytime in the last 2 hours'
+  input: '@sw1 the night-shift lead says one of the warehouse crew tried to call for
+    help at the bay earlier this evening — has the loading bay camera logged a raised
+    left hand at any time in the last 2 hours?'
+  style: C
+- base_input: '@sw1 security wants to know if anyone raised their left hand at the
+    loading bay — that''s the help signal — anytime in the last 2 hours'
+  input: '@sw1 loading bay lft hand 2h'
+  style: T
+- base_input: '@sw1 entrance cam last 5 min ppl?'
+  input: '@sw1 anyone come through the entrance in the last 5 mins?'
+  style: A
+- base_input: '@sw1 entrance cam last 5 min ppl?'
+  input: Could you please tell me whether the entrance camera on @sw1 has detected
+    any people during the last five minutes?
+  style: B
+- base_input: '@sw1 entrance cam last 5 min ppl?'
+  input: '@sw1 I heard the front door slam a moment ago but reception is empty — did
+    the entrance camera catch anybody in the past 5 minutes?'
+  style: C
+- base_input: '@sw1 entrance cam last 5 min ppl?'
+  input: '@sw1 entrance persn last 5m'
+  style: T
+- base_input: '@sw1 has a bike or motorbike been left at the entrance in the last
+    3 hours?'
+  input: '@sw1 any bikes or motorbikes turn up at the entrance in the last 3 hours?'
+  style: A
+- base_input: '@sw1 has a bike or motorbike been left at the entrance in the last
+    3 hours?'
+  input: Would you please check the entrance camera history on @sw1 for any bicycle
+    or motorcycle detections during the past three hours?
+  style: B
+- base_input: '@sw1 has a bike or motorbike been left at the entrance in the last
+    3 hours?'
+  input: '@sw1 facilities are complaining that someone keeps chaining a two-wheeler
+    to the front railings — did the entrance camera see a bicycle or motorcycle at
+    any point over the last 3 hours?'
+  style: C
+- base_input: '@sw1 has a bike or motorbike been left at the entrance in the last
+    3 hours?'
+  input: '@sw1 entrance bike/motorbke 3h'
+  style: T
+- base_input: '@sw1 lock in the current cable length on port 4 as its baseline'
+  input: '@sw1 go ahead and save port 4''s cable length as the baseline'
+  style: A
+- base_input: '@sw1 lock in the current cable length on port 4 as its baseline'
+  input: Could you please record the currently measured cable length on port 4 of
+    @sw1 as its reference baseline?
+  style: B
+- base_input: '@sw1 lock in the current cable length on port 4 as its baseline'
+  input: '@sw1 the drop on port 4 is finally clean after the re-termination — I want
+    its length on file so any future fault shows up as a distance change'
+  style: C
+- base_input: '@sw1 lock in the current cable length on port 4 as its baseline'
+  input: '@sw1 baseline cbl port 4'
+  style: T
+- base_input: '@sw1 the new run to the lobby AP is terminated and tested clean — could
+    you please store the reference cable length for port 9?'
+  input: '@sw1 the lobby AP cable on port 9 is all good now — save its length as the
+    reference'
+  style: A
+- base_input: '@sw1 the new run to the lobby AP is terminated and tested clean — could
+    you please store the reference cable length for port 9?'
+  input: Now that the new cable run to the lobby access point has been terminated
+    and tested, would you kindly calibrate the cable-length baseline for port 9 on
+    @sw1?
+  style: B
+- base_input: '@sw1 the new run to the lobby AP is terminated and tested clean — could
+    you please store the reference cable length for port 9?'
+  input: '@sw1 the installers signed off on the lobby AP drop this morning and the
+    link on port 9 is solid — let''s capture that as the known-good reading before
+    anyone touches the patch panel again'
+  style: C
+- base_input: '@sw1 the new run to the lobby AP is terminated and tested clean — could
+    you please store the reference cable length for port 9?'
+  input: '@sw1 calibrte port 9 cable'
+  style: T
+- base_input: '@sw1 baseline the cable on 11'
+  input: '@sw1 can you set the cable baseline for port 11?'
+  style: A
+- base_input: '@sw1 baseline the cable on 11'
+  input: Would you please establish a cable-length reference for port 11 on @sw1?
+  style: B
+- base_input: '@sw1 baseline the cable on 11'
+  input: '@sw1 port 11 is healthy and we''ve never recorded a reference length for
+    it, so diagnostics can''t tell where a break is — fix that'
+  style: C
+- base_input: '@sw1 baseline the cable on 11'
+  input: '@sw1 store cable baseline prt 11'
+  style: T
+- base_input: '@sw1 would you kindly calibrate the cable-length reference on port
+    2 now that the link is healthy?'
+  input: '@sw1 port 2''s link is fine now, so calibrate the cable length reference
+    for it'
+  style: A
+- base_input: '@sw1 would you kindly calibrate the cable-length reference on port
+    2 now that the link is healthy?'
+  input: Since the link on port 2 is now healthy, could you please take a fresh cable-length
+    calibration and store it as the reference for that port on @sw1?
+  style: B
+- base_input: '@sw1 would you kindly calibrate the cable-length reference on port
+    2 now that the link is healthy?'
+  input: '@sw1 port 2 came back clean after we replaced the faceplate — it''d be good
+    to have a reference length on record while it''s known-good'
+  style: C
+- base_input: '@sw1 would you kindly calibrate the cable-length reference on port
+    2 now that the link is healthy?'
+  input: '@sw1 calib cable port 2'
+  style: T
+- base_input: '@sw1 we just swapped the patch lead to the printer on port 6, so the
+    old reference length is wrong — redo the baseline'
+  input: '@sw1 new patch cable to the printer on port 6, so the old baseline''s junk
+    — re-baseline it'
+  style: A
+- base_input: '@sw1 we just swapped the patch lead to the printer on port 6, so the
+    old reference length is wrong — redo the baseline'
+  input: We replaced the patch lead feeding the printer on port 6 of @sw1, which invalidates
+    the stored reference length; could you please recalibrate the cable baseline for
+    that port?
+  style: B
+- base_input: '@sw1 we just swapped the patch lead to the printer on port 6, so the
+    old reference length is wrong — redo the baseline'
+  input: '@sw1 diagnostics on port 6 keep reporting the cable as shorter than expected
+    ever since we re-cabled the printer — the reference is stale, refresh it'
+  style: C
+- base_input: '@sw1 we just swapped the patch lead to the printer on port 6, so the
+    old reference length is wrong — redo the baseline'
+  input: '@sw1 re-baseline cabel port 6'
+  style: T
+- base_input: '@sw1 calibrat cable ref port 3'
+  input: '@sw1 grab a reference length off port 3 while it''s happy'
+  style: A
+- base_input: '@sw1 calibrat cable ref port 3'
+  input: Would you be so kind as to run the cable baseline calibration on port 3 of
+    @sw1 and keep the result as the reference?
+  style: B
+- base_input: '@sw1 calibrat cable ref port 3'
+  input: '@sw1 we''ve just landed the new drop on port 3 and the tester gave it a
+    pass — get a reference length stored so future breaks can be located'
+  style: C
+- base_input: '@sw1 calibrat cable ref port 3'
+  input: '@sw1 port 3 cable baseline pls'
+  style: T
+- base_input: '@sw1 before the camera on 12 goes live I want a known-good cable reading
+    saved so we can find breaks later'
+  input: '@sw1 save a known-good cable reading for port 12 before we bring the camera
+    up'
+  style: A
+- base_input: '@sw1 before the camera on 12 goes live I want a known-good cable reading
+    saved so we can find breaks later'
+  input: Ahead of commissioning the camera on port 12, would you please store a baseline
+    cable-length measurement for that port on @sw1 so that later faults can be located?
+  style: B
+- base_input: '@sw1 before the camera on 12 goes live I want a known-good cable reading
+    saved so we can find breaks later'
+  input: '@sw1 the camera on port 12 is going into a ceiling void nobody can reach
+    — once it''s up I need to be able to tell near-end from far-end faults, so record
+    the healthy length now'
+  style: C
+- base_input: '@sw1 before the camera on 12 goes live I want a known-good cable reading
+    saved so we can find breaks later'
+  input: '@sw1 cble baseline port 12'
+  style: T
+- base_input: '@sw1 what went on with port 5 overnight?'
+  input: '@sw1 anything happen on port 5 while we were all asleep last night?'
+  style: A
+- base_input: '@sw1 what went on with port 5 overnight?'
+  input: Could you please review the event history for port 5 on @sw1 and tell me
+    what occurred there overnight?
+  style: B
+- base_input: '@sw1 what went on with port 5 overnight?'
+  input: '@sw1 the workstation on port 5 was fine when I left yesterday evening and
+    now it''s got no link — walk me through what the port logged overnight'
+  style: C
+- base_input: '@sw1 what went on with port 5 overnight?'
+  input: '@sw1 port 5 ovrnight events'
+  style: T
+- base_input: '@sw1 port 2 syslog 6h'
+  input: '@sw1 show me what''s been logged on port 2 over the last 6 hours'
+  style: A
+- base_input: '@sw1 port 2 syslog 6h'
+  input: Would you please pull the syslog entries for port 2 on @sw1 covering the
+    past six hours?
+  style: B
+- base_input: '@sw1 port 2 syslog 6h'
+  input: '@sw1 the AP on port 2 has been dropping clients on and off since lunchtime
+    — what does the port''s log say for the last 6 hours?'
+  style: C
+- base_input: '@sw1 port 2 syslog 6h'
+  input: '@sw1 port 2 evnt log 6h'
+  style: T
+- base_input: '@sw1 the phone on port 11 dropped a call about 20 minutes ago — was
+    that us?'
+  input: '@sw1 the desk phone on port 11 cut out mid-call about 20 mins ago — did
+    the port blip?'
+  style: A
+- base_input: '@sw1 the phone on port 11 dropped a call about 20 minutes ago — was
+    that us?'
+  input: Approximately twenty minutes ago the phone on port 11 of @sw1 lost an active
+    call; could you please check whether the port experienced any link or power event
+    at that time?
+  style: B
+- base_input: '@sw1 the phone on port 11 dropped a call about 20 minutes ago — was
+    that us?'
+  input: '@sw1 someone in accounts is blaming the network for a dropped call on the
+    port 11 handset roughly 20 minutes back — I need to know if the switch is the
+    culprit'
+  style: C
+- base_input: '@sw1 the phone on port 11 dropped a call about 20 minutes ago — was
+    that us?'
+  input: '@sw1 prt 11 phone dropped 20m'
+  style: T
+- base_input: '@sw1 show all ports status'
+  input: '@sw1 what''s the state of all the ports right now?'
+  style: A
+- base_input: '@sw1 show all ports status'
+  input: Could you please give me the link status of every port on @sw1?
+  style: B
+- base_input: '@sw1 show all ports status'
+  input: '@sw1 we just moved the rack — I want to confirm everything came back, give
+    me a run-down of every port.'
+  style: C
+- base_input: '@sw1 show all ports status'
+  input: '@sw1 all prts status'
+  style: T
+- base_input: '@sw1 show port 5 status'
+  input: '@sw1 how''s port 5 doing?'
+  style: A
+- base_input: '@sw1 show port 5 status'
+  input: Please show me the current link status for port 5 on @sw1.
+  style: B
+- base_input: '@sw1 show port 5 status'
+  input: '@sw1 I just plugged the new AP into port 5 — did it come up, and at what
+    speed?'
+  style: C
+- base_input: '@sw1 show port 5 status'
+  input: '@sw1 port 5 stat'
+  style: T
+- base_input: '@sw1 show system info'
+  input: '@sw1 gimme the system info'
+  style: A
+- base_input: '@sw1 show system info'
+  input: Would you please display the system information for @sw1?
+  style: B
+- base_input: '@sw1 show system info'
+  input: '@sw1 I''m filling in the asset register — what model and firmware is this
+    switch running?'
+  style: C
+- base_input: '@sw1 show system info'
+  input: '@sw1 sys info pls'
+  style: T
+- base_input: '@sw1 show poe status port 3'
+  input: '@sw1 what''s poe looking like on port 3?'
+  style: A
+- base_input: '@sw1 show poe status port 3'
+  input: Could you please show me the PoE power status for port 3 on @sw1?
+  style: B
+- base_input: '@sw1 show poe status port 3'
+  input: '@sw1 the phone on port 3 just got plugged in — how much power is it actually
+    drawing?'
+  style: C
+- base_input: '@sw1 show poe status port 3'
+  input: '@sw1 poe stat prt 3'
+  style: T
+- base_input: '@sw1 show vlan config'
+  input: '@sw1 show me the vlan setup'
+  style: A
+- base_input: '@sw1 show vlan config'
+  input: Please display the per-port VLAN configuration on @sw1.
+  style: B
+- base_input: '@sw1 show vlan config'
+  input: '@sw1 before the migration I need to audit the PVID and tagging on each port
+    — pull the VLAN config.'
+  style: C
+- base_input: '@sw1 show vlan config'
+  input: '@sw1 vlan cfg'
+  style: T
+- base_input: '@sw1 display port 2 details'
+  input: '@sw1 what''ve you got on port 2?'
+  style: A
+- base_input: '@sw1 display port 2 details'
+  input: Would you kindly show me the details for port 2 on @sw1?
+  style: B
+- base_input: '@sw1 display port 2 details'
+  input: '@sw1 somebody moved a desk onto port 2 today — let me see what that port
+    is doing.'
+  style: C
+- base_input: '@sw1 display port 2 details'
+  input: '@sw1 prt 2 detials'
+  style: T
+- base_input: '@sw1 get interface 8 status'
+  input: '@sw1 is interface 8 up?'
+  style: A
+- base_input: '@sw1 get interface 8 status'
+  input: Could you retrieve the status of interface 8 on @sw1, please?
+  style: B
+- base_input: '@sw1 get interface 8 status'
+  input: '@sw1 the printer on interface 8 was just cabled in — check whether the link
+    is up.'
+  style: C
+- base_input: '@sw1 get interface 8 status'
+  input: '@sw1 int 8 status'
+  style: T
+- base_input: '@sw1 show poe power budget'
+  input: '@sw1 how much poe power do we have left?'
+  style: A
+- base_input: '@sw1 show poe power budget'
+  input: Please show me the PoE power budget for @sw1 — total, used, and available.
+  style: B
+- base_input: '@sw1 show poe power budget'
+  input: '@sw1 I''m about to hang three more cameras off this switch — how much PoE
+    headroom is there?'
+  style: C
+- base_input: '@sw1 show poe power budget'
+  input: '@sw1 poe budgt'
+  style: T
+- base_input: '@sw1 show port 1 status'
+  input: '@sw1 check port 1 for me'
+  style: A
+- base_input: '@sw1 show port 1 status'
+  input: Could you please report the link status of port 1 on @sw1?
+  style: B
+- base_input: '@sw1 show port 1 status'
+  input: '@sw1 port 1 is the uplink — confirm it''s up and what speed it negotiated.'
+  style: C
+- base_input: '@sw1 show port 1 status'
+  input: '@sw1 show prt 1'
+  style: T
+- base_input: '@sw1 show port 10 status'
+  input: '@sw1 how''s port 10 looking?'
+  style: A
+- base_input: '@sw1 show port 10 status'
+  input: Please give me the current status of port 10 on @sw1.
+  style: B
+- base_input: '@sw1 show port 10 status'
+  input: '@sw1 the NVR is on port 10 — I want to see its link state and speed before
+    the recording test.'
+  style: C
+- base_input: '@sw1 show port 10 status'
+  input: '@sw1 port 10 sts'
+  style: T
+- base_input: '@sw1 show poe status port 7'
+  input: '@sw1 is port 7 getting poe power?'
+  style: A
+- base_input: '@sw1 show poe status port 7'
+  input: Would you please show me the PoE status and current power draw on port 7
+    of @sw1?
+  style: B
+- base_input: '@sw1 show poe status port 7'
+  input: '@sw1 the camera on port 7 was swapped this morning — what''s it pulling
+    on PoE now?'
+  style: C
+- base_input: '@sw1 show poe status port 7'
+  input: '@sw1 poe port 7 pwr'
+  style: T
+- base_input: '@sw1 display system information'
+  input: '@sw1 what model and version are you?'
+  style: A
+- base_input: '@sw1 display system information'
+  input: I'd appreciate it if you could show me the system details for @sw1 — model,
+    version and uptime.
+  style: B
+- base_input: '@sw1 display system information'
+  input: '@sw1 support wants the firmware version and uptime for the ticket — can
+    you pull that up?'
+  style: C
+- base_input: '@sw1 display system information'
+  input: '@sw1 sysinfo'
+  style: T
+- base_input: '@sw1 get all ports'
+  input: '@sw1 list all the ports'
+  style: A
+- base_input: '@sw1 get all ports'
+  input: Could you list every port on @sw1 with its status, please?
+  style: B
+- base_input: '@sw1 get all ports'
+  input: '@sw1 I''m doing the weekly check — give me a snapshot of all the ports.'
+  style: C
+- base_input: '@sw1 get all ports'
+  input: '@sw1 lst all ports'
+  style: T
+- base_input: '@sw1 show interface 6 status'
+  input: '@sw1 what''s interface 6 doing?'
+  style: A
+- base_input: '@sw1 show interface 6 status'
+  input: I'd like to see the current operational state of interface 6 on @sw1, please.
+  style: B
+- base_input: '@sw1 show interface 6 status'
+  input: '@sw1 the conference room drop lands on interface 6 — check whether it''s
+    linked up.'
+  style: C
+- base_input: '@sw1 show interface 6 status'
+  input: '@sw1 iface 6 status'
+  style: T
+- base_input: '@sw1 show port 4 poe'
+  input: '@sw1 what''s the poe on port 4?'
+  style: A
+- base_input: '@sw1 show port 4 poe'
+  input: I'd like to know the PoE status of port 4 on @sw1 — is it powered and how
+    many watts?
+  style: B
+- base_input: '@sw1 show port 4 poe'
+  input: '@sw1 the AP on port 4 should be running on PoE+ — what is it actually drawing?'
+  style: C
+- base_input: '@sw1 show port 4 poe'
+  input: '@sw1 prt 4 poe'
+  style: T
+- base_input: '@sw1 display vlan configuration'
+  input: '@sw1 show me how the vlans are set up on the ports'
+  style: A
+- base_input: '@sw1 display vlan configuration'
+  input: Could you please show me the detailed VLAN configuration for each port on
+    @sw1?
+  style: B
+- base_input: '@sw1 display vlan configuration'
+  input: '@sw1 I need to see how each port is tagged before I re-patch the printers
+    — show me the VLAN configuration.'
+  style: C
+- base_input: '@sw1 display vlan configuration'
+  input: '@sw1 vlan configuraton'
+  style: T
+- base_input: '@sw1 show port 9 details'
+  input: '@sw1 pull up port 9'
+  style: A
+- base_input: '@sw1 show port 9 details'
+  input: Please provide the details for port 9 on @sw1.
+  style: B
+- base_input: '@sw1 show port 9 details'
+  input: '@sw1 the new desk phone is on port 9 — let me see the port''s link and speed.'
+  style: C
+- base_input: '@sw1 show port 9 details'
+  input: '@sw1 port 9 dtls'
+  style: T
+- base_input: '@sw1 get poe budget'
+  input: '@sw1 how''s the poe budget?'
+  style: A
+- base_input: '@sw1 get poe budget'
+  input: Would you please retrieve the PoE power budget for @sw1?
+  style: B
+- base_input: '@sw1 get poe budget'
+  input: '@sw1 planning the phone rollout — tell me the switch''s total PoE capacity
+    and how much is already committed.'
+  style: C
+- base_input: '@sw1 get poe budget'
+  input: '@sw1 pwr budget'
+  style: T
+- base_input: '@sw1 show interface 12 status'
+  input: '@sw1 is interface 12 up or down?'
+  style: A
+- base_input: '@sw1 show interface 12 status'
+  input: Could you please display the status of interface 12 on @sw1?
+  style: B
+- base_input: '@sw1 show interface 12 status'
+  input: '@sw1 interface 12 is the last free drop — check whether anything is linked
+    on it.'
+  style: C
+- base_input: '@sw1 show interface 12 status'
+  input: '@sw1 intf 12 stat'
+  style: T
+- base_input: '@sw1 show all interfaces'
+  input: '@sw1 show me all the interfaces'
+  style: A
+- base_input: '@sw1 show all interfaces'
+  input: Please list all interfaces on @sw1 along with their current state.
+  style: B
+- base_input: '@sw1 show all interfaces'
+  input: '@sw1 I''m mapping what''s live on the switch — give me every interface and
+    its state.'
+  style: C
+- base_input: '@sw1 show all interfaces'
+  input: '@sw1 all intfs'
+  style: T
+- base_input: '@sw1 enable port 3'
+  input: '@sw1 turn port 3 back on'
+  style: A
+- base_input: '@sw1 enable port 3'
+  input: Could you please enable port 3 on @sw1?
+  style: B
+- base_input: '@sw1 enable port 3'
+  input: '@sw1 port 3 was shut for the office move — the desk is back in use, bring
+    it up.'
+  style: C
+- base_input: '@sw1 enable port 3'
+  input: '@sw1 enbl port 3'
+  style: T
+- base_input: '@sw1 disable port 7'
+  input: '@sw1 shut port 7'
+  style: A
+- base_input: '@sw1 disable port 7'
+  input: Please administratively disable port 7 on @sw1.
+  style: B
+- base_input: '@sw1 disable port 7'
+  input: '@sw1 there''s an unknown device on port 7 — take that port completely off
+    the network.'
+  style: C
+- base_input: '@sw1 disable port 7'
+  input: '@sw1 disble prt 7'
+  style: T
+- base_input: '@sw1 enable poe on port 4'
+  input: '@sw1 switch poe back on for port 4'
+  style: A
+- base_input: '@sw1 enable poe on port 4'
+  input: Would you please enable PoE power delivery on port 4 of @sw1?
+  style: B
+- base_input: '@sw1 enable poe on port 4'
+  input: '@sw1 the camera on port 4 has no power because PoE was turned off there
+    — restore power delivery.'
+  style: C
+- base_input: '@sw1 disable poe on port 2'
+  input: '@sw1 kill the poe on port 2'
+  style: A
+- base_input: '@sw1 disable poe on port 2'
+  input: Could you please disable PoE power on port 2 of @sw1, leaving the data link
+    up?
+  style: B
+- base_input: '@sw1 disable poe on port 2'
+  input: '@sw1 the AP on port 2 is being replaced with a non-PoE device — stop supplying
+    power there but keep the link.'
+  style: C
+- base_input: '@sw1 disable poe on port 2'
+  input: '@sw1 poe off prt 2'
+  style: T
+- base_input: '@sw1 turn on port 6'
+  input: '@sw1 bring port 6 up'
+  style: A
+- base_input: '@sw1 turn on port 6'
+  input: Please turn on port 6 on @sw1.
+  style: B
+- base_input: '@sw1 turn on port 6'
+  input: '@sw1 the printer on port 6 got moved back — re-enable that port so it can
+    connect.'
+  style: C
+- base_input: '@sw1 turn on port 6'
+  input: '@sw1 prt 6 up pls'
+  style: T
+- base_input: '@sw1 turn off port 9'
+  input: '@sw1 take port 9 down'
+  style: A
+- base_input: '@sw1 turn off port 9'
+  input: Could you please turn off port 9 on @sw1?
+  style: B
+- base_input: '@sw1 turn off port 9'
+  input: '@sw1 port 9 is a rogue hub someone plugged in — shut the interface down.'
+  style: C
+- base_input: '@sw1 turn off port 9'
+  input: '@sw1 shutdwn port 9'
+  style: T
+- base_input: '@sw1 activate interface 1'
+  input: '@sw1 bring up interface 1'
+  style: A
+- base_input: '@sw1 activate interface 1'
+  input: Would you kindly activate interface 1 on @sw1?
+  style: B
+- base_input: '@sw1 activate interface 1'
+  input: '@sw1 interface 1 was left shut after the audit — the workstation is back,
+    bring it up.'
+  style: C
+- base_input: '@sw1 activate interface 1'
+  input: '@sw1 activte int 1'
+  style: T
+- base_input: '@sw1 deactivate interface 5'
+  input: '@sw1 shut interface 5 off'
+  style: A
+- base_input: '@sw1 deactivate interface 5'
+  input: Please deactivate interface 5 on @sw1.
+  style: B
+- base_input: '@sw1 deactivate interface 5'
+  input: '@sw1 nobody''s using the drop on interface 5 anymore — shut that interface
+    so nothing can connect.'
+  style: C
+- base_input: '@sw1 deactivate interface 5'
+  input: '@sw1 int 5 shutdown'
+  style: T
+- base_input: '@sw1 enable port 8'
+  input: '@sw1 get port 8 going again'
+  style: A
+- base_input: '@sw1 enable port 8'
+  input: Could you please bring port 8 on @sw1 back into service?
+  style: B
+- base_input: '@sw1 enable port 8'
+  input: '@sw1 port 8 was disabled during the security sweep — the device has been
+    cleared, re-enable it.'
+  style: C
+- base_input: '@sw1 enable port 8'
+  input: '@sw1 enable prt 8'
+  style: T
+- base_input: '@sw1 disable port 10'
+  input: '@sw1 shut down port 10'
+  style: A
+- base_input: '@sw1 disable port 10'
+  input: Would you please disable port 10 on @sw1?
+  style: B
+- base_input: '@sw1 disable port 10'
+  input: '@sw1 port 10 is being decommissioned — take the interface out of service.'
+  style: C
+- base_input: '@sw1 disable port 10'
+  input: '@sw1 port 10 dsable'
+  style: T
+- base_input: '@sw1 enable poe port 12'
+  input: '@sw1 turn poe on for port 12'
+  style: A
+- base_input: '@sw1 enable poe port 12'
+  input: Please enable PoE on port 12 of @sw1.
+  style: B
+- base_input: '@sw1 enable poe port 12'
+  input: '@sw1 I''m putting a PoE camera on port 12 and power is currently off there
+    — switch PoE on.'
+  style: C
+- base_input: '@sw1 enable poe port 12'
+  input: '@sw1 poe enbl prt 12'
+  style: T
+- base_input: '@sw1 disable poe port 11'
+  input: '@sw1 cut poe on port 11'
+  style: A
+- base_input: '@sw1 disable poe port 11'
+  input: Could you please turn off PoE power delivery on port 11 of @sw1?
+  style: B
+- base_input: '@sw1 disable poe port 11'
+  input: '@sw1 the phone on port 11 is going away and the port keeps its data link
+    — just stop PoE power.'
+  style: C
+- base_input: '@sw1 turn on interface 3'
+  input: '@sw1 flip interface 3 on'
+  style: A
+- base_input: '@sw1 turn on interface 3'
+  input: Would you please turn on interface 3 on @sw1?
+  style: B
+- base_input: '@sw1 turn on interface 3'
+  input: '@sw1 interface 3 got shut during the incident yesterday — we''re clear now,
+    bring it back.'
+  style: C
+- base_input: '@sw1 turn on interface 3'
+  input: '@sw1 int 3 on'
+  style: T
+- base_input: '@sw1 turn off interface 4'
+  input: '@sw1 turn interface 4 off'
+  style: A
+- base_input: '@sw1 turn off interface 4'
+  input: Please turn off interface 4 on @sw1.
+  style: B
+- base_input: '@sw1 turn off interface 4'
+  input: '@sw1 the device on interface 4 is spamming the network — shut that interface
+    right now.'
+  style: C
+- base_input: '@sw1 turn off interface 4'
+  input: '@sw1 intf 4 off'
+  style: T
+- base_input: '@sw1 activate port 2'
+  input: '@sw1 fire up port 2'
+  style: A
+- base_input: '@sw1 activate port 2'
+  input: Could you activate port 2 on @sw1, please?
+  style: B
+- base_input: '@sw1 activate port 2'
+  input: '@sw1 we''ve got a new hire starting at the desk on port 2 — bring that port
+    up.'
+  style: C
+- base_input: '@sw1 activate port 2'
+  input: '@sw1 actvate port 2'
+  style: T
+- base_input: '@sw1 set port 2 speed to 1000'
+  input: '@sw1 bump port 2 up to gig'
+  style: A
+- base_input: '@sw1 set port 2 speed to 1000'
+  input: Please set the speed of port 2 on @sw1 to 1000 Mbps.
+  style: B
+- base_input: '@sw1 set port 2 speed to 1000'
+  input: '@sw1 the NAS on port 2 is stuck at a lower rate — force the port to gigabit.'
+  style: C
+- base_input: '@sw1 set port 2 speed to 1000'
+  input: '@sw1 prt 2 spd 1000'
+  style: T
+- base_input: '@sw1 set port 5 speed to auto'
+  input: '@sw1 put port 5 back on auto speed'
+  style: A
+- base_input: '@sw1 set port 5 speed to auto'
+  input: Could you please configure port 5 on @sw1 to auto-negotiate its speed?
+  style: B
+- base_input: '@sw1 set port 5 speed to auto'
+  input: '@sw1 port 5 was hard-set for the old scanner — let it negotiate speed on
+    its own again.'
+  style: C
+- base_input: '@sw1 set port 5 speed to auto'
+  input: '@sw1 port 5 spd auto'
+  style: T
+- base_input: '@sw1 set port 3 duplex to full'
+  input: '@sw1 make port 3 full duplex'
+  style: A
+- base_input: '@sw1 set port 3 duplex to full'
+  input: Would you please set the duplex mode on port 3 of @sw1 to full?
+  style: B
+- base_input: '@sw1 set port 3 duplex to full'
+  input: '@sw1 the device on port 3 is fixed at full duplex — match it on the switch
+    side.'
+  style: C
+- base_input: '@sw1 set port 3 duplex to full'
+  input: '@sw1 prt 3 dplx full'
+  style: T
+- base_input: '@sw1 configure port 7 speed 100'
+  input: '@sw1 drop port 7 to 100 meg'
+  style: A
+- base_input: '@sw1 configure port 7 speed 100'
+  input: Please configure port 7 on @sw1 with a speed of 100 Mbps.
+  style: B
+- base_input: '@sw1 configure port 7 speed 100'
+  input: '@sw1 the printer on port 7 only links reliably at fast ethernet — pin the
+    port to 100.'
+  style: C
+- base_input: '@sw1 configure port 7 speed 100'
+  input: '@sw1 port 7 spd 100'
+  style: T
+- base_input: '@sw1 set interface 4 duplex half'
+  input: Could you please set interface 4 on @sw1 to half duplex?
+  style: B
+- base_input: '@sw1 set interface 4 duplex half'
+  input: '@sw1 the legacy controller on interface 4 only talks half duplex — configure
+    the interface to match.'
+  style: C
+- base_input: '@sw1 set interface 4 duplex half'
+  input: '@sw1 int 4 half dplx'
+  style: T
+- base_input: '@sw1 change port 8 speed to 10'
+  input: '@sw1 knock port 8 down to 10 meg'
+  style: A
+- base_input: '@sw1 change port 8 speed to 10'
+  input: Would you please change the speed of port 8 on @sw1 to 10 Mbps?
+  style: B
+- base_input: '@sw1 change port 8 speed to 10'
+  input: '@sw1 the old badge reader on port 8 can only do 10 Mbps — set the port to
+    that.'
+  style: C
+- base_input: '@sw1 change port 8 speed to 10'
+  input: '@sw1 prt 8 speed 10'
+  style: T
+- base_input: '@sw1 set port 1 speed 1000'
+  input: '@sw1 set port 1 to gigabit'
+  style: A
+- base_input: '@sw1 set port 1 speed 1000'
+  input: Please configure port 1 on @sw1 for 1000 Mbps.
+  style: B
+- base_input: '@sw1 set port 1 speed 1000'
+  input: '@sw1 port 1 is the uplink to the core and it''s negotiating slow — lock
+    it at 1000.'
+  style: C
+- base_input: '@sw1 set port 1 speed 1000'
+  input: '@sw1 port 1 1000 spd'
+  style: T
+- base_input: '@sw1 configure port 6 duplex full'
+  input: '@sw1 switch port 6 to full duplex'
+  style: A
+- base_input: '@sw1 configure port 6 duplex full'
+  input: Could you configure port 6 on @sw1 with full duplex, please?
+  style: B
+- base_input: '@sw1 configure port 6 duplex full'
+  input: '@sw1 the NVR on port 6 is set to full duplex and won''t auto-negotiate —
+    set the port the same way.'
+  style: C
+- base_input: '@sw1 configure port 6 duplex full'
+  input: '@sw1 prt 6 full duplx'
+  style: T
+- base_input: '@sw1 set interface 9 speed auto'
+  input: '@sw1 let interface 9 auto-negotiate speed'
+  style: A
+- base_input: '@sw1 set interface 9 speed auto'
+  input: Please set interface 9 on @sw1 to automatic speed negotiation.
+  style: B
+- base_input: '@sw1 set interface 9 speed auto'
+  input: '@sw1 interface 9 was pinned at a fixed rate for testing — put speed back
+    to auto.'
+  style: C
+- base_input: '@sw1 set interface 9 speed auto'
+  input: '@sw1 int 9 spd auto'
+  style: T
+- base_input: '@sw1 change interface 10 duplex half'
+  input: '@sw1 flip interface 10 to half duplex'
+  style: A
+- base_input: '@sw1 change interface 10 duplex half'
+  input: Would you please change the duplex setting on interface 10 of @sw1 to half?
+  style: B
+- base_input: '@sw1 change interface 10 duplex half'
+  input: '@sw1 the vendor''s serial gateway on interface 10 only supports half duplex
+    — set the interface to that.'
+  style: C
+- base_input: '@sw1 change interface 10 duplex half'
+  input: '@sw1 intf 10 dup half'
+  style: T
+- base_input: '@sw1 set port 11 speed to 100'
+  input: '@sw1 lock port 11 at 100'
+  style: A
+- base_input: '@sw1 set port 11 speed to 100'
+  input: Could you please set the speed of port 11 on @sw1 to 100 Mbps?
+  style: B
+- base_input: '@sw1 set port 11 speed to 100'
+  input: '@sw1 the phone on port 11 is a 100 meg unit — fix the port speed to 100.'
+  style: C
+- base_input: '@sw1 set port 11 speed to 100'
+  input: '@sw1 prt 11 to 100mb'
+  style: T
+- base_input: '@sw1 configure interface 12 speed 10'
+  input: '@sw1 set interface 12 down to 10 meg'
+  style: A
+- base_input: '@sw1 configure interface 12 speed 10'
+  input: Please configure interface 12 on @sw1 with a fixed speed of 10 Mbps.
+  style: B
+- base_input: '@sw1 configure interface 12 speed 10'
+  input: '@sw1 the sensor gateway on interface 12 tops out at 10 Mbps — configure
+    the interface for that rate.'
+  style: C
+- base_input: '@sw1 configure interface 12 speed 10'
+  input: '@sw1 int 12 speed 10'
+  style: T
+- base_input: '@sw1 set port 5 duplex full'
+  input: '@sw1 port 5 to full duplex please'
+  style: A
+- base_input: '@sw1 set port 5 duplex full'
+  input: Would you kindly set port 5 on @sw1 to full duplex?
+  style: B
+- base_input: '@sw1 set port 5 duplex full'
+  input: '@sw1 the workstation on port 5 is manually set to full — make the port full
+    duplex too.'
+  style: C
+- base_input: '@sw1 set port 5 duplex full'
+  input: '@sw1 port 5 dplx ful'
+  style: T
+- base_input: '@sw1 change port 7 speed auto'
+  input: '@sw1 stop forcing the speed on port 7, go auto'
+  style: A
+- base_input: '@sw1 change port 7 speed auto'
+  input: Could you please change port 7 on @sw1 back to automatic speed?
+  style: B
+- base_input: '@sw1 change port 7 speed auto'
+  input: '@sw1 the printer on port 7 got replaced with a gigabit one — let the port
+    auto-negotiate speed again.'
+  style: C
+- base_input: '@sw1 change port 7 speed auto'
+  input: '@sw1 prt 7 autoneg spd'
+  style: T
+- base_input: '@sw1 set interface 3 duplex half'
+  input: '@sw1 go half duplex on interface 3'
+  style: A
+- base_input: '@sw1 set interface 3 duplex half'
+  input: Please set interface 3 on @sw1 to half duplex mode.
+  style: B
+- base_input: '@sw1 set interface 3 duplex half'
+  input: '@sw1 the ancient print server on interface 3 only does half duplex — set
+    the interface accordingly.'
+  style: C
+- base_input: '@sw1 set interface 3 duplex half'
+  input: '@sw1 int 3 hlf duplex'
+  style: T
+- base_input: '@sw1 set poe power limit to 25W on port 5'
+  input: '@sw1 cap poe on port 5 at 25 watts'
+  style: A
+- base_input: '@sw1 set poe power limit to 25W on port 5'
+  input: Could you please set the PoE power limit on port 5 of @sw1 to 25 watts?
+  style: B
+- base_input: '@sw1 set poe power limit to 25W on port 5'
+  input: '@sw1 the camera on port 5 shouldn''t be allowed more than 25W — put a limit
+    there.'
+  style: C
+- base_input: '@sw1 set poe power limit to 25W on port 5'
+  input: '@sw1 poe lmt 25w prt 5'
+  style: T
+- base_input: '@sw1 assign port 2 to vlan 10'
+  input: '@sw1 stick port 2 in vlan 10'
+  style: A
+- base_input: '@sw1 assign port 2 to vlan 10'
+  input: Please assign port 2 on @sw1 to VLAN 10 as an access port.
+  style: B
+- base_input: '@sw1 assign port 2 to vlan 10'
+  input: '@sw1 port 2 is going to the guest desk — move it into VLAN 10.'
+  style: C
+- base_input: '@sw1 assign port 2 to vlan 10'
+  input: '@sw1 prt 2 vlan 10'
+  style: T
+- base_input: '@sw1 set port 6 description Front Door Camera'
+  input: '@sw1 label port 6 Front Door Camera'
+  style: A
+- base_input: '@sw1 set port 6 description Front Door Camera'
+  input: Would you please set the description of port 6 on @sw1 to Front Door Camera?
+  style: B
+- base_input: '@sw1 set port 6 description Front Door Camera'
+  input: '@sw1 so the next tech knows what''s on port 6, tag it with the description
+    Front Door Camera.'
+  style: C
+- base_input: '@sw1 set port 6 description Front Door Camera'
+  input: '@sw1 prt 6 desc Front Door Camera'
+  style: T
+- base_input: '@sw1 configure vlan 20 on port 3'
+  input: '@sw1 put port 3 on vlan 20'
+  style: A
+- base_input: '@sw1 configure vlan 20 on port 3'
+  input: Could you please configure port 3 on @sw1 as an access port in VLAN 20?
+  style: B
+- base_input: '@sw1 configure vlan 20 on port 3'
+  input: '@sw1 port 3 vlan 20 cfg'
+  style: T
+- base_input: '@sw1 set poe limit 30 watts port 7'
+  input: '@sw1 give port 7 the full 30 watts of poe'
+  style: A
+- base_input: '@sw1 set poe limit 30 watts port 7'
+  input: Please set the PoE power limit for port 7 on @sw1 to 30 watts.
+  style: B
+- base_input: '@sw1 set poe limit 30 watts port 7'
+  input: '@sw1 the PTZ camera on port 7 needs the maximum PoE allowance — raise its
+    limit to 30W.'
+  style: C
+- base_input: '@sw1 set poe limit 30 watts port 7'
+  input: '@sw1 poe max 30w prt 7'
+  style: T
+- base_input: '@sw1 set port 4 description Server Room Switch'
+  input: '@sw1 name port 4 Server Room Switch'
+  style: A
+- base_input: '@sw1 set port 4 description Server Room Switch'
+  input: Could you please set the port description on port 4 of @sw1 to Server Room
+    Switch?
+  style: B
+- base_input: '@sw1 set port 4 description Server Room Switch'
+  input: '@sw1 port 4 is the link to the server room — describe it as Server Room
+    Switch.'
+  style: C
+- base_input: '@sw1 set port 4 description Server Room Switch'
+  input: '@sw1 p4 descr Server Room Switch'
+  style: T
+- base_input: '@sw1 put port 9 in vlan 100'
+  input: '@sw1 move port 9 over to vlan 100'
+  style: A
+- base_input: '@sw1 put port 9 in vlan 100'
+  input: Would you please place port 9 on @sw1 into VLAN 100?
+  style: B
+- base_input: '@sw1 put port 9 in vlan 100'
+  input: '@sw1 the desk on port 9 is now part of finance, which uses VLAN 100 — switch
+    the port to that VLAN.'
+  style: C
+- base_input: '@sw1 put port 9 in vlan 100'
+  input: '@sw1 prt 9 vlan100'
+  style: T
+- base_input: '@sw1 configure poe power 15W port 1'
+  input: '@sw1 set port 1 poe to 15 watts'
+  style: A
+- base_input: '@sw1 configure poe power 15W port 1'
+  input: Please configure the PoE power limit on port 1 of @sw1 to 15 watts.
+  style: B
+- base_input: '@sw1 configure poe power 15W port 1'
+  input: '@sw1 the AP on port 1 is a low-power model — limit its PoE to 15W.'
+  style: C
+- base_input: '@sw1 configure poe power 15W port 1'
+  input: '@sw1 poe 15w port 1'
+  style: T
+- base_input: '@sw1 assign port 8 vlan 50'
+  input: '@sw1 drop port 8 into vlan 50'
+  style: A
+- base_input: '@sw1 assign port 8 vlan 50'
+  input: Could you please assign VLAN 50 to port 8 on @sw1?
+  style: B
+- base_input: '@sw1 assign port 8 vlan 50'
+  input: '@sw1 the printer on port 8 belongs on the printer VLAN, 50 — assign the
+    port to it.'
+  style: C
+- base_input: '@sw1 assign port 8 vlan 50'
+  input: '@sw1 prt 8 vln 50'
+  style: T
+- base_input: '@sw1 set port 10 description Lobby Access Point'
+  input: '@sw1 tag port 10 as Lobby Access Point'
+  style: A
+- base_input: '@sw1 set port 10 description Lobby Access Point'
+  input: Would you kindly set the description for port 10 on @sw1 to Lobby Access
+    Point?
+  style: B
+- base_input: '@sw1 set port 10 description Lobby Access Point'
+  input: '@sw1 the lobby AP hangs off port 10 — label the port Lobby Access Point
+    so it''s obvious.'
+  style: C
+- base_input: '@sw1 set port 10 description Lobby Access Point'
+  input: '@sw1 lbl p10 Lobby Access Point'
+  style: T
+- base_input: '@sw1 set poe power limit 20 on port 11'
+  input: '@sw1 limit port 11 poe to 20 watts'
+  style: A
+- base_input: '@sw1 set poe power limit 20 on port 11'
+  input: Could you please set a PoE power limit of 20 watts on port 11 of @sw1?
+  style: B
+- base_input: '@sw1 set poe power limit 20 on port 11'
+  input: '@sw1 the phone on port 11 is pulling more than it should — cap PoE on that
+    port at 20W.'
+  style: C
+- base_input: '@sw1 set poe power limit 20 on port 11'
+  input: '@sw1 prt 11 poe lim 20'
+  style: T
+- base_input: '@sw1 configure port 12 vlan 200'
+  input: '@sw1 set port 12 to vlan 200'
+  style: A
+- base_input: '@sw1 configure port 12 vlan 200'
+  input: Please configure port 12 on @sw1 with access VLAN 200.
+  style: B
+- base_input: '@sw1 configure port 12 vlan 200'
+  input: '@sw1 the camera on port 12 goes on the CCTV VLAN, which is 200 — put the
+    port in it.'
+  style: C
+- base_input: '@sw1 configure port 12 vlan 200'
+  input: '@sw1 cfg prt 12 vlan 200'
+  style: T
+- base_input: '@sw1 set port 5 description Conference Room TV'
+  input: '@sw1 call port 5 Conference Room TV'
+  style: A
+- base_input: '@sw1 set port 5 description Conference Room TV'
+  input: Could you please set the description of port 5 on @sw1 to Conference Room
+    TV?
+  style: B
+- base_input: '@sw1 set port 5 description Conference Room TV'
+  input: '@sw1 the screen in the conference room is wired to port 5 — set its description
+    to Conference Room TV.'
+  style: C
+- base_input: '@sw1 set port 5 description Conference Room TV'
+  input: '@sw1 prt 5 dsc Conference Room TV'
+  style: T
+- base_input: '@sw1 assign interface 2 to vlan 30'
+  input: '@sw1 throw interface 2 onto vlan 30'
+  style: A
+- base_input: '@sw1 assign interface 2 to vlan 30'
+  input: Would you please assign interface 2 on @sw1 to VLAN 30?
+  style: B
+- base_input: '@sw1 assign interface 2 to vlan 30'
+  input: '@sw1 interface 2 needs to be on the lab network, VLAN 30 — move it there.'
+  style: C
+- base_input: '@sw1 assign interface 2 to vlan 30'
+  input: '@sw1 int 2 vlan 30'
+  style: T
+- base_input: '@sw1 configure poe limit 25 watts on port 6'
+  input: '@sw1 set port 6''s poe limit to 25 watts'
+  style: A
+- base_input: '@sw1 configure poe limit 25 watts on port 6'
+  input: Please configure a PoE power limit of 25 watts on port 6 of @sw1.
+  style: B
+- base_input: '@sw1 configure poe limit 25 watts on port 6'
+  input: '@sw1 the camera on port 6 keeps hitting its power ceiling — raise the PoE
+    limit to 25W.'
+  style: C
+- base_input: '@sw1 configure poe limit 25 watts on port 6'
+  input: '@sw1 poe 25 wts prt 6'
+  style: T

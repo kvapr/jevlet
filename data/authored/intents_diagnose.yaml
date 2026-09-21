@@ -1,0 +1,828 @@
+- input: '@sw1 the camera on port 5 is dead, figure out why'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/5
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Symptom plus explicit 'why' -> multi-source diagnosis with the default 24h
+    window. 'dead' invites a live show_poe_status read, which would answer only the
+    power half; the ask is a cause.
+- input: '@sw1 port 3 keeps flapping since this morning'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/3
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: 'Flap detection is a diagnose_port_issues pattern. ''since this morning''
+    has no exact enum match: omit time_range (24h default); time_range 6h is also
+    acceptable.'
+- input: '@sw1 why does the phone on 4 reboot every hour?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/4
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Periodic reboot of a PoE phone is the PoE power-cycling pattern the diagnostic
+    detects; the ask is a cause, not a live draw number. Power is not named, so touches_poe_power
+    stays false.
+- input: '@sw1 show me the syslog for port 7 over the last day'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/7
+    time_range: 24h
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Per-port syslog is served by diagnose_port_issues; 'last day' -> 24h. get_network_events
+    is outside the 4-tool profile and is not port-scoped.
+- input: '@sw1 anything odd on port 2 in the past 6 hours?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/2
+    time_range: 6h
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: History question over a stated window; a live status read cannot answer it.
+    'past 6 hours' -> 6h.
+- input: '@sw1 port 11 has CRC errors, dig in'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/11
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Error counters + cable test + log correlation. show_port_status exposes no
+    error counters in this catalog.
+- input: Could you please run a full diagnostic on port 9 of @sw1? The access point
+    connected there has been dropping clients all afternoon.
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/9
+  style: B
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: 'Explicit ''full diagnostic''. ''all afternoon'' is fuzzy: omit time_range
+    (24h default); 6h also acceptable.'
+- input: '@sw1 the printer on port 6 went offline around lunch and nobody touched
+    it. What happened?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/6
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''What happened'' asks for event history earlier today; the default 24h
+    window covers it.'
+- input: '@sw1 pull the event log for interface 12 for the last hour'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/12
+    time_range: 1h
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''interface 12'' -> 1/12; ''event log'' is a documented trigger for the
+    diagnostic tool; ''last hour'' -> 1h.'
+- input: '@sw1 what''s the history on port 1 this week? it''s been intermittent'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/1
+    time_range: 7d
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''this week'' -> 7d; the longest window is the right one for an intermittent
+    fault.'
+- input: '@sw1 port 8 link is up but the NVR behind it can''t see any of its cameras.
+    troubleshoot port 8 please'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/8
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Link-up-but-broken is the classic case for the multi-source tool (errors,
+    config-related patterns, syslog). Only port 8 is named, so one call.
+- input: '@sw1 the intercom on 10 has no link light. why?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/10
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''why'' on a down port -> diagnosis (includes cable test and PoE status).
+    ''no link light'' invites a bare show_port_status read, which would only restate
+    that it is down.'
+- input: I'd appreciate it if you could investigate port 4 on @sw1 — the badge reader
+    there loses power a few times a day and I want to know whether it's the switch
+    or the cable.
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/4
+  style: B
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: PoE power-cycling symptom plus a cable-vs-switch question; the diagnostic
+    covers PoE status, cable diag and syslog in one call. A cable test alone would
+    answer only half. 'a few times a day' fits the default 24h window; 7d is also
+    acceptable for an intermittent pattern.
+- input: '@sw1 port 2 has been bouncing up and down every couple of minutes for the
+    past hour, can you look into it'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/2
+    time_range: 1h
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Flapping over a stated 1h window.
+- input: '@sw1 link on 7 negotiates at 10 meg instead of gig. figure out what''s wrong'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/7
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 1
+  alt_ok:
+  - show_cable_diagnostics
+  blast: 0
+  notes: 'Downshifted negotiation usually means a bad pair; a cable test alone is
+    a defensible narrower call, but ''figure out what''s wrong'' asks for the full
+    analysis. Not a write: no speed change was requested.'
+- input: '@sw1 something keeps knocking the AP on port 3 offline overnight. check
+    the logs for the last 24 hours'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/3
+    time_range: 24h
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Explicit window; per-port log review for an overnight outage.
+- input: '@sw1 port 5 shows a ton of input errors — is it the cable or the far end?
+    run whatever checks you have'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/5
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''run whatever checks you have'' = comprehensive diagnostic; error counters
+    and the cable test are both inside it. ''is it the cable'' invites show_cable_diagnostics
+    alone, which does not read counters or the far-end history.'
+- input: '@sw1 recent events for port 9?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/9
+  style: T
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: '''recent events'' on a port is the tool''s documented trigger; default 24h.'
+- input: '@sw1 the camera on 12 shows up in the NVR for a minute then drops. been
+    like this for a few days. what''s going on?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/12
+    time_range: 7d
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: '''a few days'' only fits the 7d enum; omitting time_range (24h) is a lesser
+    but acceptable reading.'
+- input: '@sw1 diagnose port 6'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/6
+  style: T
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Literal verb; default window.
+- input: Would you be able to tell me why the phone on port 1 of @sw1 has no dial
+    tone this morning? It was fine yesterday.
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/1
+  style: B
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: '''why'' -> diagnosis. ''fine yesterday'' straddles 24h: default window is
+    fine, time_range 7d is also acceptable.'
+- input: '@sw1 was there a PoE fault on port 8 in the last 6 hours?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/8
+    time_range: 6h
+  style: A
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: 'Historical PoE fault lookup: show_poe_status is live-only and cannot answer
+    it; get_network_events (POE-FAULT group) is outside the profile.'
+- input: '@sw1 port 10 — link/down link/up spam in syslog. root cause?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/10
+  style: T
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Flap pattern already seen in syslog; the ask is root cause.
+- input: '@sw1 the door controller on port 11 stopped responding after the storm last
+    night. can you check what the switch saw on that port?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/11
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: '''what the switch saw'' = event history. ''last night'' fits the default
+    24h; 7d is acceptable.'
+- input: '@sw1 walk me through what''s wrong with port 4 — the thin client there keeps
+    losing its session'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/4
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Intermittent connectivity symptom; needs errors and log patterns, not a single
+    status line.
+- input: '@sw1 what''s the error counter looking like on port 2?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/2
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: Read-shaped phrasing, but no show_* command in this catalog exposes interface
+    error counters; only diagnose_port_issues reads them. show_port_status (link/speed/duplex
+    only) would not answer the question.
+- input: '@sw1 port 3 counters are climbing — late collisions and runts. what''s causing
+    it?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/3
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Late collisions/runts suggest a duplex mismatch; the diagnostic detects config-related
+    patterns. No change requested; a duplex fix would be a separate confirmed write.
+- input: '@sw1 the printer on 9 prints half a page and stalls, network side seems
+    flaky. troubleshoot'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/9
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Application-level symptom traced to the port; 'troubleshoot' is the diagnostic
+    verb.
+- input: '@sw1 has port 5 gone down at all in the past hour?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/5
+    time_range: 1h
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Looks like a status question but asks about link-down events over a window;
+    only syslog history answers it. A live show_port_status read is not acceptable
+    here.
+- input: '@sw1 port 12 link light is amber and blinking weird, the NVR is complaining
+    about packet loss. investigate'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/12
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Packet loss + odd LED behaviour -> errors, negotiation and cable checks together.
+- input: '@sw1 the camera on port 8 draws power but never gets an address. can you
+    see anything wrong on the port side?'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/8
+  style: C
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: 'Power is fine, data path is not: link/VLAN/error analysis. PoE is mentioned
+    only as context, so touches_poe_power is false.'
+- input: '@sw1 correlate the syslog for port 6 over the last 6h with the PoE status
+    — the AP rebooted twice'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/6
+    time_range: 6h
+  style: A
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: 'Asks for exactly the cross-source correlation the tool performs; one call,
+    not show_poe_status plus a separate log read. Naming ''PoE status'' is the trap:
+    a live PoE read alone cannot explain two reboots.'
+- input: '@sw1 why is port 1 down'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/1
+  style: T
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Canonical level-5 form; default window. Mirror of 'is port N up' -- 'why'
+    asks for cause, so a bare show_port_status read is the classic wrong call.
+- input: '@sw1 port 10 error storm? users complaining about slowness on the printer
+    there since about an hour ago'
+  expected_tool: diagnose_port_issues
+  expected_command: ''
+  expected_params:
+    port: 1/10
+    time_range: 1h
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: none
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: '''since about an hour ago'' -> 1h; leaving the default 24h is also acceptable
+    since it contains the window. Error-storm detection is a documented pattern.'
+- input: '@sw1 is the camera on 3 getting power?'
+  expected_tool: query_device_info
+  expected_command: show_poe_status
+  expected_params:
+    port: 1/3
+  style: A
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 1
+  alt_ok:
+  - diagnose_port_issues
+  blast: 0
+  notes: Literal question is a live PoE read; the diagnostic also answers it (and
+    more) so it is acceptable. No symptom beyond the question itself.
+- input: '@sw1 is port 7 up right now?'
+  expected_tool: query_device_info
+  expected_command: show_port_status
+  expected_params:
+    port: 1/7
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 1
+  alt_ok:
+  - diagnose_port_issues
+  blast: 0
+  notes: '''right now'' pins it to a live read; diagnose is over-scoped but not wrong.'
+- input: '@sw1 how much is the AP on port 9 pulling? feels like it''s browning out'
+  expected_tool: query_device_info
+  expected_command: show_poe_status
+  expected_params:
+    port: 1/9
+  style: A
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 2
+  alt_ok:
+  - diagnose_port_issues
+  blast: 0
+  notes: 'Explicit ask is current draw in watts; the symptom clause makes a PoE-focused
+    diagnosis equally reasonable. Different effects: one number vs. a full report.'
+- input: '@sw1 is the cable on port 5 broken? phone is dead'
+  expected_tool: query_device_info
+  expected_command: show_cable_diagnostics
+  expected_params:
+    port: 1/5
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 2
+  alt_ok:
+  - diagnose_port_issues
+  blast: 1
+  notes: Literal ask is a cable test; 'phone is dead' invites the full diagnostic,
+    which includes the cable test. A TDR test can briefly disturb a live link on some
+    hardware, hence blast 1.
+- input: '@sw1 what speed did port 2 come up at?'
+  expected_tool: query_device_info
+  expected_command: show_port_status
+  expected_params:
+    port: 1/2
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 1
+  alt_ok:
+  - diagnose_port_issues
+  blast: 0
+  notes: 'Negotiated speed is on the status line; the diagnostic includes it but is
+    over-scoped. Not a write: no speed value requested.'
+- input: '@sw1 check port 11 — is it still down?'
+  expected_tool: query_device_info
+  expected_command: show_port_status
+  expected_params:
+    port: 1/11
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 2
+  alt_ok:
+  - diagnose_port_issues
+  blast: 0
+  notes: '''still down'' implies a known problem; a yes/no status is what was asked,
+    but an operator chasing an outage would also accept the why.'
+- input: Could you please tell me whether PoE is currently delivering power on port
+    4 of @sw1? The phone appears to be off.
+  expected_tool: query_device_info
+  expected_command: show_poe_status
+  expected_params:
+    port: 1/4
+  style: B
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 2
+  alt_ok:
+  - diagnose_port_issues
+  blast: 0
+  notes: '''currently delivering'' is a live read; ''phone appears to be off'' is
+    a symptom that justifies diagnosis. Not show_poe_config (asks about delivery,
+    not configured mode).'
+- input: '@sw1 run a cable test on 8, the link is intermittent'
+  expected_tool: query_device_info
+  expected_command: show_cable_diagnostics
+  expected_params:
+    port: 1/8
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 1
+  alt_ok:
+  - diagnose_port_issues
+  blast: 1
+  notes: 'Explicit ''cable test'' verb wins; an intermittent link is a flap symptom
+    the diagnostic would catch, so it is acceptable. Cable test may briefly disturb
+    the link: blast 1.'
+- input: '@sw1 what duplex is port 6 running? getting collisions'
+  expected_tool: query_device_info
+  expected_command: show_port_status
+  expected_params:
+    port: 1/6
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 2
+  alt_ok:
+  - diagnose_port_issues
+  blast: 0
+  notes: 'Duplex is a status field; collisions are a symptom that suggests mismatch
+    analysis. Not a write: no duplex change was requested.'
+- input: '@sw1 is the PoE on port 12 even turned on? the camera''s dark'
+  expected_tool: query_device_info
+  expected_command: show_poe_config
+  expected_params:
+    port: 1/12
+  style: A
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 2
+  alt_ok:
+  - show_poe_status
+  - diagnose_port_issues
+  blast: 0
+  notes: '''turned on'' = configured mode -> show_poe_config; live delivery (show_poe_status)
+    and the full diagnostic are each defensible given the dark camera. Not a write:
+    nothing asked to be enabled.'
+- input: '@sw1 quick check: link status on port 1, the printer there dropped off the
+    print server a minute ago'
+  expected_tool: query_device_info
+  expected_command: show_port_status
+  expected_params:
+    port: 1/1
+  style: A
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 2
+  alt_ok:
+  - diagnose_port_issues
+  blast: 0
+  notes: '''quick check'' and ''link status'' favour the cheap read; the fresh symptom
+    makes a diagnosis with a 1h window equally defensible.'
+- input: '@sw1 is port 2 hitting its PoE limit? the camera reboots every few minutes'
+  expected_tool: query_device_info
+  expected_command: show_poe_status
+  expected_params:
+    port: 1/2
+  style: A
+  is_write: false
+  touches_poe_power: true
+  dangerous_pair: status_vs_diagnose
+  ambiguity: 2
+  alt_ok:
+  - show_poe_config
+  - diagnose_port_issues
+  blast: 0
+  notes: 'Draw-vs-limit is a live PoE read; show_poe_config gives the limit itself;
+    periodic reboot is the PoE power-cycle pattern the diagnostic detects. Not a write:
+    no limit value given.'
+- input: '@sw1 port 5 is flapping — just shut it down'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/5
+  style: A
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''shut it down'' = administrative shutdown of the interface (link and power
+    both drop), not a PoE cut. The symptom is context; the instruction is the write.
+    Not a diagnosis. Confirm gate applies.'
+- input: '@sw1 the camera on 3 is hung, power cycle it — kill the PoE'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/3
+    mode: disable
+  style: A
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''kill the PoE'' is explicit -> configure_poe_mode disable; link config
+    untouched. The catalog has no power-cycle primitive, so this call is the first
+    half and a later enable is expected. Not disable_port.'
+- input: '@sw1 port 9 keeps dropping to 10 meg, hard-set the speed to 1000'
+  expected_tool: configure_device_setting
+  expected_command: configure_port_speed
+  expected_params:
+    port: 1/9
+    speed: '1000'
+  style: A
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: speed_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: Symptom + explicit speed value. Forcing 1000 without autoneg may not link
+    at all against an auto peer, so the endpoint can stay down until reverted. Not
+    a diagnosis.
+- input: '@sw1 the phone on port 4 rebooted again — that''s it, disable poe on that
+    port until the electrician looks at it'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/4
+    mode: disable
+  style: A
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: Explicit 'disable poe'; the port's link config stays. Phone goes dark until
+    re-enabled.
+- input: '@sw1 the camera on 6 keeps flapping, turn it off for now'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/6
+    mode: disable
+  style: A
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 2
+  alt_ok:
+  - disable_port
+  blast: 3
+  notes: '''it'' = the camera, a PoE device, so cutting PoE is the most literal way
+    to turn it off; but ''turn off port N'' maps to disable_port in the canonical
+    set and a flapping port is often shut. Two writes with different scope (power
+    only vs. link and power); the confirm prompt should name which one.'
+- input: '@sw1 someone disabled port 2 while chasing the flapping issue; it''s been
+    fixed, bring the port back up'
+  expected_tool: configure_device_setting
+  expected_command: enable_port
+  expected_params:
+    port: 1/2
+  style: C
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 1
+  notes: Symptom history is context; 'disabled port 2' + 'bring the port back up'
+    = no-shutdown, not PoE enable. Restores service, so blast is negligible.
+- input: '@sw1 the AP on port 10 is stuck — cut power to it but leave the port config
+    alone'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/10
+    mode: disable
+  style: A
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''leave the port config alone'' explicitly rules out disable_port; PoE-only
+    cut.'
+- input: '@sw1 port 12 is spewing errors at gig, drop it back to auto negotiation
+    and let it sort itself out'
+  expected_tool: configure_device_setting
+  expected_command: configure_port_speed
+  expected_params:
+    port: 1/12
+    speed: auto
+  style: A
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: speed_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 2
+  notes: '''drop it'' is a speed-mode change, not a shutdown; link renegotiates and
+    recovers on its own. speed=auto is the primary call; a duplex-auto follow-up would
+    be a second confirmed write, not part of this one.'

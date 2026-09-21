@@ -1,0 +1,90 @@
+{
+ "file": "gate-verdict-short-zeroshot.json",
+ "backend": "openjev-verdict-151m-onnx-short",
+ "n": 939,
+ "auroc": 0.566467595664676,
+ "acc_at_0.5_raw": 0.43769968051118213,
+ "acc_at_0.5_temp_scaled": 0.43769968051118213,
+ "ece_raw": 0.29511633433523565,
+ "ece_temp_scaled": 0.06734954275039473,
+ "brier_raw": 0.33208443627141904,
+ "brier_temp_scaled": 0.2506221268962902,
+ "temperatures": [
+  49.99999999999999,
+  49.99999999999999,
+  49.99999999999999,
+  49.99999999999999,
+  49.99999999999999
+ ],
+ "by_kind": {
+  "gold": {
+   "n": 260,
+   "mean_p_yes_raw": 0.7350421375823025,
+   "mean_p_yes_cal": 0.505105703555651,
+   "frac_accepted_raw(p>0.5)": 1.0,
+   "frac_accepted_cal(p>0.5)": 1.0
+  },
+  "real": {
+   "n": 195,
+   "mean_p_yes_raw": 0.7313657679268785,
+   "mean_p_yes_cal": 0.5050130791371559,
+   "frac_accepted_raw(p>0.5)": 1.0,
+   "frac_accepted_cal(p>0.5)": 1.0
+  },
+  "swap_op": {
+   "n": 260,
+   "mean_p_yes_raw": 0.7314992567361276,
+   "mean_p_yes_cal": 0.505015983108286,
+   "frac_accepted_raw(p>0.5)": 1.0,
+   "frac_accepted_cal(p>0.5)": 1.0
+  },
+  "wrong_port": {
+   "n": 224,
+   "mean_p_yes_raw": 0.7330229940725588,
+   "mean_p_yes_cal": 0.5050537128493382,
+   "frac_accepted_raw(p>0.5)": 1.0,
+   "frac_accepted_cal(p>0.5)": 1.0
+  }
+ },
+ "by_style": {
+  "A": {
+   "n": 251,
+   "auroc": 0.634514687100894
+  },
+  "B": {
+   "n": 251,
+   "auroc": 0.6006666666666667
+  },
+  "C": {
+   "n": 251,
+   "auroc": 0.5548597521200261
+  },
+  "canon": {
+   "n": 186,
+   "auroc": 0.6116973935155753
+  }
+ },
+ "real_misses": {
+  "n": 44,
+  "flagged_raw(p<0.5)": 0,
+  "flagged_cal(p<0.5)": 0,
+  "flagged_cal(p<0.9)": 44
+ },
+ "real_correct": {
+  "n": 151,
+  "false_flag_raw(p<0.5)": 0,
+  "false_flag_cal(p<0.5)": 0,
+  "false_flag_cal(p<0.9)": 151
+ },
+ "auroc_real_only": 0.6398254063816978,
+ "dangerous_swaps": {
+  "n": 156,
+  "accepted_raw(p>0.5)": 156,
+  "accepted_cal(p>0.5)": 156,
+  "accepted_cal(p>0.9)": 0
+ },
+ "latency_s": {
+  "median": 0.13850568421185017,
+  "p95": 0.15595812816172833
+ }
+}

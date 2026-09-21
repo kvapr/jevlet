@@ -1,0 +1,100 @@
+\begin{thebibliography}{10}
+
+\bibitem{openjev9b}
+Zefan Cai.
+\newblock Open-jev: Lora adapters and scalar decision heads for typed decisions
+  on qwen3.5.
+\newblock \url{https://huggingface.co/ZefanCai/Open-Jev-2B};
+  \url{https://github.com/Zefan-Cai/Open-Jev}, 2026.
+
+\bibitem{geifman2017}
+Yonatan Geifman and Ran El-Yaniv.
+\newblock Selective classification for deep neural networks.
+\newblock In {\em NeurIPS}, 2017.
+
+\bibitem{openjevreadout}
+GitHub30.
+\newblock Openjev: open-weight system one model (jev-compatible) by candidate
+  log-likelihood readout.
+\newblock \url{https://github.com/GitHub30/OpenJev}, 2026.
+
+\bibitem{guo2017}
+Chuan Guo, Geoff Pleiss, Yu~Sun, and Kilian~Q. Weinberger.
+\newblock On calibration of modern neural networks.
+\newblock In {\em ICML}, 2017.
+
+\bibitem{openjevverdict}
+Heman10x.
+\newblock Openjev (verdict) 2.0: a calibrated 151m non-autoregressive decision
+  engine.
+\newblock \url{https://huggingface.co/heman10x/rlcd-modernbert-151m};
+  \url{https://github.com/Heman10x-NGU/Verdict-open-jev}, 2026.
+
+\bibitem{openjevdeberta}
+{Kotoba Labs}.
+\newblock open-jev-deberta-v3-large: an open, jev-shaped typed-decision model.
+\newblock
+  \url{https://huggingface.co/com-kotobalabs/open-jev-deberta-v3-large};
+  \url{https://github.com/kotoba-lang/typed-decisions}, 2026.
+
+\bibitem{typeddecisions}
+{LocalLLaMA}.
+\newblock Localllama/typed-decisions: a benchmark of typed enterprise
+  decisions.
+\newblock \url{https://huggingface.co/datasets/LocalLLaMA/typed-decisions},
+  2026.
+
+\bibitem{laya}
+Nandha~Kishor M and {Convai Innovations}.
+\newblock Laya: multilingual non-autoregressive system 1 decision model trained
+  with rlcd.
+\newblock \url{https://huggingface.co/convaiinnovations/laya};
+  \url{https://github.com/NandhaKishorM/laya}, 2026.
+
+\bibitem{bfcl}
+Shishir~G. Patil et~al.
+\newblock Berkeley function calling leaderboard.
+\newblock \url{https://gorilla.cs.berkeley.edu/leaderboard.html}, 2024.
+
+\bibitem{pezeshkpour2023}
+Pouya Pezeshkpour and Estevam Hruschka.
+\newblock Large language models sensitivity to the order of options in
+  multiple-choice questions.
+\newblock {\em arXiv:2308.11483}, 2023.
+
+\bibitem{jevblog}
+{TypeSafe AI}.
+\newblock Introducing system one models \& jev.
+\newblock \url{https://typesafe.ai/blog/introducing-system-one-models-and-jev},
+  2026.
+\newblock Released 2026-09-15.
+
+\bibitem{jevjagged}
+{TypeSafe AI}.
+\newblock Jev 1.13 jagged edges.
+\newblock \url{https://docs.typesafe.ai/model-jaggedness/jev-1.13}, 2026.
+
+\bibitem{jevdocs}
+{TypeSafe AI}.
+\newblock Typesafe documentation: primitives, confidence, patterns, models.
+\newblock \url{https://docs.typesafe.ai/}, 2026.
+
+\bibitem{lancefindings}
+Krish Viswanathan.
+\newblock What survives the edge: tool-calling llm agents on embedded npus
+  (engineering report and paper outline), 2026.
+\newblock Measurements on a Qualcomm QCS9075 EVK; blog series at
+  \url{https://kvapr.github.io}.
+
+\bibitem{yin2019}
+Wenpeng Yin, Jamaal Hay, and Dan Roth.
+\newblock Benchmarking zero-shot text classification: Datasets, evaluation and
+  entailment approach.
+\newblock In {\em EMNLP}, 2019.
+
+\bibitem{zheng2023mcq}
+Chujie Zheng, Hao Zhou, Fandong Meng, Jie Zhou, and Minlie Huang.
+\newblock Large language models are not robust multiple choice selectors.
+\newblock In {\em ICLR}, 2024.
+
+\end{thebibliography}

@@ -1,0 +1,1189 @@
+- input: '@sw1 kill power on 3'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/3
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''power'' is the discriminator: PoE off, link stays up. Small models map
+    ''kill'' to disable_port.'
+- input: '@sw1 cut the juice to the camera on 5'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/5
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: Slang 'juice' = electrical power; one sensible reading. Not a shutdown.
+- input: '@sw1 take port 3 down'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/3
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''take down'' is admin-shutdown vocabulary; no power word. Any PD on 3 loses
+    power as a side effect.'
+- input: '@sw1 drop the link on 4'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/4
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''link'' is named explicitly.'
+- input: '@sw1 de-energize port 2'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/2
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: '''energize'' is electrician vocabulary for power; unusual word but one reading.'
+- input: '@sw1 stop feeding the AP on 7'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/7
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 2
+  alt_ok:
+  - disable_port
+  blast: 3
+  notes: '''feed'' is used for both a power feed and an uplink/traffic feed. An AP
+    is a PD, so PoE off is the primary reading; disable_port also leaves the AP off
+    and is defensible. Confirm gate should say which.'
+- input: '@sw1 bring port 4 back up'
+  expected_tool: configure_device_setting
+  expected_command: enable_port
+  expected_params:
+    port: 1/4
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 1
+  notes: Textbook no-shutdown phrasing.
+- input: '@sw1 re-power the phone on 9'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/9
+    mode: enable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 1
+  notes: '''re-power'' = restore PoE.'
+- input: '@sw1 shut off 3'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/3
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 2
+  alt_ok:
+  - configure_poe_mode
+  blast: 3
+  notes: '''shut'' pulls toward CLI shutdown and the canonical ''turn off port'' =
+    disable_port convention makes that primary; ''shut off'' is also the everyday
+    idiom for cutting a supply (power/gas), so PoE off is defensible. Different blast
+    (link vs power only).'
+- input: '@sw1 the camera on 5 needs a power cycle — cut it for now'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/5
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: Power-cycle intent -> PoE off is the minimal action. disable_port would also
+    cut power but drops the link too. The 're-enable' half is a later separate call.
+- input: '@sw1 pull the plug on the phone on 11 but leave the link alone'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/11
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: Explicit 'leave the link alone' rules out disable_port.
+- input: '@sw1 kill PoE to 1 — keep the data path up'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/1
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''kill'' lures disable_port; ''PoE'' + ''keep the data path up'' make it
+    unambiguous. Port 1 is a lure for a ''1/1'' parse error.'
+- input: '@sw1 shut down PoE on 4'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/4
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''shut down'' verb but the object is PoE, not the interface.'
+- input: '@sw1 not a power issue — just kill the link on 6'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/6
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''power'' appears only in a negation; the action is on the link. Keyword-matchers
+    pick PoE.'
+- input: '@sw1 shut 7'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/7
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: CLI abbreviation of shutdown.
+- input: '@sw1 admin down 10'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/10
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''admin down'' is the operational term for shutdown.'
+- input: '@sw1 someone plugged a rogue hub into 5, kill that port'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/5
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: '''kill'' + ''port'' (not ''power'') + security motive -> shutdown. PoE off
+    would leave the hub passing traffic.'
+- input: '@sw1 the printer on 2 is spewing garbage, cut it off the network'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/2
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: '''off the network'' = link. PoE off would not stop traffic (and a printer
+    usually is not a PD).'
+- input: '@sw1 sever the connection on 12'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/12
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: '''connection'' = link; no power vocabulary.'
+- input: '@sw1 isolate whatever''s on 6 — no traffic in or out'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/6
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: '''isolate'' could suggest a quarantine VLAN, but ''no traffic in or out''
+    = shutdown and the catalog has no ACL/quarantine command.'
+- input: '@sw1 no shut 7'
+  expected_tool: configure_device_setting
+  expected_command: enable_port
+  expected_params:
+    port: 1/7
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 1
+  notes: CLI 'no shutdown'. Contains 'no' and 'shut' -- a lure for disable_port.
+- input: '@sw1 re-enable the link on 10'
+  expected_tool: configure_device_setting
+  expected_command: enable_port
+  expected_params:
+    port: 1/10
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 1
+  notes: '''link'' explicit.'
+- input: '@sw1 maintenance on 2 is done, let it talk again'
+  expected_tool: configure_device_setting
+  expected_command: enable_port
+  expected_params:
+    port: 1/2
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 1
+  notes: '''talk'' = pass traffic; assumes the port was admin-down for maintenance.'
+- input: '@sw1 the poe camera on 5 lost its uplink, bring the port back up'
+  expected_tool: configure_device_setting
+  expected_command: enable_port
+  expected_params:
+    port: 1/5
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 1
+  notes: '''poe'' is only a noun modifier on ''camera''; the action is on the port
+    link. Lure for keyword matching on ''poe''. Symptom-first opening also lures diagnose_port_issues,
+    and enable_port is a no-op if the port is not admin-down, but the explicit ask
+    is to bring the port up.'
+- input: '@sw1 give juice back to 11'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/11
+    mode: enable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 1
+  notes: Slang; 'back' = re-enable PoE.
+- input: '@sw1 energize 2'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/2
+    mode: enable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 1
+  notes: Electrical verb, bare port number.
+- input: '@sw1 turn PoE back on for the AP on 7'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/7
+    mode: enable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 1
+  notes: Explicit PoE.
+- input: '@sw1 start supplying power on 6'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/6
+    mode: enable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 1
+  notes: '''supplying power'' = PoE enable.'
+- input: '@sw1 the camera on 8 is frozen, kill it'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/8
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 2
+  alt_ok:
+  - disable_port
+  blast: 3
+  notes: Frozen PD -> power reset is the usual fix, so PoE off is the better default;
+    'kill it' also reads as shutdown. Object is the camera, not the port.
+- input: '@sw1 power down port 8'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/8
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 2
+  alt_ok:
+  - disable_port
+  blast: 3
+  notes: '''power'' points to PoE, but ''power down a port'' is also everyday phrasing
+    for shutting it. Either.'
+- input: '@sw1 power up 12'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/12
+    mode: enable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 2
+  alt_ok:
+  - enable_port
+  blast: 1
+  notes: Mirror of 'power down port 8'. Either; both low-blast.
+- input: '@sw1 the AP on 7 is misbehaving, take it offline'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/7
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 2
+  alt_ok:
+  - configure_poe_mode
+  blast: 3
+  notes: '''offline'' = link down, but an AP goes offline either way and PoE off would
+    also reboot it (which is often what the operator wants).'
+- input: '@sw1 deactivate the camera on 5'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/5
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 2
+  alt_ok:
+  - disable_port
+  blast: 3
+  notes: Canonical 'deactivate interface' = disable_port, but here the object is the
+    camera (a PD), so PoE off is the minimal action.
+- input: '@sw1 un-shut the power on 2'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/2
+    mode: enable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 1
+  notes: Shutdown vocabulary applied to power; the object is the power, so PoE enable.
+- input: '@sw1 make port 12 carry vlans 10,20,30'
+  expected_tool: configure_device_setting
+  expected_command: configure_trunk_allowed_vlans
+  expected_params:
+    port: 1/12
+    action: add
+    vlan_list: 10,20,30
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: Multiple VLANs -> trunk. Small models call configure_access_vlan with the
+    first id.
+- input: '@sw1 port 3 should trunk to the core'
+  expected_tool: configure_device_setting
+  expected_command: configure_trunk_allowed_vlans
+  expected_params:
+    port: 1/3
+    action: all
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 1
+  alt_ok: []
+  blast: 4
+  notes: No VLAN list given; uplink to core -> allow all is the sensible reading.
+    Confirm gate should show the resulting allowed list.
+- input: '@sw1 tag 10 and 20 on port 8'
+  expected_tool: configure_device_setting
+  expected_command: configure_trunk_allowed_vlans
+  expected_params:
+    port: 1/8
+    action: add
+    vlan_list: 10,20
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''tag'' = 802.1Q tagged = trunk.'
+- input: '@sw1 the printer on 2 belongs on guest vlan 10'
+  expected_tool: configure_device_setting
+  expected_command: configure_access_vlan
+  expected_params:
+    port: 1/2
+    vlan_id: 10
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''guest'' is a label, 10 is the id. Single VLAN -> access.'
+- input: '@sw1 the AP on 6 needs vlans 20 and 30 for its SSIDs'
+  expected_tool: configure_device_setting
+  expected_command: configure_trunk_allowed_vlans
+  expected_params:
+    port: 1/6
+    action: add
+    vlan_list: 20,30
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: Multi-SSID AP -> tagged VLANs -> trunk.
+- input: '@sw1 move the AP on 6 to vlan 20'
+  expected_tool: configure_device_setting
+  expected_command: configure_access_vlan
+  expected_params:
+    port: 1/6
+    vlan_id: 20
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: Single VLAN + 'move to' = access, even though APs are often trunked. Contrast
+    with the SSID row for the same port.
+- input: '@sw1 untagged vlan 50 on 4'
+  expected_tool: configure_device_setting
+  expected_command: configure_access_vlan
+  expected_params:
+    port: 1/4
+    vlan_id: 50
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''untagged'' is the discriminator for access.'
+- input: '@sw1 tagged 50 on 4'
+  expected_tool: configure_device_setting
+  expected_command: configure_trunk_allowed_vlans
+  expected_params:
+    port: 1/4
+    action: add
+    vlan_list: '50'
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''tagged'' is the discriminator; one VLAN does not make it access.'
+- input: '@sw1 add vlan 60 to the trunk on 12'
+  expected_tool: configure_device_setting
+  expected_command: configure_trunk_allowed_vlans
+  expected_params:
+    port: 1/12
+    action: add
+    vlan_list: '60'
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 0
+  alt_ok: []
+  blast: 1
+  notes: Additive on an existing trunk; nothing is removed.
+- input: '@sw1 take vlan 20 off the trunk on 12'
+  expected_tool: configure_device_setting
+  expected_command: configure_trunk_allowed_vlans
+  expected_params:
+    port: 1/12
+    action: remove
+    vlan_list: '20'
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 0
+  alt_ok: []
+  blast: 4
+  notes: action=remove. Pulling a VLAN off a trunk cuts that VLAN across the link.
+- input: '@sw1 vlan 10 on port 3'
+  expected_tool: configure_device_setting
+  expected_command: configure_access_vlan
+  expected_params:
+    port: 1/3
+    vlan_id: 10
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: Bare 'vlan X on port N' follows the canonical convention = access. If port
+    3 is already a trunk the operator may have meant add; the confirm gate should
+    show current mode.
+- input: '@sw1 port 1 is the uplink, it needs 10, 20 and 99'
+  expected_tool: configure_device_setting
+  expected_command: configure_trunk_allowed_vlans
+  expected_params:
+    port: 1/1
+    action: add
+    vlan_list: 10,20,99
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 0
+  alt_ok: []
+  blast: 4
+  notes: '''uplink'' + three VLANs -> trunk. Ids written with ''and'', not commas.'
+- input: '@sw1 put 11 in vlan 10 and 20'
+  expected_tool: configure_device_setting
+  expected_command: configure_trunk_allowed_vlans
+  expected_params:
+    port: 1/11
+    action: add
+    vlan_list: 10,20
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: '''put in vlan'' is access phrasing, but an access port has exactly one VLAN;
+    only a trunk satisfies two. Small models emit configure_access_vlan twice.'
+- input: '@sw1 pvid 30 on port 5'
+  expected_tool: configure_device_setting
+  expected_command: configure_access_vlan
+  expected_params:
+    port: 1/5
+    vlan_id: 30
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: PVID = untagged/native VLAN; the access command is the only PVID setter in
+    the catalog.
+- input: '@sw1 make 8 a trunk'
+  expected_tool: configure_device_setting
+  expected_command: configure_trunk_allowed_vlans
+  expected_params:
+    port: 1/8
+    action: all
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: No list -> allow all.
+- input: '@sw1 make 8 an access port on 40'
+  expected_tool: configure_device_setting
+  expected_command: configure_access_vlan
+  expected_params:
+    port: 1/8
+    vlan_id: 40
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: Explicit 'access port'.
+- input: '@sw1 strip 12 back to just vlan 1'
+  expected_tool: configure_device_setting
+  expected_command: configure_access_vlan
+  expected_params:
+    port: 1/12
+    vlan_id: 1
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 2
+  alt_ok:
+  - configure_trunk_allowed_vlans
+  blast: 4
+  notes: Either revert the port to access on VLAN 1, or keep it a trunk allowing only
+    VLAN 1 (remove the rest). Different end states; if 12 is the uplink either one
+    is a segment outage.
+- input: '@sw1 let vlans 10-40 through on 2'
+  expected_tool: configure_device_setting
+  expected_command: configure_trunk_allowed_vlans
+  expected_params:
+    port: 1/2
+    action: add
+    vlan_list: 10-40
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: Range syntax in vlan_list; 'through' = allowed on trunk.
+- input: '@sw1 the phone on 3 should be in the voice vlan, 200'
+  expected_tool: configure_device_setting
+  expected_command: configure_access_vlan
+  expected_params:
+    port: 1/3
+    vlan_id: 200
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: access_vs_trunk
+  ambiguity: 2
+  alt_ok:
+  - configure_trunk_allowed_vlans
+  blast: 3
+  notes: Single VLAN + 'in the vlan' = access (untagged 200) is primary. Phones usually
+    expect a tagged voice VLAN, and the catalog has no voice-vlan command, so trunk
+    add 200 (tagged) is a defensible second reading with a different end state (breaks
+    a PC daisy-chained behind the phone in one case, the phone in the other).
+- input: '@sw1 knock port 8 down to 10'
+  expected_tool: configure_device_setting
+  expected_command: configure_port_speed
+  expected_params:
+    port: 1/8
+    speed: '10'
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: speed_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 2
+  notes: '''knock down'' is shutdown vocabulary but ''port ... to 10'' is the speed
+    pattern (10 Mbps). Not disable_port; not vlan 10. Unitless 10 also lures configure_poe_power_limit,
+    but there is no power context.'
+- input: '@sw1 slow port 5 to 100'
+  expected_tool: configure_device_setting
+  expected_command: configure_port_speed
+  expected_params:
+    port: 1/5
+    speed: '100'
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: speed_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 2
+  notes: '''slow'' + value = speed.'
+- input: '@sw1 cap 4 at gigabit'
+  expected_tool: configure_device_setting
+  expected_command: configure_port_speed
+  expected_params:
+    port: 1/4
+    speed: '1000'
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: speed_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 2
+  notes: '''gigabit'' -> 1000. On a 1G switch this is already the max; may be a no-op
+    vs auto. ''cap'' also lures configure_poe_power_limit.'
+- input: '@sw1 drop 6 to 100 meg'
+  expected_tool: configure_device_setting
+  expected_command: configure_port_speed
+  expected_params:
+    port: 1/6
+    speed: '100'
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: speed_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 2
+  notes: '''drop'' lures disable_port; ''meg'' fixes the unit as speed.'
+- input: '@sw1 take 2 down to 10 meg, the old badge reader can''t do more'
+  expected_tool: configure_device_setting
+  expected_command: configure_port_speed
+  expected_params:
+    port: 1/2
+    speed: '10'
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: speed_vs_shutdown
+  ambiguity: 0
+  alt_ok: []
+  blast: 2
+  notes: '''take down'' + value + reason. Speed, not shutdown.'
+- input: '@sw1 bring 9 back up to auto'
+  expected_tool: configure_device_setting
+  expected_command: configure_port_speed
+  expected_params:
+    port: 1/9
+    speed: auto
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: speed_vs_shutdown
+  ambiguity: 2
+  alt_ok:
+  - configure_port_duplex
+  blast: 2
+  notes: '''bring back up'' lures enable_port; ''to auto'' is a value, not a link
+    state. ''auto'' is legal for both configure_port_speed and configure_port_duplex
+    and the catalog splits them; speed auto is the usual meaning of ''set to auto'',
+    duplex auto is a defensible first call (a fully forced port needs both).'
+- input: '@sw1 port 11 is negotiating at 10 and it shouldn''t be, take it back to
+    full gig'
+  expected_tool: configure_device_setting
+  expected_command: configure_port_speed
+  expected_params:
+    port: 1/11
+    speed: '1000'
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: speed_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 2
+  notes: '''full gig'' -> 1000. ''full'' also lures configure_port_duplex; the symptom
+    also lures diagnose_port_issues. Forcing 1000 on a bad cable may drop the link.'
+- input: '@sw1 knock 10 down'
+  expected_tool: configure_device_setting
+  expected_command: disable_port
+  expected_params:
+    port: 1/10
+  style: X
+  is_write: true
+  touches_poe_power: false
+  dangerous_pair: speed_vs_shutdown
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: No speed value -> shutdown; 10 is the port. Contrast with 'knock port 8 down
+    to 10'. A speed reading has no port and is not executable.
+- input: '@sw1 limit the camera on 5 to 15 watts'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_power_limit
+  expected_params:
+    port: 1/5
+    power_limit: 15
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 0
+  alt_ok: []
+  blast: 2
+  notes: Explicit watt value -> limit. 15 W covers most fixed cameras; a PTZ that
+    needs more would reset/overload until the cap is raised.
+- input: '@sw1 cap poe on 7 at 30W'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_power_limit
+  expected_params:
+    port: 1/7
+    power_limit: 30
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 0
+  alt_ok: []
+  blast: 1
+  notes: 30 W is the catalog max; effectively no restriction.
+- input: '@sw1 give port 2 full power'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_power_limit
+  expected_params:
+    port: 1/2
+    power_limit: 30
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 2
+  alt_ok:
+  - configure_poe_mode
+  blast: 1
+  notes: '''full power'' = raise the limit to the 30 W max, or enable PoE if it was
+    off. Different calls, both low-blast; alt implies mode=enable.'
+- input: '@sw1 don''t let port 3 draw more than 7W'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_power_limit
+  expected_params:
+    port: 1/3
+    power_limit: 7
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''more than 7W'' = limit. ''don''t let ... draw'' lures PoE off. 7 W is
+    below class 3; an unknown PD that needs more is denied power until the cap is
+    raised, not self-recovering.'
+- input: '@sw1 the AP on 10 is hogging the budget, cut it back to 12 watts'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_power_limit
+  expected_params:
+    port: 1/10
+    power_limit: 12
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 0
+  alt_ok: []
+  blast: 3
+  notes: '''cut'' lures configure_poe_mode disable; ''to 12 watts'' is a limit. Most
+    APs need more than 12 W, so the AP likely stays down or crippled until the cap
+    is raised.'
+- input: '@sw1 cut power to 10'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/10
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 2
+  alt_ok: []
+  blast: 3
+  notes: '''to 10'' is either port 10 or 10 watts. Only the port-10 reading is executable;
+    the limit reading has no port, so a configure_poe_power_limit call cannot be accepted
+    (a guessed port is worse than asking). Asking which is meant is the acceptable
+    alternative; the confirm gate must echo the port.'
+- input: '@sw1 zero out the power on 4'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/4
+    mode: disable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 1
+  alt_ok: []
+  blast: 3
+  notes: 0 W is outside the 1-30 W limit range, so 'zero' means off.
+- input: '@sw1 raise the poe ceiling on 9 to 25'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_power_limit
+  expected_params:
+    port: 1/9
+    power_limit: 25
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 0
+  alt_ok: []
+  blast: 1
+  notes: '''ceiling'' = limit; raising it cannot drop the PD.'
+- input: '@sw1 the phone on 6 only needs class 1, set it to 4W'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_power_limit
+  expected_params:
+    port: 1/6
+    power_limit: 4
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 0
+  alt_ok: []
+  blast: 2
+  notes: '''class 1'' is context; the number to use is 4, not 1. Operator asserts
+    the PD''s class, so the cap should not starve it.'
+- input: '@sw1 the camera on 5 keeps browning out, let it pull up to 28'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_power_limit
+  expected_params:
+    port: 1/5
+    power_limit: 28
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 1
+  alt_ok: []
+  blast: 1
+  notes: No unit; 28 read as watts from context. Symptom also lures diagnose_port_issues,
+    but the ask is a limit change.
+- input: '@sw1 dial back the juice on 1'
+  expected_tool: none
+  expected_command: ''
+  expected_params: {}
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 3
+  alt_ok: []
+  blast: 0
+  notes: '''dial back'' = reduce the limit, but no value is given, so nothing is executable;
+    the correct move is to ask. A model that guesses PoE off would drop the endpoint
+    (blast 3). is_write=true describes the intent, not the expected (empty) call.'
+- input: '@sw1 enable poe on 3 at 20W'
+  expected_tool: configure_device_setting
+  expected_command: configure_poe_mode
+  expected_params:
+    port: 1/3
+    mode: enable
+  style: X
+  is_write: true
+  touches_poe_power: true
+  dangerous_pair: poe_mode_vs_limit
+  ambiguity: 1
+  alt_ok:
+  - configure_poe_power_limit
+  blast: 1
+  notes: 'Not ambiguous but compound: needs both configure_poe_mode enable and configure_poe_power_limit
+    20 on 1/3; accept either as the first call. Small models emit only one and stop.'
+- input: '@sw1 what vlans are set up?'
+  expected_tool: query_device_info
+  expected_command: show_vlan_membership
+  expected_params: {}
+  style: X
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: vlan_config_vs_membership
+  ambiguity: 1
+  alt_ok:
+  - show_vlan_config
+  blast: 0
+  notes: The list of existing VLANs is the per-VLAN view; per-port config also reveals
+    them indirectly.
+- input: '@sw1 which ports are in vlan 20?'
+  expected_tool: query_device_info
+  expected_command: show_vlan_membership
+  expected_params: {}
+  style: X
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: vlan_config_vs_membership
+  ambiguity: 0
+  alt_ok: []
+  blast: 0
+  notes: Per-VLAN member list (tagged and untagged). The per-port config view only
+    shows PVID, so it cannot answer this fully. No port param on this command.
+- input: '@sw1 what vlan is port 3 on?'
+  expected_tool: query_device_info
+  expected_command: show_vlan_config
+  expected_params: {}
+  style: X
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: vlan_config_vs_membership
+  ambiguity: 1
+  alt_ok:
+  - show_vlan_membership
+  blast: 0
+  notes: Per-port PVID answers directly; scanning membership also works. There is
+    no per-port param -- the whole table is returned.
+- input: '@sw1 is 12 a trunk?'
+  expected_tool: query_device_info
+  expected_command: show_vlan_config
+  expected_params: {}
+  style: X
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: vlan_config_vs_membership
+  ambiguity: 1
+  alt_ok:
+  - show_vlan_membership
+  blast: 0
+  notes: Frame type / Tx Tag per port answers it; tagged membership across VLANs also
+    does.
+- input: '@sw1 which vlan is the management IP on?'
+  expected_tool: query_device_info
+  expected_command: show_ip_interface
+  expected_params: {}
+  style: X
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: vlan_config_vs_membership
+  ambiguity: 1
+  alt_ok: []
+  blast: 0
+  notes: '''vlan'' lures the VLAN views; the question is about the management interface''s
+    address/VLAN. No IP address literal in the input.'
+- input: '@sw1 dump the vlan table'
+  expected_tool: query_device_info
+  expected_command: show_vlan_membership
+  expected_params: {}
+  style: X
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: vlan_config_vs_membership
+  ambiguity: 2
+  alt_ok:
+  - show_vlan_config
+  blast: 0
+  notes: '''vlan table'' has no fixed meaning here; either view is defensible.'
+- input: '@sw1 who''s untagged in 30?'
+  expected_tool: query_device_info
+  expected_command: show_vlan_membership
+  expected_params: {}
+  style: X
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: vlan_config_vs_membership
+  ambiguity: 1
+  alt_ok:
+  - show_vlan_config
+  blast: 0
+  notes: Membership lists untagged ports per VLAN directly; the per-port PVID column
+    in the config view answers it too (PVID 30 = untagged in 30).
+- input: '@sw1 does port 5 tag its traffic?'
+  expected_tool: query_device_info
+  expected_command: show_vlan_config
+  expected_params: {}
+  style: X
+  is_write: false
+  touches_poe_power: false
+  dangerous_pair: vlan_config_vs_membership
+  ambiguity: 1
+  alt_ok:
+  - show_vlan_membership
+  blast: 0
+  notes: Tx Tag is a per-port setting in the config view; whether 5 appears as a tagged
+    (member but not untagged) port in the membership view also answers it. Same shape
+    as 'is 12 a trunk?'.

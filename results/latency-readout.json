@@ -1,0 +1,86 @@
+{
+ "qwen3-4b-board-cpu6t": {
+  "tool": {
+   "n": 20,
+   "wall_ms_median": 1279.4433338567615,
+   "wall_ms_p95": 1783.7215140461922,
+   "prompt_tokens_evaluated_median": 20.5,
+   "prompt_ms_median": 1265.383,
+   "prompt_tokens_total": 425
+  },
+  "command": {
+   "n": 20,
+   "wall_ms_median": 1318.7720607966185,
+   "wall_ms_p95": 1842.9008908569813,
+   "prompt_tokens_evaluated_median": 20.5,
+   "prompt_ms_median": 1304.9685,
+   "prompt_tokens_total": 666
+  },
+  "is_write": {
+   "n": 20,
+   "wall_ms_median": 1233.3209095522761,
+   "wall_ms_p95": 1717.9235834628344,
+   "prompt_tokens_evaluated_median": 20.5,
+   "prompt_ms_median": 1219.3685,
+   "prompt_tokens_total": 140
+  },
+  "touches_poe_power": {
+   "n": 20,
+   "wall_ms_median": 1237.7929957583547,
+   "wall_ms_p95": 1725.0940725207329,
+   "prompt_tokens_evaluated_median": 20.5,
+   "prompt_ms_median": 1221.3795,
+   "prompt_tokens_total": 159
+  },
+  "matches_request": {
+   "n": 20,
+   "wall_ms_median": 3094.955787062645,
+   "wall_ms_p95": 3581.988800317049,
+   "prompt_tokens_evaluated_median": 52.5,
+   "prompt_ms_median": 3080.178,
+   "prompt_tokens_total": 205
+  }
+ },
+ "qwen3-4b-grace-cpu12t": {
+  "tool": {
+   "n": 20,
+   "wall_ms_median": 609.3497732654214,
+   "wall_ms_p95": 788.211777806282,
+   "prompt_tokens_evaluated_median": 20.5,
+   "prompt_ms_median": 598.143,
+   "prompt_tokens_total": 425
+  },
+  "command": {
+   "n": 20,
+   "wall_ms_median": 708.8335687294602,
+   "wall_ms_p95": 928.0825573951006,
+   "prompt_tokens_evaluated_median": 20.5,
+   "prompt_ms_median": 695.3475,
+   "prompt_tokens_total": 666
+  },
+  "is_write": {
+   "n": 20,
+   "wall_ms_median": 564.1267746686935,
+   "wall_ms_p95": 793.0316347628832,
+   "prompt_tokens_evaluated_median": 20.5,
+   "prompt_ms_median": 552.844,
+   "prompt_tokens_total": 140
+  },
+  "touches_poe_power": {
+   "n": 20,
+   "wall_ms_median": 560.5563009157777,
+   "wall_ms_p95": 722.7773759514093,
+   "prompt_tokens_evaluated_median": 20.5,
+   "prompt_ms_median": 551.2925,
+   "prompt_tokens_total": 159
+  },
+  "matches_request": {
+   "n": 20,
+   "wall_ms_median": 1319.0358877182007,
+   "wall_ms_p95": 1515.6110916286707,
+   "prompt_tokens_evaluated_median": 52.5,
+   "prompt_ms_median": 1310.6245,
+   "prompt_tokens_total": 205
+  }
+ }
+}

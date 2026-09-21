@@ -1,0 +1,108 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{lancefindings}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\citation{jevblog}
+\citation{jevdocs}
+\citation{openjevverdict}
+\citation{laya}
+\citation{openjevdeberta}
+\citation{openjev9b}
+\citation{openjevreadout}
+\citation{jevblog}
+\citation{jevdocs}
+\citation{jevjagged}
+\citation{openjevverdict}
+\citation{laya}
+\citation{openjevdeberta}
+\citation{openjev9b}
+\citation{openjevreadout}
+\citation{guo2017}
+\citation{geifman2017}
+\citation{zheng2023mcq}
+\citation{pezeshkpour2023}
+\citation{bfcl}
+\citation{lancefindings}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background}{3}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{System One models and Jev.}{3}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Open reproductions.}{3}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Calibration and selective prediction.}{3}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Tool calling on edge devices.}{3}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}The workload and the dataset}{3}{section.3}\protected@file@percent }
+\newlabel{sec:data}{{3}{3}{The workload and the dataset}{section.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{The agent.}{3}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Rows.}{3}{section*.6}\protected@file@percent }
+\citation{openjevdeberta}
+\@writefile{toc}{\contentsline {paragraph}{Question batteries.}{4}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Four local realizations of one interface}{4}{section.4}\protected@file@percent }
+\newlabel{sec:backends}{{4}{4}{Four local realizations of one interface}{section.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Interface.}{4}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Next-token readout (\texttt  {llamacpp}).}{4}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Open encoder decision models (zero-shot).}{4}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Fine-tuned encoder.}{4}{section*.11}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Readout (Qwen3-4B-Instruct-2507 Q4\_0, \texttt  {llama-server}, 3 rotations) on the 260 canonical + paraphrase requests. Confidence is Jev's concentration statistic.}}{5}{table.caption.14}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:router}{{1}{5}{Readout (Qwen3-4B-Instruct-2507 Q4\_0, \texttt {llama-server}, 3 rotations) on the 260 canonical + paraphrase requests. Confidence is Jev's concentration statistic}{table.caption.14}{}}
+\@writefile{toc}{\contentsline {paragraph}{Rules.}{5}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Where the layer sits.}{5}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{5}{section.5}\protected@file@percent }
+\newlabel{sec:experiments}{{5}{5}{Experiments}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}E1 --- the readout of the resident 4B}{5}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{The gate.}{5}{section*.16}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Reliability diagrams of the readout's 24-way command answers on the held-out rows (bin counts above the bars). Left: raw next-token confidence sits at 0.9--1.0 with 74\% accuracy (ECE 0.208). Right: one temperature per fold, fitted on other seed requests (T$\approx $4.3), puts the bars on the diagonal (ECE 0.065); no answer clears 0.9 any more.}}{6}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:reliability}{{1}{6}{Reliability diagrams of the readout's 24-way command answers on the held-out rows (bin counts above the bars). Left: raw next-token confidence sits at 0.9--1.0 with 74\% accuracy (ECE 0.208). Right: one temperature per fold, fitted on other seed requests (T$\approx $4.3), puts the bars on the diagonal (ECE 0.065); no answer clears 0.9 any more}{figure.caption.15}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces The gate question, ``does the proposed action do what the operator asked?'', at the 0.5 threshold after out-of-fold temperature scaling. Real pairs are the generative model's own calls on the 195 paraphrases.}}{6}{table.caption.17}\protected@file@percent }
+\newlabel{tab:gate}{{2}{6}{The gate question, ``does the proposed action do what the operator asked?'', at the 0.5 threshold after out-of-fold temperature scaling. Real pairs are the generative model's own calls on the 195 paraphrases}{table.caption.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}E2 --- open encoder decision models, zero-shot}{6}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{A sub-1B decoder.}{7}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}E3 --- a fine-tuned 150M encoder}{7}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Round 2.}{7}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}E4 --- latency}{7}{subsection.5.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Median wall time per call. Encoder batteries answer all four questions in one packed pass; the 24-option question dominates their length.}}{8}{table.caption.20}\protected@file@percent }
+\newlabel{tab:latency}{{3}{8}{Median wall time per call. Encoder batteries answer all four questions in one packed pass; the 24-option question dominates their length}{table.caption.20}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Serving-path reality}{8}{section.6}\protected@file@percent }
+\newlabel{sec:serving}{{6}{8}{Serving-path reality}{section.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion}{8}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{What the gate buys.}{8}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Readout vs encoder.}{8}{section*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Calibration is measured, not assumed.}{8}{section*.23}\protected@file@percent }
+\citation{jevblog}
+\citation{jevdocs}
+\citation{jevjagged}
+\citation{openjevverdict}
+\citation{laya}
+\citation{openjevdeberta}
+\citation{openjev9b}
+\citation{openjevreadout}
+\citation{typeddecisions}
+\citation{guo2017}
+\citation{zheng2023mcq}
+\citation{pezeshkpour2023}
+\citation{yin2019}
+\citation{geifman2017}
+\citation{bfcl}
+\citation{lancefindings}
+\bibstyle{plain}
+\bibdata{refs}
+\bibcite{openjev9b}{1}
+\bibcite{geifman2017}{2}
+\bibcite{openjevreadout}{3}
+\bibcite{guo2017}{4}
+\bibcite{openjevverdict}{5}
+\bibcite{openjevdeberta}{6}
+\bibcite{typeddecisions}{7}
+\bibcite{laya}{8}
+\@writefile{toc}{\contentsline {paragraph}{Limitations.}{9}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Related work}{9}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{9}{section.9}\protected@file@percent }
+\bibcite{bfcl}{9}
+\bibcite{pezeshkpour2023}{10}
+\bibcite{jevblog}{11}
+\bibcite{jevjagged}{12}
+\bibcite{jevdocs}{13}
+\bibcite{lancefindings}{14}
+\bibcite{yin2019}{15}
+\bibcite{zheng2023mcq}{16}
+\gdef \@abspage@last{10}
