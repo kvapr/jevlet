@@ -104,7 +104,7 @@
  },
  "git": {
   "tracked_files": 313,
-  "commits": 13,
+  "commits": 12,
   "root_commit": "f685d54",
   "root_commit_files": 244,
   "root_commit_insertions": 46086,
@@ -117,12 +117,12 @@
    "last_commit_before_first_push": "2026-09-21 14:10:27 -0500"
   },
   "old_history_initial_commit": "2026-09-21 13:43:31 -0500",
-  "unreachable_commits_in_local_store": 7,
+  "unreachable_commits_in_local_store": 9,
   "old_commits_named_in_head_reflog": 6,
   "filter_branch_backup_refs_present": 0,
   "ipv4_literals": {
-   "files": 19,
-   "loopback": 34
+   "files": 18,
+   "loopback": 33
   },
   "abs_home_paths": {
    "files": 7,
@@ -304,43 +304,43 @@
  "hook_on_this_repo": {
   "tree": {
    "exit": 0,
-   "wall_s_median": 0.57,
+   "wall_s_median": 0.82,
    "wall_s_runs": [
-    0.58,
-    0.57,
-    0.57
+    0.86,
+    0.82,
+    0.82
    ],
    "summary": "scan_private: mode=tree names=2 ipv4-allowlist=loopback tracked-files=313 commits=0 hits=0"
   },
   "staged": {
-   "exit": 1,
-   "wall_s_median": 0.65,
+   "exit": 0,
+   "wall_s_median": 0.87,
    "wall_s_runs": [
-    0.65,
-    0.66,
-    0.64
+    0.91,
+    0.87,
+    0.84
    ],
-   "summary": "scan_private: mode=staged names=2 ipv4-allowlist=loopback tracked-files=313 commits=0 hits=1"
+   "summary": "scan_private: mode=staged names=2 ipv4-allowlist=loopback tracked-files=313 commits=0 hits=0"
   },
   "history": {
-   "exit": 1,
-   "wall_s_median": 7.91,
+   "exit": 0,
+   "wall_s_median": 9.88,
    "wall_s_runs": [
-    8.01,
-    7.91,
-    7.72
+    9.75,
+    9.88,
+    10.07
    ],
-   "summary": "scan_private: mode=history names=2 ipv4-allowlist=loopback tracked-files=313 commits=13 hits=2"
+   "summary": "scan_private: mode=history names=2 ipv4-allowlist=loopback tracked-files=313 commits=12 hits=0"
   },
   "push": {
-   "exit": 1,
-   "wall_s_median": 8.15,
+   "exit": 0,
+   "wall_s_median": 9.8,
    "wall_s_runs": [
-    8.15,
-    8.52,
-    7.74
+    9.77,
+    9.8,
+    9.97
    ],
-   "summary": "scan_private: mode=push names=2 ipv4-allowlist=loopback tracked-files=313 commits=13 hits=2"
+   "summary": "scan_private: mode=push names=2 ipv4-allowlist=loopback tracked-files=313 commits=12 hits=0"
   }
  },
  "hook_extra_pattern_demo": {
