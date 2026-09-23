@@ -282,8 +282,8 @@ answers:   op       {"choice": "poe_power_off", "probabilities": {"poe_power_off
 <figcaption>What the gate does to the calls the agent actually made. Only the readout separates the two; its operating point (0.5) is a product choice the risk–coverage curve below informs.</figcaption>
 </figure>
 <figure>
-<img src="risk-coverage-readout-gate.png" alt="Risk-coverage curve of the readout gate on all 939 pairs: error rate among the pairs the gate is allowed to decide on, as the confidence threshold for abstaining is relaxed from strict to none; about 2.5% error at 70% coverage rising to 15% at full coverage." style="max-width:100%;border:1px solid var(--rule);border-radius:6px;background:#fff">
-<figcaption>Readout gate, all 939 pairs, after scaling: error rate among the pairs it decides on as the abstention threshold is relaxed. Deciding on the most confident 70% of pairs costs about 2.5% errors; deciding on everything costs 15%. The card's operating point is a choice on this curve, not a property of the model.</figcaption>
+<img src="risk-coverage-readout-gate.png" alt="Risk-coverage curve of the readout gate on the 217 held-out pairs: error rate among the pairs the gate is allowed to decide on, as the confidence threshold for abstaining is relaxed from strict to none; about 2.5% error at 70% coverage rising to 15% at full coverage." style="max-width:100%;border:1px solid var(--rule);border-radius:6px;background:#fff">
+<figcaption>Readout gate on the 217 held-out pairs, after scaling: error rate among the pairs it decides on as the abstention threshold is relaxed. Deciding on the most confident 70% of pairs costs about 2.5% errors; deciding on everything costs 15%. On all 939 pairs the same curve reads about 3.7% at 70% coverage and 11.8% at full coverage. The card's operating point is a choice on this curve, not a property of the model.</figcaption>
 </figure>
 
 <h2>The adversarial rows and order sensitivity</h2>

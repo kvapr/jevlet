@@ -359,7 +359,7 @@ decision, and the point of having a probability is that it *is* a decision: move
 0.3 and you keep most of the catches with fewer false alarms; the risk–coverage curve below is
 the whole trade-off.
 
-![Figure 5. Risk–coverage curve of the readout gate on all 939 pairs after scaling: error rate among the pairs it decides on, as the abstention threshold is relaxed; about 2.5% error at 70% coverage rising to 15% at full coverage.](risk-coverage-readout-gate.png)
+![Figure 5. Risk–coverage curve of the readout gate on the 217 held-out pairs after scaling: error rate among the pairs it decides on, as the abstention threshold is relaxed; about 2.5% error at 70% coverage rising to 15% at full coverage.](risk-coverage-readout-gate.png)
 
 ## Result 4 — zero-shot open Jev clones do not transfer to a 23-command catalog
 
