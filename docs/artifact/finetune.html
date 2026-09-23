@@ -266,6 +266,7 @@
 <ul>
 <li><b>Settled for this deployment:</b> a 150M encoder trained on about two thousand of its own rows is the better per-turn router, at a tenth of the readout's per-question latency, and it arrives calibrated. The recipe's two defects have cheap fixes (question-order shuffling; packed evaluation).</li>
 <li><b>Settled in the negative:</b> the same recipe does not produce a confirm gate from synthetic pairs. The gate stays with the decoder readout.</li>
+<li><b>Settled after a follow-up:</b> shuffling fixed slot dependence, not pack-size dependence. Asked the production two-question pack (tool, is_write) instead of the four-question benchmark pack, round 2 answers <code>is_write</code> at 89.7% instead of 95.2% (66.7% with the two questions reversed, 46.0% asked alone). Train on the pack shapes you will ask, or add subset augmentation; <a href="https://claude.ai/artifact/VnspS8ZuEJHRkWo6qMvVus">the packed-evaluation page</a> has the measurement.</li>
 <li><b>Not settled:</b> anything a second seed, a hyperparameter search, a larger backbone, or human-reviewed labels might change. Every number here is one seed of one configuration of one library, and the 126-row test set puts a few points of noise on every cell.</li>
 </ul>
 

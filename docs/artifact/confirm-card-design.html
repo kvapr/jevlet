@@ -1,0 +1,431 @@
+<title>Confirm Card Design</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #f3f5f4; --surface: #ffffff; --ink: #172026; --muted: #5e6b72; --rule: #d3dbd8;
+    --accent: #2f6690; --accent-soft: #e3edf4;
+    --ok: #2e7d5b; --ok-soft: #e2f1e8; --warn: #c7831c; --warn-soft: #f7ecd6; --bad: #b5432f; --bad-soft: #f6e2dd;
+    --readout: #2f6690; --encoder: #c98a2b; --finetuned: #a8404b; --generative: #6b7378;
+    --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    --sans: "IBM Plex Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0f1518; --surface: #161e22; --ink: #e6ecee; --muted: #98a6ac; --rule: #2a363b;
+      --accent: #7fb0d6; --accent-soft: #1c2b36;
+      --ok: #63c08f; --ok-soft: #173126; --warn: #e2a64c; --warn-soft: #3a2c15; --bad: #e07a68; --bad-soft: #3d201c;
+      --readout: #7fb0d6; --encoder: #e2a64c; --finetuned: #e28a93; --generative: #9aa6ab;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0f1518; --surface: #161e22; --ink: #e6ecee; --muted: #98a6ac; --rule: #2a363b;
+    --accent: #7fb0d6; --accent-soft: #1c2b36;
+    --ok: #63c08f; --ok-soft: #173126; --warn: #e2a64c; --warn-soft: #3a2c15; --bad: #e07a68; --bad-soft: #3d201c;
+    --readout: #7fb0d6; --encoder: #e2a64c; --finetuned: #e28a93; --generative: #9aa6ab;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 16px/1.6 var(--sans); }
+  main { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font: 600 2rem/1.15 var(--serif); margin: 0 0 .4rem; text-wrap: balance; letter-spacing: -.01em; }
+  h2 { font: 600 1.35rem/1.25 var(--serif); margin: 2.6rem 0 .7rem; text-wrap: balance; }
+  h3 { font: 600 1.02rem/1.3 var(--sans); margin: 1.6rem 0 .4rem; }
+  p { margin: .7rem 0; max-width: 68ch; }
+  .lede { color: var(--muted); font-size: 1.05rem; max-width: 62ch; }
+  .eyebrow { font: 500 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: .6rem; }
+  a { color: var(--accent); }
+  code, .mono { font-family: var(--mono); font-size: .88em; }
+  figure { margin: 1.4rem 0; }
+  figure svg { max-width: 100%; height: auto; display: block; }
+  figcaption { font-size: .82rem; color: var(--muted); margin-top: .5rem; max-width: 68ch; }
+  .card-demo { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.1rem; margin: 1.2rem 0; }
+  .card-demo .req { font: 500 .95rem var(--sans); }
+  .card-demo .cmd { font-family: var(--mono); font-size: .85rem; background: var(--ground); padding: .5rem .7rem; border-radius: 5px; margin: .6rem 0; white-space: pre-wrap; }
+  .check { display: flex; gap: .6rem; align-items: flex-start; font-size: .9rem; padding: .55rem .7rem; border-radius: 6px; margin-top: .6rem; }
+  .check.bad { background: var(--bad-soft); color: var(--ink); border-left: 3px solid var(--bad); }
+  .check.ok { background: var(--ok-soft); border-left: 3px solid var(--ok); }
+  .check.warn { background: var(--warn-soft); border-left: 3px solid var(--warn); }
+  .check b { font-family: var(--mono); font-weight: 500; white-space: nowrap; }
+  .actions { display: flex; gap: .5rem; margin-top: .7rem; }
+  .btn { font: 500 .8rem var(--sans); padding: .35rem .7rem; border-radius: 5px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .tablewrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .86rem; font-variant-numeric: tabular-nums; }
+  th { text-align: left; font: 500 .7rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: .45rem .6rem .35rem 0; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  td { padding: .45rem .6rem .45rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td.n, th.n { text-align: right; font-family: var(--mono); font-size: .84rem; }
+  tr.lead td { font-weight: 600; }
+  .swatch { display: inline-block; width: .7em; height: .7em; border-radius: 2px; margin-right: .4em; vertical-align: -1px; }
+  .kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .6rem; margin: 1rem 0; }
+  .kv div { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: .6rem .75rem; }
+  .kv b { display: block; font: 500 1.35rem/1.1 var(--mono); }
+  .kv span { font-size: .78rem; color: var(--muted); }
+  .note { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: .7rem 1rem; border-radius: 0 6px 6px 0; font-size: .92rem; margin: 1.2rem 0; }
+  .pending { color: var(--warn); font-family: var(--mono); font-size: .8rem; }
+  ul { padding-left: 1.2rem; } li { margin: .3rem 0; max-width: 68ch; }
+  .pill { font: 500 .7rem var(--mono); padding: .1rem .45rem; border-radius: 999px; border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+  footer { margin-top: 3rem; font-size: .82rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 1rem; }
+  @media (max-width: 480px) { h1 { font-size: 1.55rem; } .actions { flex-wrap: wrap; } }
+</style>
+<style>
+  .small { font-size: .86rem; color: var(--muted); }
+  .card-demo .reason { font-size: .85rem; color: var(--muted); font-style: italic; margin: .4rem 0 0; }
+  .card-demo .meta { font: 400 .76rem/1.5 var(--mono); color: var(--muted); margin-top: .6rem; border-top: 1px dashed var(--rule); padding-top: .4rem; }
+  .band { display: inline-block; font: 500 .7rem var(--mono); padding: .1rem .45rem; border-radius: 999px; white-space: nowrap; }
+  .band.ok { background: var(--ok-soft); color: var(--ok); } .band.check { background: var(--warn-soft); color: var(--warn); } .band.mismatch { background: var(--bad-soft); color: var(--bad); }
+  td.q { font-family: var(--mono); font-size: .8rem; }
+  .wide th { white-space: normal; }
+  .wide th.n { width: 9ch; }
+</style>
+
+<main>
+<div class="eyebrow">Companion to the Jevlet results page · September 2026</div>
+<h1>What the confirm card should show once it has a probability</h1>
+<p class="lede">The gate question gives the card one calibrated number for every proposed write. This page is about the line that number becomes: three sentences, one pair of thresholds, and why the thresholds should depend on what the command can break.</p>
+
+<div class="kv">
+  <div><b>15 / 20</b><span>of the generative model's real command confusions flagged, at every threshold from 0.3 to 0.9 (15 of the 16 dangerous ones)</span></div>
+  <div><b>19 → 76</b><span>of 161 correct calls false-flagged as the threshold moves from 0.3 to 0.9: the only count on the real calls the threshold moves</span></div>
+  <div><b>0 of 40</b><span>real calls in the middle "check" band (0.4 &lt; p &lt; 0.85) that were wrong; the uncertain sentence lands only on correct calls</span></div>
+  <div><b>3.1 s</b><span>one gate check on the board CPU (readout of the resident 4B), after a generative turn of 6 to 7 s</span></div>
+</div>
+
+<div class="note"><b>Read this with the main page.</b> The <a href="https://claude.ai/artifact/BBMh93V3pxKYzSMe7UcpN3">Jevlet results page</a> measures the gate; this page designs the card it feeds. Every number here comes from the gate receipt <code>results/gate-qwen3-4b-q4_0-cpu.json</code> (the 4B readout, 939 pairs, on the development host) re-analysed by a new script, <code>bench/card_thresholds.py</code>, whose output is <code>results/card-thresholds-qwen3-4b-q4_0-cpu.json</code>; from <code>jevlet/integrations/lance_local.py</code>; and from the dataset's <code>blast</code> labels. No new model runs.</div>
+
+<h2>The card today, and with one more line</h2>
+<p>Today the card shows what the model proposed: the rendered command and the model's free-text reason, above the approve and deny controls. Every word on it was written by the model that may have misread the request, and nothing on it says how sure anything is. A generated tool call is a one-hot event, and the compiled NPU (neural processing unit) path exposes no logits, so the card cannot read a probability off the serving stack either.</p>
+<p>With the gate, the card gains exactly one line. <code>annotate_proposal</code> builds a state from the request, the proposed call and the catalog's one-line description of the command, asks one NOUL (a yes/no question answered with a probability), <code>matches_request</code>, and maps the calibrated probability to one of three bands. The sentence names what the command's semantic class does; the ten write commands map onto ten classes (<code>OP_CLASS</code>), each with one fixed clause (<code>CLASS_TEXT</code>). The hook's docstring is the design rule: "Never blocks; the human still clicks."</p>
+
+<figure>
+<svg viewBox="0 0 760 306" role="img" aria-label="Two confirm cards side by side. Today's card holds the request, the summary and rendered command, the model's free-text reason, and Approve and Deny buttons, with no probability anywhere. The annotated card is identical except for one added highlighted line: a sentence and a number from the gate. Below, a five-step flow: the state is the request plus the proposed call plus the catalog description; one NOUL, matches_request, yields a calibrated p; the p falls into a band, ok at 0.85 and above or mismatch at 0.4 and below; the sentence is the class text for the command's operation class.">
+  <defs><marker id="arc1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+  <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
+    <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">TODAY</text>
+    <rect x="0" y="22" width="340" height="176" rx="8" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="14" y="48" font-size="11" fill="var(--muted)">request</text><text x="96" y="48">the operator's sentence</text>
+    <text x="14" y="74" font-size="11" fill="var(--muted)">proposal</text><text x="96" y="74">summary + rendered command</text>
+    <text x="14" y="100" font-size="11" fill="var(--muted)">reason</text><text x="96" y="100">free text, written by the same model</text>
+    <rect x="14" y="128" width="104" height="26" rx="5" fill="var(--accent)"/><text x="66" y="145" text-anchor="middle" font-size="11" font-weight="500" fill="#fff">Approve &amp; run</text>
+    <rect x="128" y="128" width="56" height="26" rx="5" fill="var(--surface)" stroke="var(--rule)"/><text x="156" y="145" text-anchor="middle" font-size="11" font-weight="500">Deny</text>
+    <text x="14" y="184" font-size="11" fill="var(--muted)">no probability anywhere on the card</text>
+
+    <line x1="342" y1="110" x2="416" y2="110" stroke="currentColor" stroke-width="1.2" marker-end="url(#arc1)"/>
+    <text x="379" y="100" text-anchor="middle" font-size="10.5" fill="var(--muted)">adds one line</text>
+
+    <text x="420" y="12" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">WITH ONE TYPED CHECK</text>
+    <rect x="420" y="22" width="340" height="212" rx="8" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="434" y="48" font-size="11" fill="var(--muted)">request</text><text x="516" y="48">the operator's sentence</text>
+    <text x="434" y="74" font-size="11" fill="var(--muted)">proposal</text><text x="516" y="74">summary + rendered command</text>
+    <text x="434" y="100" font-size="11" fill="var(--muted)">reason</text><text x="516" y="100">free text, written by the same model</text>
+    <rect x="434" y="112" width="312" height="44" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="446" y="130" font-weight="600">check: one sentence, one number</text>
+    <text x="446" y="147" font-size="11" fill="var(--muted)">what the command does · p to two decimals · band</text>
+    <rect x="434" y="168" width="104" height="26" rx="5" fill="var(--accent)"/><text x="486" y="185" text-anchor="middle" font-size="11" font-weight="500" fill="#fff">Approve &amp; run</text>
+    <rect x="548" y="168" width="56" height="26" rx="5" fill="var(--surface)" stroke="var(--rule)"/><text x="576" y="185" text-anchor="middle" font-size="11" font-weight="500">Deny</text>
+    <text x="434" y="222" font-size="11" fill="var(--muted)">buttons unchanged; nothing executes on p</text>
+
+    <g font-size="11">
+      <rect x="0" y="256" width="146" height="44" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+      <text x="8" y="274">request + proposed call</text><text x="8" y="290" fill="var(--muted)">+ catalog description</text>
+      <line x1="146" y1="278" x2="158" y2="278" stroke="currentColor" stroke-width="1.2" marker-end="url(#arc1)"/>
+      <rect x="160" y="256" width="120" height="44" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+      <text x="168" y="274" font-family="IBM Plex Mono, monospace">matches_request</text><text x="168" y="290" fill="var(--muted)">one NOUL</text>
+      <line x1="280" y1="278" x2="292" y2="278" stroke="currentColor" stroke-width="1.2" marker-end="url(#arc1)"/>
+      <rect x="294" y="256" width="112" height="44" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+      <text x="302" y="274">p, calibrated</text><text x="302" y="290" fill="var(--muted)">T fit on own rows</text>
+      <line x1="406" y1="278" x2="418" y2="278" stroke="currentColor" stroke-width="1.2" marker-end="url(#arc1)"/>
+      <rect x="420" y="256" width="176" height="44" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+      <text x="428" y="274">band</text><text x="428" y="290" fill="var(--muted)">ok ≥ 0.85 · mismatch ≤ 0.4</text>
+      <line x1="596" y1="278" x2="608" y2="278" stroke="currentColor" stroke-width="1.2" marker-end="url(#arc1)"/>
+      <rect x="610" y="256" width="150" height="44" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+      <text x="618" y="274">sentence</text><text x="618" y="290" fill="var(--muted)">CLASS_TEXT by op class</text>
+    </g>
+  </g>
+</svg>
+<figcaption>The annotation adds one line and changes nothing else: the buttons, the command and the reason stay where they are. The line is computed from the request and the proposal together, not from the model's reason.</figcaption>
+</figure>
+
+<h2>Three states, three sentences</h2>
+<p>The hook returns a level and a sentence. With the defaults (<code>ok_above=0.85</code>, <code>mismatch_below=0.4</code>) the rule is: "ok" at p ≥ 0.85, "mismatch" at p ≤ 0.4, "check" between. The three cards below are real pairs from the gate receipt: the operator text is a paraphrase row, the proposal is the call the generative 4B actually made on it, and p is that pair's out-of-fold temperature-scaled probability. The sentences are produced by <code>annotate_proposal</code> itself, unedited.</p>
+
+<div class="card-demo">
+  <div class="req">Operator: <em>“@sw1 could you please deactivate interface 5 and take the link down?”</em></div>
+  <div class="cmd">configure_device_setting · disable_port {"port": "1/5"}
+catalog: Disable a network port (interface link, shutdown) -- cuts all traffic.</div>
+  <p class="reason">Reason: the model's own sentence, shown unchanged.</p>
+  <div class="check ok"><b>p(matches request) = 0.97</b><span>Check: this shuts the interface down (link AND PoE (Power over Ethernet) power go down until re-enabled) (matches your request, p=0.97).</span></div>
+  <div class="actions"><span class="btn primary">Approve &amp; run</span><span class="btn">Deny</span></div>
+  <div class="meta"><span class="band ok">ok</span> band · ground truth: correct call (expected disable_port 1/5) · calibrated p 0.969</div>
+</div>
+
+<div class="card-demo">
+  <div class="req">Operator: <em>“The device on port 11 needs a hard power cycle, @sw1 — stop powering it for now.”</em></div>
+  <div class="cmd">configure_device_setting · configure_poe_mode {"port": "1/11", "mode": "disable"}
+catalog: Enable or disable PoE power delivery on a port (data link is unaffected).</div>
+  <p class="reason">Reason: the model's own sentence, shown unchanged.</p>
+  <div class="check warn"><b>p(matches request) = 0.83</b><span>Check: this changes PoE power delivery only; the link stays up; the match to your request is uncertain (p=0.83).</span></div>
+  <div class="actions"><span class="btn primary">Approve &amp; run</span><span class="btn">Deny</span></div>
+  <div class="meta"><span class="band check">check</span> band · ground truth: correct call (expected configure_poe_mode 1/11 disable) · calibrated p 0.834</div>
+</div>
+
+<div class="card-demo">
+  <div class="req">Operator: <em>“@sw1 cut the power to port 2.”</em></div>
+  <div class="cmd">configure_device_setting · disable_port {"port": "1/2"}
+catalog: Disable a network port (interface link, shutdown) -- cuts all traffic.</div>
+  <p class="reason">Reason: the model's own sentence, shown unchanged.</p>
+  <div class="check bad"><b>p(matches request) = 0.28</b><span>Check: this shuts the interface down (link AND PoE power go down until re-enabled) — that may NOT be what you asked for (p=0.28). Read the command before approving.</span></div>
+  <div class="actions"><span class="btn primary">Approve &amp; run</span><span class="btn">Deny</span></div>
+  <div class="meta"><span class="band mismatch">mismatch</span> band · ground truth: dangerous confusion (expected configure_poe_mode 1/2 disable; the proposal shuts the port) · calibrated p 0.276</div>
+</div>
+<p class="small">The three cards are the PoE-versus-shutdown pair seen from three sides: a shutdown that was asked for, a PoE cut that was asked for, and a shutdown that was not. The third is one of the two "cut the power" rows the agent turned into <code>disable_port</code>; both sit at p = 0.28. The "catalog" line is the description the gate state carries; the reason line is a placeholder for the model's text.</p>
+
+<h3>The ten clauses</h3>
+<div class="tablewrap"><table>
+<tr><th>command</th><th>class</th><th>clause (CLASS_TEXT, verbatim)</th></tr>
+<tr><td class="q">disable_port</td><td class="q">port_admin_down</td><td>shuts the interface down (link AND PoE power go down until re-enabled)</td></tr>
+<tr><td class="q">enable_port</td><td class="q">port_admin_up</td><td>brings the interface back up</td></tr>
+<tr><td class="q">configure_poe_mode</td><td class="q">poe_power_on_off</td><td>changes PoE power delivery only; the link stays up</td></tr>
+<tr><td class="q">configure_poe_power_limit</td><td class="q">poe_limit</td><td>caps the PoE wattage on the port</td></tr>
+<tr><td class="q">configure_access_vlan</td><td class="q">access_vlan</td><td>puts the port in one untagged VLAN (access port)</td></tr>
+<tr><td class="q">configure_trunk_allowed_vlans</td><td class="q">trunk_vlans</td><td>makes the port a trunk with an allowed-VLAN list</td></tr>
+<tr><td class="q">configure_port_speed</td><td class="q">port_speed</td><td>changes the port speed</td></tr>
+<tr><td class="q">configure_port_duplex</td><td class="q">port_duplex</td><td>changes the duplex setting</td></tr>
+<tr><td class="q">set_port_description</td><td class="q">port_description</td><td>changes the port label only</td></tr>
+<tr><td class="q">create_vlan</td><td class="q">vlan_create</td><td>creates a VLAN</td></tr>
+</table></div>
+<p class="small">A command outside the map (a read, or <code>diagnose_port_issues</code>) falls back to its bare name in the sentence. The clause is chosen by the proposal's class, not the request's, so the mismatch card names what will happen, not what was asked; the operator supplies the other half.</p>
+
+<h2>Choosing the operating point</h2>
+<p>The table sweeps the card's cut-off over the 195 calls the generative model actually made on the paraphrases (161 do what was asked, counting the 10 format slips; 20 are command confusions, 13 propose a diagnosis instead of a read, 1 has a wrong parameter) and over the synthetic negatives (260 swapped operations, 140 of them dangerous pairs, and 224 wrong ports). "Flagged" means p below the threshold, "accepted" means p above it.</p>
+<div class="tablewrap"><table class="wide">
+<tr><th class="n">threshold</th><th class="n">real confusions flagged of 20</th><th class="n">dangerous among them of 16</th><th class="n">diagnose-instead flagged of 13</th><th class="n">correct calls false-flagged of 161</th><th class="n">dangerous swaps accepted of 140</th><th class="n">any swapped op accepted of 260</th><th class="n">wrong port accepted of 224</th></tr>
+<tr><td class="n">0.3</td><td class="n">15</td><td class="n">15</td><td class="n">7</td><td class="n">19</td><td class="n">3</td><td class="n">27</td><td class="n">1</td></tr>
+<tr class="lead"><td class="n">0.4 · default</td><td class="n">15</td><td class="n">15</td><td class="n">7</td><td class="n">25</td><td class="n">1</td><td class="n">22</td><td class="n">0</td></tr>
+<tr><td class="n">0.5</td><td class="n">15</td><td class="n">15</td><td class="n">7</td><td class="n">32</td><td class="n">0</td><td class="n">19</td><td class="n">0</td></tr>
+<tr><td class="n">0.7</td><td class="n">15</td><td class="n">15</td><td class="n">7</td><td class="n">45</td><td class="n">0</td><td class="n">15</td><td class="n">0</td></tr>
+<tr class="lead"><td class="n">0.85 · default</td><td class="n">15</td><td class="n">15</td><td class="n">7</td><td class="n">65</td><td class="n">0</td><td class="n">9</td><td class="n">0</td></tr>
+<tr><td class="n">0.9</td><td class="n">15</td><td class="n">15</td><td class="n">7</td><td class="n">76</td><td class="n">0</td><td class="n">8</td><td class="n">0</td></tr>
+</table></div>
+<p class="small">Calibrated p (five out-of-fold temperatures of 6.45, 6.45, 6.45, 6.02, 6.02, folds grouped by seed request), exactly as the summary computes it. Two reconciliations with the results page, which counts the same pairs differently: its "30 of 151 correct calls false-flagged" is this table's 32 of 161 at 0.5, minus the 2 format slips it counts separately; its "1 of 156 dangerous swaps accepted" is these 140 synthetic swaps plus the 16 real dangerous confusions, and the one accepted is a real call.</p>
+<p>Two things are visible at once. The catch columns do not move: the same 15 confusions and the same 7 diagnose-instead calls are flagged at 0.3 and at 0.9. The false-flag column is the whole story of the threshold, rising from 19 to 76 correct calls. The reason is that the readout's probabilities on the real misses are bimodal. Twelve access-VLAN requests that became trunk configurations sit at p = 0.04 to 0.07; the three calls that became <code>disable_port</code> (two PoE cuts, one speed change) sit at 0.28; then nothing until 0.91. The five confusions above 0.9 are out of reach of any threshold: four are <code>show_vlan_config</code> answered with <code>show_vlan_membership</code> (reads, p = 0.96 to 0.97) and one is a PoE limit turned into a PoE mode change at p = 0.91, the single dangerous miss.</p>
+
+<figure>
+<svg viewBox="0 0 760 322" role="img" aria-label="Line chart of four rates against the card threshold from 0.3 to 0.9. Real confusions flagged stays flat at 75 percent and diagnose-instead flagged flat at 54 percent across every threshold. Correct calls false-flagged rises from 12 percent at 0.3 to 47 percent at 0.9. Dangerous synthetic swaps accepted falls from 2 percent at 0.3 to zero from 0.5 on. Dashed verticals mark the code defaults, 0.4 for mismatch and 0.85 for ok.">
+  <g font-family="IBM Plex Sans, sans-serif" font-size="11" fill="currentColor">
+    <line x1="64" y1="250" x2="690" y2="250" stroke="var(--rule)"/>
+    <line x1="64" y1="196.5" x2="690" y2="196.5" stroke="var(--rule)" stroke-dasharray="2 3"/>
+    <line x1="64" y1="143" x2="690" y2="143" stroke="var(--rule)" stroke-dasharray="2 3"/>
+    <line x1="64" y1="89.5" x2="690" y2="89.5" stroke="var(--rule)" stroke-dasharray="2 3"/>
+    <line x1="64" y1="36" x2="690" y2="36" stroke="var(--rule)" stroke-dasharray="2 3"/>
+    <text x="56" y="254" text-anchor="end" fill="var(--muted)">0%</text>
+    <text x="56" y="200" text-anchor="end" fill="var(--muted)">25%</text>
+    <text x="56" y="147" text-anchor="end" fill="var(--muted)">50%</text>
+    <text x="56" y="93" text-anchor="end" fill="var(--muted)">75%</text>
+    <text x="56" y="40" text-anchor="end" fill="var(--muted)">100%</text>
+    <line x1="198" y1="36" x2="198" y2="250" stroke="var(--muted)" stroke-dasharray="4 3"/>
+    <line x1="601" y1="36" x2="601" y2="250" stroke="var(--muted)" stroke-dasharray="4 3"/>
+    <text x="198" y="26" text-anchor="middle" font-size="10.5" fill="var(--muted)">mismatch ≤ 0.4 (default)</text>
+    <text x="601" y="26" text-anchor="middle" font-size="10.5" fill="var(--muted)">ok ≥ 0.85 (default)</text>
+    <text x="109" y="268" text-anchor="middle" fill="var(--muted)">0.3</text>
+    <text x="198" y="268" text-anchor="middle" fill="var(--muted)">0.4</text>
+    <text x="288" y="268" text-anchor="middle" fill="var(--muted)">0.5</text>
+    <text x="466" y="268" text-anchor="middle" fill="var(--muted)">0.7</text>
+    <text x="601" y="268" text-anchor="middle" fill="var(--muted)">0.85</text>
+    <text x="645" y="268" text-anchor="middle" fill="var(--muted)">0.9</text>
+    <text x="377" y="284" text-anchor="middle" fill="var(--muted)">card threshold on calibrated p(matches request)</text>
+    <polyline points="109,89.5 198,89.5 288,89.5 466,89.5 601,89.5 645,89.5" fill="none" stroke="var(--bad)" stroke-width="2"/>
+    <polyline points="109,134.8 198,134.8 288,134.8 466,134.8 601,134.8 645,134.8" fill="none" stroke="var(--warn)" stroke-width="2"/>
+    <polyline points="109,224.7 198,216.8 288,207.4 466,190.1 601,163.5 645,149" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    <polyline points="109,245.5 198,248.5 288,250 466,250 601,250 645,250" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 3"/>
+    <g fill="var(--bad)" stroke="var(--surface)" stroke-width="1.5"><circle cx="109" cy="89.5" r="4"/><circle cx="198" cy="89.5" r="4"/><circle cx="288" cy="89.5" r="4"/><circle cx="466" cy="89.5" r="4"/><circle cx="601" cy="89.5" r="4"/><circle cx="645" cy="89.5" r="4"/></g>
+    <g fill="var(--warn)" stroke="var(--surface)" stroke-width="1.5"><circle cx="109" cy="134.8" r="4"/><circle cx="198" cy="134.8" r="4"/><circle cx="288" cy="134.8" r="4"/><circle cx="466" cy="134.8" r="4"/><circle cx="601" cy="134.8" r="4"/><circle cx="645" cy="134.8" r="4"/></g>
+    <g fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"><circle cx="109" cy="224.7" r="4"/><circle cx="198" cy="216.8" r="4"/><circle cx="288" cy="207.4" r="4"/><circle cx="466" cy="190.1" r="4"/><circle cx="601" cy="163.5" r="4"/><circle cx="645" cy="149" r="4"/></g>
+    <g fill="currentColor" stroke="var(--surface)" stroke-width="1.5"><circle cx="109" cy="245.5" r="4"/><circle cx="198" cy="248.5" r="4"/><circle cx="288" cy="250" r="4"/><circle cx="466" cy="250" r="4"/><circle cx="601" cy="250" r="4"/><circle cx="645" cy="250" r="4"/></g>
+    <text x="656" y="93" font-family="IBM Plex Mono, monospace" fill="var(--bad)">75%</text>
+    <text x="656" y="138" font-family="IBM Plex Mono, monospace" fill="var(--warn)">54%</text>
+    <text x="656" y="153" font-family="IBM Plex Mono, monospace" fill="var(--accent)">47%</text>
+    <text x="656" y="254" font-family="IBM Plex Mono, monospace">0%</text>
+    <text x="104" y="216" font-family="IBM Plex Mono, monospace" fill="var(--accent)" text-anchor="middle">12%</text>
+    <text x="88" y="243" font-family="IBM Plex Mono, monospace" fill="var(--muted)" text-anchor="middle">2%</text>
+    <text x="290" y="68" font-size="11" fill="var(--muted)">the catch counts do not move between 0.3 and 0.9</text>
+    <rect x="64" y="296" width="10" height="10" fill="var(--bad)"/><text x="80" y="305">real confusions flagged (of 20)</text>
+    <rect x="290" y="296" width="10" height="10" fill="var(--warn)"/><text x="306" y="305">diagnose-instead flagged (of 13)</text>
+    <rect x="64" y="312" width="10" height="10" fill="var(--accent)"/><text x="80" y="321">correct calls false-flagged (of 161)</text>
+    <line x1="290" y1="317" x2="300" y2="317" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2"/><text x="306" y="321">dangerous synthetic swaps accepted (of 140)</text>
+  </g>
+</svg>
+<figcaption>The threshold is a dial on the false-flag rate only. On these 195 real calls, the misses the gate can catch are caught at 0.3 already, and the ones it cannot catch are above 0.9. Cells rest on 20 and 13 rows; a handful of new rows would move the flat lines.</figcaption>
+</figure>
+
+<figure>
+<svg viewBox="0 0 760 214" role="img" aria-label="A probability axis from 0 to 1 divided into three bands at the code defaults: mismatch up to 0.4, check from 0.4 to 0.85, ok from 0.85. Above each band, the real calls that land in it: 47 in mismatch, of which 23 correct, 2 format slips, 7 diagnose-instead and 15 confusions, all 15 dangerous; 40 in check, 39 correct and 1 format slip, zero misses; 108 in ok, 89 correct, 7 format slips, 1 wrong parameter, 6 diagnose-instead and 5 confusions, one dangerous.">
+  <g font-family="IBM Plex Sans, sans-serif" font-size="11.5" fill="currentColor">
+    <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">WHERE THE 195 REAL CALLS FALL AT THE DEFAULT THRESHOLDS</text>
+    <text x="44" y="40" font-weight="600">47 real calls</text>
+    <text x="44" y="56">23 correct · 2 format slips</text>
+    <text x="44" y="72">7 diagnose-instead</text>
+    <text x="44" y="88" fill="var(--bad)">15 confusions, all 15 dangerous</text>
+    <text x="324" y="40" font-weight="600">40 real calls</text>
+    <text x="324" y="56">39 correct · 1 format slip</text>
+    <text x="324" y="72" fill="var(--ok)" font-weight="600">0 misses</text>
+    <text x="740" y="40" text-anchor="end" font-weight="600">108 real calls</text>
+    <text x="740" y="56" text-anchor="end">89 correct · 7 format slips</text>
+    <text x="740" y="72" text-anchor="end">1 wrong parameter · 6 diagnose-instead</text>
+    <text x="740" y="88" text-anchor="end" fill="var(--bad)">5 confusions, 1 dangerous</text>
+    <rect x="40" y="104" width="280" height="30" fill="var(--bad-soft)" stroke="var(--bad)"/>
+    <rect x="320" y="104" width="315" height="30" fill="var(--warn-soft)" stroke="var(--warn)"/>
+    <rect x="635" y="104" width="105" height="30" fill="var(--ok-soft)" stroke="var(--ok)"/>
+    <text x="180" y="123" text-anchor="middle" font-weight="500">mismatch: p ≤ 0.4</text>
+    <text x="477" y="123" text-anchor="middle" font-weight="500">check: 0.4 &lt; p &lt; 0.85</text>
+    <text x="687" y="123" text-anchor="middle" font-weight="500">ok: p ≥ 0.85</text>
+    <line x1="40" y1="134" x2="40" y2="140" stroke="var(--muted)"/><text x="40" y="154" text-anchor="middle" font-size="10.5" fill="var(--muted)">0</text>
+    <line x1="320" y1="134" x2="320" y2="140" stroke="var(--muted)"/><text x="320" y="154" text-anchor="middle" font-size="10.5" fill="var(--muted)">0.4</text>
+    <line x1="635" y1="134" x2="635" y2="140" stroke="var(--muted)"/><text x="635" y="154" text-anchor="middle" font-size="10.5" fill="var(--muted)">0.85</text>
+    <line x1="740" y1="134" x2="740" y2="140" stroke="var(--muted)"/><text x="740" y="154" text-anchor="middle" font-size="10.5" fill="var(--muted)">1</text>
+    <text x="390" y="170" text-anchor="middle" font-size="10.5" fill="var(--muted)">calibrated p(matches request)</text>
+    <text x="0" y="194" font-size="11" fill="var(--muted)">synthetic negatives in the same bands: 238 of 260 swapped operations and all 224 wrong ports land in mismatch;</text>
+    <text x="0" y="210" font-size="11" fill="var(--muted)">139 of 140 dangerous swaps too, one in check. Of the 260 gold calls, 152 are ok, 70 check, 38 mismatch.</text>
+  </g>
+</svg>
+<figcaption>The middle band is where the "uncertain" sentence goes, and on the real calls it holds no misses at all: 40 correct calls, zero wrong ones. Every real miss the gate can see sits below 0.4; every one it cannot sits above 0.85.</figcaption>
+</figure>
+
+<figure>
+<img src="confirm-card-design-risk.png" alt="Risk-coverage curve of the readout gate on all 939 pairs after out-of-fold temperature scaling: error rate among the pairs the gate decides on, most confident first. The curve starts high, 22 percent among the most confident 23 pairs, falls to 3.7 percent at 70 percent coverage, then rises to 11.8 percent at full coverage." style="max-width:100%;border:1px solid var(--rule);border-radius:6px;background:#fff">
+<figcaption>Risk against coverage on all 939 pairs, calibrated: 3.7% of decisions wrong among the most confident 70% of pairs, 11.8% over all of them. The curve is high at the left, which is the part a card should not trust: of the 11 errors in the most confident 6% of pairs, 4 are diagnoses proposed for status reads (3 PoE, 1 port), 5 are the <code>show_vlan_config</code> versus <code>show_vlan_membership</code> substitution, and the other 2 are a port-status/PoE-status swap and the one wrong-parameter call. The gate is most confident exactly where two commands show overlapping information. Drawn from the same receipt by <code>bench/card_thresholds.py --fig</code>; the results page's curve is the 217 held-out pairs.</figcaption>
+</figure>
+
+<p>For the defaults this says: the mismatch threshold can sit anywhere from 0.3 to 0.5 without changing a single catch on the real calls, and 0.5 is where the synthetic dangerous swaps stop being accepted (3 at 0.3, 1 at 0.4, 0 at 0.5), so 0.4 is the middle choice and 0.5 the cautious one. The ok threshold is a pure cost dial: at 0.85, 65 of 161 correct calls miss the ok sentence (40 land in check, 25 in mismatch); at 0.7, 45 do.</p>
+
+<h2>An operator cost model</h2>
+<p>A threshold trades two costs that fall on different people at different times. A false flag costs the operator a reading: a sentence, a number, a glance at the command, on a call that was fine. A missed dangerous call costs whatever the command breaks, for as long as it takes someone to notice and revert. The dataset labels the second cost per request as <code>blast</code>, on five levels: 0 none, 1 negligible, 2 brief and self-recovering, 3 down until reverted, 4 segment outage. The 259 authored evaluation rows carry it: 167 at 0, 23 at 1, 10 at 2, 54 at 3, 5 at 4. Reading cost was not measured here, so the model stays symbolic: at threshold t, for an action class c, expected cost is (false flags at t) × r + (dangerous misses at t) × B(c), with r the reading cost and B rising with the blast level.</p>
+<p>The second term does not move with t on this data, so the sum is minimised by the lowest threshold that still catches what is catchable. That would argue for one low threshold everywhere if r and B were the same for every command. They are not, which is the case for per-class thresholds. The table joins the blast levels the authored rows attach to each command with what the gate did to the real proposals of that class.</p>
+<div class="tablewrap"><table class="wide">
+<tr><th>proposed class</th><th>blast levels in the authored rows (rows)</th><th class="n">real proposals</th><th class="n">wrong</th><th class="n">wrong flagged at 0.4</th><th class="n">correct false-flagged at 0.4</th></tr>
+<tr class="lead"><td class="q">port_admin_down</td><td>3 (13)</td><td class="n">17</td><td class="n">3</td><td class="n">3</td><td class="n">2</td></tr>
+<tr class="lead"><td class="q">trunk_vlans</td><td>1 (1) · 3 (7) · 4 (3)</td><td class="n">12</td><td class="n">12</td><td class="n">12</td><td class="n">0</td></tr>
+<tr class="lead"><td class="q">access_vlan</td><td>3 (7) · 4 (1)</td><td class="n">6</td><td class="n">0</td><td class="n">·</td><td class="n">3</td></tr>
+<tr class="lead"><td class="q">poe_power_on_off</td><td>1 (8) · 3 (18)</td><td class="n">9</td><td class="n">1</td><td class="n">0</td><td class="n">4</td></tr>
+<tr><td class="q">poe_limit</td><td>1 (4) · 2 (2) · 3 (2)</td><td class="n">13</td><td class="n">0</td><td class="n">·</td><td class="n">0</td></tr>
+<tr><td class="q">port_speed</td><td>2 (8) · 3 (1)</td><td class="n">26</td><td class="n">0</td><td class="n">·</td><td class="n">6</td></tr>
+<tr><td class="q">port_admin_up</td><td>1 (6)</td><td class="n">16</td><td class="n">0</td><td class="n">·</td><td class="n">4</td></tr>
+<tr><td class="q">port_duplex</td><td>no authored rows</td><td class="n">17</td><td class="n">1</td><td class="n">0</td><td class="n">1</td></tr>
+<tr><td class="q">port_description</td><td>no authored rows</td><td class="n">12</td><td class="n">0</td><td class="n">·</td><td class="n">3</td></tr>
+<tr><td>reads (the seven <span class="q">show_*</span> commands proposed)</td><td>0 (19)</td><td class="n">54</td><td class="n">4</td><td class="n">0</td><td class="n">2</td></tr>
+<tr><td class="q">diagnose_port_issues</td><td>0 (39)</td><td class="n">13</td><td class="n">13</td><td class="n">7</td><td class="n">·</td></tr>
+</table></div>
+<p class="small">Blast is a label on the request, not on the command, so one command spans levels: a PoE cut is 3 on all 18 of its rows, while the 8 blast-1 rows of the same command are PoE power-ons. The four wrong reads are <code>show_vlan_membership</code> for <code>show_vlan_config</code>; the diagnose row's 13 proposals answered read requests with a diagnosis, which the design notes call defensible. Rows are 6 to 54 proposals each.</p>
+<p>Three tiers fall out, and the table says what each would have done on these 195 calls.</p>
+<ul>
+<li><b>Blast 3 to 4</b> (<code>port_admin_down</code>, <code>access_vlan</code>, <code>trunk_vlans</code>, <code>poe_power_on_off</code>): keep mismatch at 0.4 or raise it to 0.5, keep ok at 0.85, keep the imperative "Read the command before approving." Here the gate flagged 15 of 16 wrong proposals and false-flagged 9 of 28 correct ones: nine readings against a camera or a segment down until someone reverts it.</li>
+<li><b>Blast 1 to 2</b> (<code>port_admin_up</code>, <code>port_speed</code>, <code>poe_limit</code>, <code>port_description</code>, <code>port_duplex</code>): keep the mismatch line, lower ok to 0.7 so fewer correct calls read as uncertain, drop the imperative. One wrong proposal in 84, unflagged; 14 correct ones false-flagged at 0.4.</li>
+<li><b>Blast 0</b> (reads and diagnostics): show the sentence, never the alarm styling. The misses here are read-for-read and diagnose-for-read substitutions, so the worst outcome is a wrong screen; the 7 flagged diagnose calls want a neutral "this runs a diagnosis rather than a status read", not a warning.</li>
+</ul>
+<p class="small">Per-class thresholds are one line in the hook: <code>ok_above</code> and <code>mismatch_below</code> are already parameters of <code>annotate_proposal</code>, and the caller can pass them by <code>OP_CLASS</code>. The tiers are a proposal read off this table, not a measured policy, and the blast labels are LLM-authored with human review pending.</p>
+
+<h2>Copywriting rules for the sentence</h2>
+<ul>
+<li><b>Effect first, verdict second.</b> All three sentences open with "Check: this" followed by what the command does; the match to the request comes after. The operator reads what will happen before reading how sure the gate is, which is the order that survives a skim.</li>
+<li><b>One clause per class, in switch terms.</b> The ten clauses say "link AND PoE power go down", "the link stays up", "one untagged VLAN", "a trunk with an allowed-VLAN list": the distinctions the dangerous pairs turn on. A clause that would be true of both members of a confusable pair is useless on this card.</li>
+<li><b>The number stays.</b> Every sentence prints p to two decimals. It is the only thing on the card that was calibrated, and the only thing the operator can learn to read over time. Do not round it into words.</li>
+<li><b>Match the tone to the band's contents.</b> On this data the check band holds 40 correct calls and 0 wrong ones, so "the match to your request is uncertain" is a phrase that will be wrong-footed on every call it appears on. A neutral form such as "compare the port and value with your request" says what to do without implying an error.</li>
+<li><b>The alarm gets the imperative.</b> Only the mismatch sentence ends with an instruction ("Read the command before approving."). Keep it that way: an imperative on every card is an imperative on none.</li>
+<li><b>Say "matches your request", never "safe" or "correct".</b> The gate scores whether the proposal does what was asked, not whether what was asked was wise. A faithful execution of a bad request scores high.</li>
+<li><b>House style.</b> The mismatch sentence in the code joins its two halves with an em-dash and shouts "NOT" in capitals. A colon and a plain "not" read the same on a screen reader and better on a small one; the capitals can go once the band styling and the imperative carry the weight.</li>
+</ul>
+
+<h2>What never happens</h2>
+<ul>
+<li>Nothing executes on a probability. The Approve button is the same button, and Jev's own operating rule, "act automatically above 0.9", is deliberately not applied to device writes. The human confirm is the product's invariant.</li>
+<li>The gate never blocks and never rewrites. It cannot deny a proposal, delay it, or substitute the command it thinks was meant; it may only flag. At p = 0.99 it still approves nothing.</li>
+<li>The sentence never replaces the command. The rendered command stays on the card in full; the check line points at it ("Read the command"), it does not stand in for it.</li>
+<li>The reason is not an input. The gate reads the request and the proposal, not the model's justification, so a fluent wrong reason cannot talk the number up.</li>
+</ul>
+
+<h2>Accessibility: never color alone</h2>
+<ul>
+<li>Each band is carried three ways: a color (the ok, warn and bad tokens with their soft backgrounds), a word in the level field (ok, check, mismatch) that should be rendered as text on the line, and the sentence itself, whose wording differs per band ("matches your request", "is uncertain", "may NOT be what you asked for"). A screen reader gets the band from the sentence with no styling at all.</li>
+<li>The number is text, never a bar or a gauge on its own. A meter without the printed value is color alone by another name.</li>
+<li>The check line should be an <code>aria-live="polite"</code> region: it arrives about 3 s after the card, and an operator already reading the command should hear it land.</li>
+<li>Contrast in both themes: the shell's dark palette re-tokens every band color, so the line reads on a dark card without a light-mode assumption anywhere in the markup.</li>
+</ul>
+
+<h2>What to log for recalibration</h2>
+<p>The thresholds are meaningless until the probabilities have been calibrated on the deployment's own labeled rows, and they stay meaningful only while nothing upstream moves. Two facts from the study set the logging policy. The temperature here is about 6.4, fitted out-of-fold on seed-grouped folds; and a rerun of the earlier phrasing of the same gate question on the same 400 pairs lowered the mean p(yes) on correct proposals from 0.80 to 0.71 and flipped 21 of 400 decisions at 0.5, with AUROC (area under the receiver operating characteristic curve) unchanged at 0.957 against 0.958; the study's first pass had recorded a 0.6 gap, most of which a controlled rerun attributes to other prompt lines. A prompt edit moves the operating point with the ranking nearly unchanged. Log enough to refit.</p>
+<div class="tablewrap"><table>
+<tr><th>field</th><th>why</th></tr>
+<tr><td class="q">request, command, params, description</td><td>the gate state, verbatim; the row shape <code>bench.analyze</code> already consumes (<code>input</code>, <code>command</code>, <code>params</code>, <code>p_yes</code>, <code>logits</code>)</td></tr>
+<tr><td class="q">logits (both), p_raw, p_cal, T, T_fit_date</td><td>the temperature is refit from logits, not from p; the fit date tells you which prompt and model it was fitted against</td></tr>
+<tr><td class="q">band, sentence, thresholds in force</td><td>what the operator actually saw, so a later threshold change can be evaluated against the old one</td></tr>
+<tr><td class="q">op_class, blast (if labeled)</td><td>per-class thresholds need per-class counts; 20 confusions across ten classes is thin already</td></tr>
+<tr><td class="q">click (approve / deny / edit), time to click</td><td>a weak label and the only measurement of reading cost the product will ever get; an approve is not ground truth, an edited-then-approved call is a strong signal of a miss</td></tr>
+<tr><td class="q">backend id, model hash, prompt hash, latency</td><td>any change in these invalidates T; the latency budget on the board is 3.1 s per check</td></tr>
+</table></div>
+<p class="small">Review the weak labels in batches, group by seed request before fitting, and refit out-of-fold; publish the reliability diagram beside the threshold table each time. The study's own procedure was a few hundred labeled rows; the same count from production, with human labels, would be the first data this card has ever been tuned on that was not LLM-verified.</p>
+
+<h2>How the pre-turn hint fits</h2>
+<p>The gate is the second of two hooks. The first, <code>pre_turn</code>, runs before the generative model and asks two questions of the request alone: which tool (an 8-way CHOICE) and whether it is a write (a NOUL). It uses the answers in two ways. If the tool answer's confidence, the concentration statistic (K·max p − 1)/(K − 1), is at least 0.6, the tool's profile is loaded: the two core schemas plus two more, four in the 4K context. If the request is probably a write (p &gt; 0.5) but the tool is uncertain (confidence below 0.6), one line is appended to the system prompt for that turn.</p>
+
+<figure>
+<svg viewBox="0 0 760 252" role="img" aria-label="Flow of the pre-turn hook. The operator sentence enters pre_turn, which asks a tool CHOICE and an is_write NOUL. Two outputs: if confidence is at least 0.6 the tool's profile of four schemas is loaded; if the request is probably a write and confidence is below 0.6, one hint line is appended to the system prompt. The generative 4B then proposes the call and writes its reason, now stating its reading. The hint text is quoted. At the bottom, the confirm card carries the model's stated reading in the reason and the gate's sentence on the proposal's effect, and the human compares the two.">
+  <defs><marker id="arh1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+  <g font-family="IBM Plex Sans, sans-serif" font-size="11" fill="currentColor">
+    <rect x="0" y="0" width="220" height="92" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="10" y="20" font-size="12" font-weight="600">pre_turn, before the model runs</text>
+    <text x="10" y="40">tool: CHOICE, 8-way</text>
+    <text x="10" y="56">is_write: NOUL</text>
+    <text x="10" y="76" fill="var(--muted)">confidence = (K·max p − 1)/(K − 1)</text>
+    <line x1="220" y1="46" x2="258" y2="22" stroke="currentColor" stroke-width="1.2" marker-end="url(#arh1)"/>
+    <line x1="220" y1="46" x2="258" y2="72" stroke="currentColor" stroke-width="1.2" marker-end="url(#arh1)"/>
+    <rect x="260" y="0" width="220" height="42" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="270" y="18">confidence ≥ 0.6:</text>
+    <text x="270" y="34" fill="var(--muted)">load the tool's profile (4 schemas)</text>
+    <rect x="260" y="52" width="220" height="42" rx="6" fill="var(--warn-soft)" stroke="var(--warn)"/>
+    <text x="270" y="70">p(write) &gt; 0.5, confidence &lt; 0.6:</text>
+    <text x="270" y="86" fill="var(--muted)">append the hint line</text>
+    <line x1="480" y1="22" x2="518" y2="46" stroke="currentColor" stroke-width="1.2" marker-end="url(#arh1)"/>
+    <line x1="480" y1="72" x2="518" y2="46" stroke="currentColor" stroke-width="1.2" marker-end="url(#arh1)"/>
+    <rect x="520" y="0" width="240" height="92" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="530" y="20" font-size="12" font-weight="600">generative 4B on the NPU</text>
+    <text x="530" y="40">proposes the call, writes its reason</text>
+    <text x="530" y="56" fill="var(--muted)">(now stating its reading)</text>
+    <text x="530" y="76" fill="var(--muted)">then the gate, then the card</text>
+    <line x1="370" y1="94" x2="370" y2="116" stroke="currentColor" stroke-width="1.2" marker-end="url(#arh1)"/>
+    <text x="0" y="112" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">THE HINT LINE, SYSTEM PROMPT, THIS TURN ONLY</text>
+    <rect x="0" y="118" width="500" height="54" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="12" y="140" font-family="IBM Plex Mono, monospace">The request may mean either {tool A} or {tool B};</text>
+    <text x="12" y="158" font-family="IBM Plex Mono, monospace">state your reading of it explicitly in the confirmation message.</text>
+    <line x1="640" y1="92" x2="640" y2="192" stroke="currentColor" stroke-width="1.2" marker-end="url(#arh1)"/>
+    <rect x="0" y="194" width="760" height="52" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="12" y="214" font-size="12" font-weight="600">confirm card</text>
+    <text x="110" y="214">the reason now states the model's reading; the gate's sentence states the proposal's effect;</text>
+    <text x="110" y="232">the human compares the two and clicks. Neither hook executes anything.</text>
+  </g>
+</svg>
+<figcaption>The hint changes what the model writes into its reason; the gate changes what the card says about the proposal. On an ambiguous write both lines are on the card, and disagreement between them is the signal the operator is there to catch.</figcaption>
+</figure>
+
+<div class="tablewrap"><table>
+<tr><th>profile</th><th>the four schemas loaded</th></tr>
+<tr><td class="q">default</td><td class="q">query_device_info · configure_device_setting · diagnose_port_issues · search_documentation</td></tr>
+<tr><td class="q">diagnose</td><td class="q">core + diagnose_port_issues · search_documentation</td></tr>
+<tr><td class="q">events</td><td class="q">core + get_network_events · diagnose_port_issues</td></tr>
+<tr><td class="q">camera</td><td class="q">core + get_camera_detections · search_documentation</td></tr>
+<tr><td class="q">cable</td><td class="q">core + calibrate_cable_baseline · diagnose_port_issues</td></tr>
+<tr><td class="q">docs</td><td class="q">core + search_documentation · diagnose_port_issues</td></tr>
+</table></div>
+<p class="small">"core" is <code>query_device_info</code> and <code>configure_device_setting</code>. The hint says "state your reading", not "ask the operator which", because the on-board assistant passes no conversation history into the turn: a clarifying question would have nowhere to land. The wording puts the model's interpretation on the card instead, where the gate's sentence and the human can check it.</p>
+<p>Cost on the board: the two pre-turn questions from the readout take 1.28 s and 1.23 s, the gate question 3.1 s; the fine-tuned encoder answers a NOUL in 126 ms, which is why the study assigns the per-turn hook to the encoder. The gate stays with the readout: the encoder trained on synthetic pairs did not learn it (AUROC 0.556 on the held-out pairs against 0.967 for the readout).</p>
+
+<h2>What this rests on</h2>
+<ul>
+<li>One backend (the 4B readout), one gate receipt, one seed-grouped calibration. The catch counts stand on 20 confusions and 13 diagnose-instead calls; N is in the hundreds everywhere on this page and in the tens in the cells that matter most.</li>
+<li>The blast levels and the adversarial rows are LLM-written and LLM-verified, with human review pending. The tier boundaries above inherit that status.</li>
+<li>All probabilities were produced on the development host with the same weights and binary family that run on the board; the board contributed the latency numbers only.</li>
+<li>Reading cost was not measured. The cost model is a shape, and the click-time field in the log is how it gets numbers.</li>
+</ul>
+
+<footer>
+<p>Companion to <a href="https://claude.ai/artifact/BBMh93V3pxKYzSMe7UcpN3">the Jevlet results page</a> and <a href="https://claude.ai/artifact/3cL2PYgWi5ti1gRXScxhKa">the encoder fine-tune page</a>. Code, data and receipts: <a href="https://github.com/kvapr/jevlet">github.com/kvapr/jevlet</a> (<code>jevlet/integrations/lance_local.py</code>, <code>bench/card_thresholds.py</code>, <code>results/card-thresholds-qwen3-4b-q4_0-cpu.json</code>, <code>data/README.md</code>); the long-form account is the <a href="https://kvapr.github.io/posts/jevlet-system-one-on-the-edge/">blog post</a> and the <a href="https://github.com/kvapr/jevlet/blob/main/paper/main.pdf">preprint</a>. Gate numbers measured 2026-09-21 on the development host; threshold table computed 2026-09-22 from that receipt.</p>
+</footer>
+</main>

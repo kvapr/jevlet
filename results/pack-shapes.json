@@ -1,0 +1,199 @@
+{
+ "data/td-desc": {
+  "train": {
+   "examples": 2605,
+   "questions_per_example": {
+    "1": 1620,
+    "4": 985
+   },
+   "sources": {
+    "netops-gate": 1620,
+    "netops": 985
+   },
+   "qshuffled": 0,
+   "command_slot": {
+    "2": 985
+   },
+   "distinct_orders": 1,
+   "orders": {
+    "tool,command,is_write,touches_poe_power": 985
+   },
+   "single_question_examples": 1620,
+   "single_question_gold_no": 1040
+  },
+  "val": {
+   "examples": 398,
+   "questions_per_example": {
+    "1": 264,
+    "4": 134
+   },
+   "sources": {
+    "netops": 134,
+    "netops-gate": 264
+   },
+   "qshuffled": 0,
+   "command_slot": {
+    "2": 134
+   },
+   "distinct_orders": 1,
+   "orders": {
+    "tool,command,is_write,touches_poe_power": 134
+   },
+   "single_question_examples": 264,
+   "single_question_gold_no": 174
+  },
+  "test": {
+   "examples": 383,
+   "questions_per_example": {
+    "1": 257,
+    "4": 126
+   },
+   "sources": {
+    "netops": 126,
+    "netops-gate": 257
+   },
+   "qshuffled": 0,
+   "command_slot": {
+    "2": 126
+   },
+   "distinct_orders": 1,
+   "orders": {
+    "tool,command,is_write,touches_poe_power": 126
+   },
+   "single_question_examples": 257,
+   "single_question_gold_no": 165
+  }
+ },
+ "data/td-desc-shuf": {
+  "train": {
+   "examples": 1970,
+   "questions_per_example": {
+    "4": 1970
+   },
+   "sources": {
+    "netops": 1970
+   },
+   "qshuffled": 985,
+   "command_slot": {
+    "1": 230,
+    "2": 1231,
+    "3": 237,
+    "4": 272
+   },
+   "distinct_orders": 24,
+   "orders": {
+    "tool,command,is_write,touches_poe_power": 1020,
+    "touches_poe_power,command,is_write,tool": 56,
+    "is_write,touches_poe_power,tool,command": 51,
+    "is_write,tool,command,touches_poe_power": 48,
+    "is_write,command,tool,touches_poe_power": 46,
+    "tool,touches_poe_power,command,is_write": 46,
+    "tool,touches_poe_power,is_write,command": 46,
+    "command,is_write,touches_poe_power,tool": 46,
+    "touches_poe_power,tool,is_write,command": 45,
+    "tool,is_write,command,touches_poe_power": 45,
+    "command,tool,touches_poe_power,is_write": 44,
+    "tool,is_write,touches_poe_power,command": 44,
+    "is_write,tool,touches_poe_power,command": 43,
+    "touches_poe_power,is_write,tool,command": 43,
+    "touches_poe_power,command,tool,is_write": 40,
+    "command,touches_poe_power,is_write,tool": 38,
+    "command,is_write,tool,touches_poe_power": 37,
+    "tool,command,touches_poe_power,is_write": 36,
+    "touches_poe_power,is_write,command,tool": 35,
+    "touches_poe_power,tool,command,is_write": 34,
+    "command,tool,is_write,touches_poe_power": 33,
+    "is_write,command,touches_poe_power,tool": 33,
+    "command,touches_poe_power,tool,is_write": 32,
+    "is_write,touches_poe_power,command,tool": 29
+   },
+   "single_question_examples": 0,
+   "single_question_gold_no": 0
+  },
+  "val": {
+   "examples": 134,
+   "questions_per_example": {
+    "4": 134
+   },
+   "sources": {
+    "netops": 134
+   },
+   "qshuffled": 0,
+   "command_slot": {
+    "2": 134
+   },
+   "distinct_orders": 1,
+   "orders": {
+    "tool,command,is_write,touches_poe_power": 134
+   },
+   "single_question_examples": 0,
+   "single_question_gold_no": 0
+  },
+  "test": {
+   "examples": 126,
+   "questions_per_example": {
+    "4": 126
+   },
+   "sources": {
+    "netops": 126
+   },
+   "qshuffled": 0,
+   "command_slot": {
+    "2": 126
+   },
+   "distinct_orders": 1,
+   "orders": {
+    "tool,command,is_write,touches_poe_power": 126
+   },
+   "single_question_examples": 0,
+   "single_question_gold_no": 0
+  }
+ },
+ "data/td-gate": {
+  "train": {
+   "examples": 2080,
+   "questions_per_example": {
+    "1": 2080
+   },
+   "sources": {
+    "netops-gate": 2080
+   },
+   "qshuffled": 0,
+   "command_slot": {},
+   "distinct_orders": 0,
+   "orders": {},
+   "single_question_examples": 2080,
+   "single_question_gold_no": 1040
+  },
+  "val": {
+   "examples": 121,
+   "questions_per_example": {
+    "1": 121
+   },
+   "sources": {
+    "netops-gate": 121
+   },
+   "qshuffled": 0,
+   "command_slot": {},
+   "distinct_orders": 0,
+   "orders": {},
+   "single_question_examples": 121,
+   "single_question_gold_no": 80
+  },
+  "test": {
+   "examples": 257,
+   "questions_per_example": {
+    "1": 257
+   },
+   "sources": {
+    "netops-gate": 257
+   },
+   "qshuffled": 0,
+   "command_slot": {},
+   "distinct_orders": 0,
+   "orders": {},
+   "single_question_examples": 257,
+   "single_question_gold_no": 165
+  }
+ }
+}

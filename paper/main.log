@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.19)  22 SEP 2026 20:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.19)  22 SEP 2026 20:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -526,7 +526,7 @@ Underfull \hbox (badness 1383) in paragraph at lines 27--32
 51m non-autoregressive de-ci-sion en-gine.
  []
 
-
+[9]
 Underfull \hbox (badness 7081) in paragraph at lines 34--39
 []\OT1/ptm/m/n/10.95 (+20) Kotoba Labs.  open-jev-deberta-v3-large: an open, je
 v-shaped typed-decision model.
@@ -538,7 +538,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--39
 []jev-[]deberta-[]v3-[]large$[][]\OT1/ptm/m/n/10.95 (+20) ;
  []
 
-[9]
+
 Underfull \hbox (badness 1194) in paragraph at lines 66--71
 []\OT1/ptm/m/n/10.95 (+20) TypeSafe AI.  In-tro-duc-ing sys-tem one mod-els & j
 ev.  [][]$\OT1/pcr/m/n/10.95 https : / / typesafe . ai / blog /
@@ -569,7 +569,7 @@ fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb
 8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (10 pages, 207957 bytes).
+Output written on main.pdf (10 pages, 208370 bytes).
 PDF statistics:
  289 PDF objects out of 1000 (max. 8388607)
  252 compressed objects within 3 object streams

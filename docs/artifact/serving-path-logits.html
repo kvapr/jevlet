@@ -1,0 +1,338 @@
+<title>Where the Logits Go</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #f3f5f4; --surface: #ffffff; --ink: #172026; --muted: #5e6b72; --rule: #d3dbd8;
+    --accent: #2f6690; --accent-soft: #e3edf4;
+    --ok: #2e7d5b; --ok-soft: #e2f1e8; --warn: #c7831c; --warn-soft: #f7ecd6; --bad: #b5432f; --bad-soft: #f6e2dd;
+    --readout: #2f6690; --encoder: #c98a2b; --finetuned: #a8404b; --generative: #6b7378;
+    --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    --sans: "IBM Plex Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0f1518; --surface: #161e22; --ink: #e6ecee; --muted: #98a6ac; --rule: #2a363b;
+      --accent: #7fb0d6; --accent-soft: #1c2b36;
+      --ok: #63c08f; --ok-soft: #173126; --warn: #e2a64c; --warn-soft: #3a2c15; --bad: #e07a68; --bad-soft: #3d201c;
+      --readout: #7fb0d6; --encoder: #e2a64c; --finetuned: #e28a93; --generative: #9aa6ab;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0f1518; --surface: #161e22; --ink: #e6ecee; --muted: #98a6ac; --rule: #2a363b;
+    --accent: #7fb0d6; --accent-soft: #1c2b36;
+    --ok: #63c08f; --ok-soft: #173126; --warn: #e2a64c; --warn-soft: #3a2c15; --bad: #e07a68; --bad-soft: #3d201c;
+    --readout: #7fb0d6; --encoder: #e2a64c; --finetuned: #e28a93; --generative: #9aa6ab;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 16px/1.6 var(--sans); }
+  main { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font: 600 2rem/1.15 var(--serif); margin: 0 0 .4rem; text-wrap: balance; letter-spacing: -.01em; }
+  h2 { font: 600 1.35rem/1.25 var(--serif); margin: 2.6rem 0 .7rem; text-wrap: balance; }
+  h3 { font: 600 1.02rem/1.3 var(--sans); margin: 1.6rem 0 .4rem; }
+  p { margin: .7rem 0; max-width: 68ch; }
+  .lede { color: var(--muted); font-size: 1.05rem; max-width: 62ch; }
+  .eyebrow { font: 500 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: .6rem; }
+  a { color: var(--accent); }
+  code, .mono { font-family: var(--mono); font-size: .88em; }
+  figure { margin: 1.4rem 0; }
+  figure svg { max-width: 100%; height: auto; display: block; }
+  figcaption { font-size: .82rem; color: var(--muted); margin-top: .5rem; max-width: 68ch; }
+  .card-demo { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.1rem; margin: 1.2rem 0; }
+  .card-demo .req { font: 500 .95rem var(--sans); }
+  .card-demo .cmd { font-family: var(--mono); font-size: .85rem; background: var(--ground); padding: .5rem .7rem; border-radius: 5px; margin: .6rem 0; white-space: pre-wrap; }
+  .check { display: flex; gap: .6rem; align-items: flex-start; font-size: .9rem; padding: .55rem .7rem; border-radius: 6px; margin-top: .6rem; }
+  .check.bad { background: var(--bad-soft); color: var(--ink); border-left: 3px solid var(--bad); }
+  .check.ok { background: var(--ok-soft); border-left: 3px solid var(--ok); }
+  .check.warn { background: var(--warn-soft); border-left: 3px solid var(--warn); }
+  .check b { font-family: var(--mono); font-weight: 500; white-space: nowrap; }
+  .actions { display: flex; gap: .5rem; margin-top: .7rem; }
+  .btn { font: 500 .8rem var(--sans); padding: .35rem .7rem; border-radius: 5px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .tablewrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .86rem; font-variant-numeric: tabular-nums; }
+  th { text-align: left; font: 500 .7rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: .45rem .6rem .35rem 0; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  td { padding: .45rem .6rem .45rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td.n, th.n { text-align: right; font-family: var(--mono); font-size: .84rem; }
+  tr.lead td { font-weight: 600; }
+  .swatch { display: inline-block; width: .7em; height: .7em; border-radius: 2px; margin-right: .4em; vertical-align: -1px; }
+  .kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .6rem; margin: 1rem 0; }
+  .kv div { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: .6rem .75rem; }
+  .kv b { display: block; font: 500 1.35rem/1.1 var(--mono); }
+  .kv span { font-size: .78rem; color: var(--muted); }
+  .note { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: .7rem 1rem; border-radius: 0 6px 6px 0; font-size: .92rem; margin: 1.2rem 0; }
+  .pending { color: var(--warn); font-family: var(--mono); font-size: .8rem; }
+  ul { padding-left: 1.2rem; } li { margin: .3rem 0; max-width: 68ch; }
+  .pill { font: 500 .7rem var(--mono); padding: .1rem .45rem; border-radius: 999px; border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+  footer { margin-top: 3rem; font-size: .82rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 1rem; }
+  @media (max-width: 480px) { h1 { font-size: 1.55rem; } .actions { flex-wrap: wrap; } }
+</style>
+<style>
+  ol { padding-left: 1.4rem; } ol li { margin: .35rem 0; max-width: 68ch; }
+  .card-demo .cmd .k { color: var(--accent); }
+  table.tight th { white-space: normal; }
+  table.tight td.n { white-space: nowrap; }
+</style>
+<main>
+<div class="eyebrow">Companion to the Jevlet results page · September 2026 · serving path</div>
+<h1>Where the logits go: what each way of running the 4B exposes to a decision layer</h1>
+<p class="lede">A typed decision needs the probability distribution at the first generated position, and on this board only the paths that run on the CPU return one where a decision layer can live. This page records what each serving path exposes, what the text-label fallback costs, why the two NPU (neural processing unit) runtimes are out, and what the deployed choice costs beside the running agent.</p>
+
+<div class="kv">
+  <div><b>null</b><span><code>logprobs</code> returned by the production runtime (GenieX v0.4.0) for a <code>logprobs:true, max_tokens:1</code> request; 3 tokens came back, <code>cached_tokens</code> 0</span></div>
+  <div><b>88.7% / 70.8%</b><span>tool / command from a text label on that path, against 93.3% / 83.1% for the model's own tool call; 14 of 195 labels flip when the options are reversed</span></div>
+  <div><b>1.24 s · 3.1 s</b><span>router question and gate question from the 4B readout on the board CPU, six threads, legend prefix-cached, beside the running NPU tenant</span></div>
+  <div><b>4.32–4.33 s</b><span>generative turn through the NPU runtime while the CPU readout streamed questions; 4.43–4.52 s with the CPU idle</span></div>
+</div>
+
+<div class="note"><b>Read this with the main page.</b> The <a href="https://claude.ai/artifact/BBMh93V3pxKYzSMe7UcpN3">Jevlet results page</a> holds the accuracy and calibration comparison; the <a href="https://claude.ai/artifact/3cL2PYgWi5ti1gRXScxhKa">fine-tune page</a> goes into the encoder. Every readout, encoder and gate accuracy number below was produced on the development host with the same GGUF weights and checkpoints that run on the board. The board contributed the latency and co-tenancy measurements, and three sets of numbers came through its NPU runtimes: the text-label rows, the model's own tool call, and the 98.5% canonical figure. No new measurement was taken for this page. N is in the hundreds throughout, and the authored labels are LLM-written and LLM-verified, human review pending.</div>
+
+<h2>What the layer needs from a serving path</h2>
+<p>The readout backend sends one request per question. The instructions, the option legend with single-token labels and the answer format go in the system message, so they are identical across states; the state goes in the user message. It asks for one token at temperature 0 with log-probabilities on, and reads the distribution at the first generated position: mass on each label's case and whitespace variants is summed and renormalised over the label set. Three things have to hold for that to work.</p>
+<div class="card-demo"><div class="cmd">POST /v1/chat/completions
+{"messages": [{"role": "system", "content": "&lt;instructions, option legend, answer format&gt;"},
+              {"role": "user",   "content": "&lt;the state&gt;"}],
+ "max_tokens": 1, "temperature": 0, "logprobs": true, "top_logprobs": 40,
+ "cache_prompt": true, "chat_template_kwargs": {"enable_thinking": false}}
+<span class="k">→ choices[0].logprobs.content[0].top_logprobs</span>   the label variants, summed
+<span class="k">→ timings.prompt_n</span>                              tokens actually evaluated</div></div>
+<ul>
+<li><b>Pre-sampling probabilities at position 0.</b> Not a sampled token, not a parsed sentence: the softmax over the vocabulary before anything is chosen. Without it there is no probability, no confidence and nothing to calibrate.</li>
+<li><b><code>max_tokens</code> honoured.</b> One decoded token is the whole cost of the answer. A runtime that generates a sentence anyway pays for a sentence.</li>
+<li><b>A prefix cache.</b> The legend is the constant part of every prompt. With the cache, a question costs the state's tokens only: 20 evaluated tokens of a 425-token prompt for the tool question on this board.</li>
+</ul>
+<p>An encoder skips all three: one forward pass over the state and the questions returns a distribution per question directly. That is why it appears below as the fifth place to send the request.</p>
+
+<h2>Five places to send the same request</h2>
+<figure>
+<svg viewBox="0 0 760 372" role="img" aria-label="One request with the question legend in the system message, the state in the user message, max_tokens 1 and logprobs on, fanned out to five runtimes. GenieX v0.4.0 compiled on the NPU returns the text 'No.', three tokens, logprobs null and cached_tokens 0. GenieX 0.5.1-alpha with the llama.cpp backend on the NPU returns a text label only, with no n_probs plumbing in its front end. Upstream llama-server on the Hexagon backend returns logprobs at position 0 with the lm-head on the CPU and has a prefix cache, but the NPU is a single tenant and it was never run on this board. The same llama-server with the Hexagon device count set to zero runs on the CPU beside the NPU tenant and returns logprobs at position 0 with the legend cached, at 1.24 seconds per router question and 3.1 seconds per gate question. A fine-tuned 150M encoder on the CPU returns one distribution per question directly, 126 milliseconds per NOUL and 183 per gate question.">
+  <defs><marker id="arsp1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+  <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
+    <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">ONE REQUEST, FIVE PLACES TO SEND IT</text>
+    <rect x="0" y="140" width="150" height="100" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="12" y="162" font-weight="600">one request</text>
+    <text x="12" y="181" font-size="11" fill="var(--muted)">system: question legend</text>
+    <text x="12" y="197" font-size="11" fill="var(--muted)">user: the state</text>
+    <text x="12" y="213" font-size="11" fill="var(--muted)">max_tokens 1 · logprobs</text>
+    <text x="12" y="229" font-size="11" fill="var(--muted)">cache_prompt on</text>
+    <g stroke="currentColor" stroke-width="1.1" fill="none">
+      <text x="12" y="252" font-size="10" fill="var(--muted)">the same request, sent five times</text>
+      <line x1="150" y1="190" x2="188" y2="57" marker-end="url(#arsp1)"/>
+      <line x1="150" y1="190" x2="188" y2="123" marker-end="url(#arsp1)"/>
+      <line x1="150" y1="190" x2="188" y2="189" marker-end="url(#arsp1)"/>
+      <line x1="150" y1="190" x2="188" y2="255" marker-end="url(#arsp1)"/>
+      <line x1="150" y1="190" x2="188" y2="321" marker-end="url(#arsp1)"/>
+      <text x="570" y="30" font-size="10" fill="var(--muted)">what each one returns</text>
+      <line x1="480" y1="57" x2="508" y2="57" marker-end="url(#arsp1)"/>
+      <line x1="480" y1="123" x2="508" y2="123" marker-end="url(#arsp1)"/>
+      <line x1="480" y1="189" x2="508" y2="189" marker-end="url(#arsp1)"/>
+      <line x1="480" y1="255" x2="508" y2="255" marker-end="url(#arsp1)"/>
+      <line x1="480" y1="321" x2="508" y2="321" marker-end="url(#arsp1)"/>
+    </g>
+    <rect x="190" y="30" width="290" height="54" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="202" y="51" font-weight="600">GenieX v0.4.0, compiled W4A16 bundle</text>
+    <text x="202" y="68" font-size="11" fill="var(--muted)">NPU · the production runtime</text>
+    <rect x="510" y="30" width="250" height="54" rx="6" fill="var(--bad-soft)" stroke="var(--bad)"/>
+    <text x="522" y="51" font-size="11">text "No." · 3 tokens for max_tokens 1</text>
+    <text x="522" y="68" font-size="11">logprobs null · cached_tokens 0</text>
+
+    <rect x="190" y="96" width="290" height="54" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="202" y="117" font-weight="600">GenieX 0.5.1-alpha, llama.cpp backend</text>
+    <text x="202" y="134" font-size="11" fill="var(--muted)">NPU (-c npu) · evaluation binary only</text>
+    <rect x="510" y="96" width="250" height="54" rx="6" fill="var(--bad-soft)" stroke="var(--bad)"/>
+    <text x="522" y="117" font-size="11">text label only · max_tokens honoured</text>
+    <text x="522" y="134" font-size="11">no n_probs plumbing in the front end</text>
+
+    <rect x="190" y="162" width="290" height="54" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="202" y="183" font-weight="600">upstream llama-server, Hexagon backend</text>
+    <text x="202" y="200" font-size="11" fill="var(--muted)">NPU · built, never run on this board</text>
+    <rect x="510" y="162" width="250" height="54" rx="6" fill="var(--warn-soft)" stroke="var(--warn)"/>
+    <text x="522" y="183" font-size="11">logprobs at position 0, lm-head on CPU</text>
+    <text x="522" y="200" font-size="11">cache_prompt · but one NPU tenant only</text>
+
+    <rect x="190" y="228" width="290" height="54" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="202" y="249" font-weight="600">same llama-server, GGML_HEXAGON_NDEV=0</text>
+    <text x="202" y="266" font-size="11" fill="var(--muted)">CPU, 6 threads · beside the NPU tenant</text>
+    <rect x="510" y="228" width="250" height="54" rx="6" fill="var(--ok-soft)" stroke="var(--ok)"/>
+    <text x="522" y="249" font-size="11">logprobs at position 0, legend cached</text>
+    <text x="522" y="266" font-size="11">1.24 s router question · 3.1 s gate</text>
+
+    <rect x="190" y="294" width="290" height="54" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="202" y="315" font-weight="600">150M encoder, fine-tuned ModernBERT-base</text>
+    <text x="202" y="332" font-size="11" fill="var(--muted)">CPU, 4 threads · beside the NPU tenant</text>
+    <rect x="510" y="294" width="250" height="54" rx="6" fill="var(--ok-soft)" stroke="var(--ok)"/>
+    <text x="522" y="315" font-size="11">one distribution per question, directly</text>
+    <text x="522" y="332" font-size="11">126 ms NOUL · 183 ms gate question</text>
+
+    <rect x="0" y="360" width="10" height="10" fill="var(--bad)"/><text x="16" y="369" font-size="11" fill="var(--muted)">no probability on this path</text>
+    <rect x="190" y="360" width="10" height="10" fill="var(--warn)"/><text x="206" y="369" font-size="11" fill="var(--muted)">probability, but the NPU is a single tenant</text>
+    <rect x="470" y="360" width="10" height="10" fill="var(--ok)"/><text x="486" y="369" font-size="11" fill="var(--muted)">probability beside the running tenant</text>
+  </g>
+</svg>
+<figcaption>The same request, five runtimes. Only the two CPU-resident options return a distribution while the production agent keeps the NPU; the Hexagon llama-server would return one but cannot share the device. Measured 2026-09-21 on the Qualcomm QCS9075 board except the Hexagon row, which was inspected in source and aborts at start here.</figcaption>
+</figure>
+
+<div class="tablewrap"><table>
+<tr><th>path</th><th>unit</th><th>logprobs</th><th><code>max_tokens</code></th><th>prefix cache</th><th>status</th><th>decision</th></tr>
+<tr><td>GenieX v0.4.0, compiled W4A16 bundle</td><td>NPU</td><td><code>null</code></td><td>ignored: 3 tokens for 1</td><td>none; <code>cached_tokens</code> 0</td><td>production</td><td>text label only</td></tr>
+<tr><td>GenieX 0.5.1-alpha, llama.cpp backend <code>-c npu</code></td><td>NPU</td><td>none: 0 binary hits for <code>n_probs</code></td><td>honoured</td><td>unknown</td><td>evaluation binary</td><td>text label only</td></tr>
+<tr><td>upstream <code>llama-server</code>, Hexagon backend</td><td>NPU; lm-head on CPU</td><td><code>n_probs</code>, <code>logprobs</code>, <code>logit_bias</code>, grammar</td><td>honoured</td><td><code>cache_prompt</code>, slot save/restore</td><td>built, not deployed; single NPU tenant</td><td>yes</td></tr>
+<tr class="lead"><td><code>llama-server</code> CPU-only, <code>GGML_HEXAGON_NDEV=0</code></td><td>CPU, 6 threads</td><td>yes</td><td>honoured</td><td>yes</td><td>serves the readout beside the tenant</td><td>yes, at CPU prefill speed</td></tr>
+<tr class="lead"><td>small encoder, torch or ONNX Runtime</td><td>CPU, 4 threads</td><td>n/a: direct distribution</td><td>n/a</td><td>n/a</td><td>beside the tenant</td><td>yes, tens to hundreds of ms</td></tr>
+</table></div>
+
+<h2>Path 1: the compiled production runtime</h2>
+<p>Two probes went to the production server, the request above with <code>top_logprobs</code> 5. The answer was a sentence fragment and three empty fields.</p>
+<div class="card-demo"><div class="cmd">→ GenieX v0.4.0, compiled W4A16 bundle, NPU
+content: "No."        completion_tokens: 3        logprobs: {"content": null, "refusal": null}
+prompt_tokens_details.cached_tokens: 0</div>
+<div class="check bad"><b>no probability</b><span>the Go front end parses the OpenAI request struct but nothing implements it: the runtime binaries on hand contain 0 strings for <code>n_probs</code> and 0 for <code>llama_get_logits</code>; the 38 hits for <code>logprobs</code> are SDK and OpenAPI type names.</span></div>
+<div class="check bad"><b>no prefix cache</b><span>the runtime resets the dialog after every query, which clears the KV cache in place; <code>cached_tokens</code> is 0 on every request, so each question re-prefills the whole legend.</span></div>
+</div>
+<p>What remains on this path is a text label: ask for the single letter of an option and parse it. That was measured live on the 195 paraphrases through the production runtime, against the model's own tool call on the same rows (its command accuracy counts a bare-command format slip with the right command as correct, and its tool accuracy is 90.3% raw, 93.3% once those slips are normalised).</p>
+<div class="tablewrap"><table>
+<tr><th>text label, compiled runtime</th><th class="n">all 195</th><th class="n">A casual</th><th class="n">B verbose</th><th class="n">C indirect</th><th class="n">own call</th><th class="n">latency</th></tr>
+<tr class="lead"><td>tool, 4 options</td><td class="n">88.7%</td><td class="n">90.8%</td><td class="n">100.0%</td><td class="n">75.4%</td><td class="n">93.3%</td><td class="n">0.43 s</td></tr>
+<tr><td>tool, options reversed</td><td class="n">88.7%</td><td class="n">90.8%</td><td class="n">98.5%</td><td class="n">76.9%</td><td class="n">93.3%</td><td class="n">0.43 s</td></tr>
+<tr><td>command, 24 options</td><td class="n">70.8%</td><td class="n">50.8%</td><td class="n">93.8%</td><td class="n">67.7%</td><td class="n">83.1%</td><td class="n">0.76 s</td></tr>
+</table></div>
+<p style="font-size:.86rem;color:var(--muted)">"Own call" is the model's own tool call on the same rows (tool normalised, command semantic); latency is the median through the production runtime. The 4-option tool question is the production profile. The two tool rows agree in total (173 of 195 right; the command label gets 138) and disagree on 14 of the 195 rows (7%): the same row gets a different label depending on where its option sits in the list, and there is no probability with which to notice. On the indirect slice the text label reaches 75.4% where the normalised tool call reaches 86.2%. 65 rows per style, so single-style gaps of a few points are within noise.</p>
+<p>The label is fast, 0.43 s for four options, and it is the wrong tool for the job. Routing through the model under test costs accuracy on both questions and returns no number the confirm card could show. The design notes list "replacing the generative tool caller" as a non-goal for this reason.</p>
+
+<h2>Path 2: the 0.5.1-alpha evaluation binary</h2>
+<p>A newer GenieX ships a llama.cpp backend selected with <code>-c npu</code>. It runs a GGUF on the Hexagon NPU through the same ggml-hexagon lineage as the upstream package, and it is the path on which the 98.5% canonical-bench and 14.5 s per turn figures below were produced. For a decision layer it changes nothing. Its front end has no <code>n_probs</code> plumbing either (0 binary hits), so a completion returns text and nothing else; <code>max_tokens</code> is honoured, and whether the prefix survives between requests was not established. It is an evaluation binary, not the deployed runtime. The version label moved, the interface did not.</p>
+
+<h2>Path 3: upstream llama-server on the Hexagon backend</h2>
+<p>This is the only NPU path that exposes what the layer needs. In the llama.cpp server, a raw <code>/completion</code> takes <code>n_probs</code>, <code>post_sampling_probs</code> and <code>logit_bias</code>; on <code>/v1/chat/completions</code>, <code>logprobs:true</code> with <code>top_logprobs:N</code> maps onto <code>n_probs</code> (default 20). The probabilities are a full-vocabulary softmax of the pre-sampling logits, and requesting them turns backend sampling off so the logits always come to the host. On this backend they were never going to be anywhere else: <code>ggml-hexagon.cpp</code> refuses any matrix multiply wider than 32,768 rows, which is the lm-head, so the logits are computed on the CPU from the last hidden state on every path. <code>cache_prompt</code> and slot save/restore exist; whether HTP-resident KV survives a slot restore is unverified.</p>
+<p>The package exists: <code>bin/llama-server</code> with <code>libggml-hexagon.so</code> and the HTP libraries for v73, v75, v79 and v81, built from llama.cpp commit cb295bf. It has never been run on this board, because the NPU is a single tenant. Starting the binary while the production runtime holds the device fails at the first DSP session and the process aborts.</p>
+<div class="card-demo"><div class="check bad"><b>0x80000406</b><span><code>ggml-hex: failed to open session 0 : error 0x80000406 · failed to create device/session 0 · GGML_ASSERT(device) failed</code>. The binary links the Hexagon backend directly rather than loading it on demand, so removing the library is not an option.</span></div></div>
+<p>So this path is available only if the agent itself moves to it. That trade is known: the same Qwen3-4B as a Q4_0 GGUF on the Hexagon backend scored 98.5% on the 65-request canonical bench at 14.5 s per turn, against 7.3 s per turn on the compiled bundle. Context becomes a runtime knob on that path instead of a recompile, and a second server slot could in principle serve the readout beside the agent's prompts, which was not tested. The agent stays compiled; the decision layer goes to the CPU.</p>
+
+<h2>Path 4: the same binary, CPU-only, beside the tenant</h2>
+<p>The Snapdragon <code>llama-server</code> binary runs on the board's Kryo cores without touching the NPU once the Hexagon backend is told it has no devices. That is one environment variable, and it is the whole deployment trick.</p>
+<div class="card-demo"><div class="cmd">LD_LIBRARY_PATH=$PWD/lib GGML_HEXAGON_NDEV=0 \
+  bin/llama-server -m Qwen3-4B-Instruct-2507-Q4_0.gguf \
+  -c 4096 -np 1 -t 6 --jinja --no-repack</div>
+<div class="check ok"><b>GGML_HEXAGON_NDEV=0</b><span>the backend registers zero devices, skips the DSP session and the model loads on the CPU while the production runtime keeps the NPU. Six of the eight cores are given to the server; one slot, so requests are sequential.</span></div></div>
+<p>Latency was measured on a quiet board with the NPU tenant running: 20 requests per question after one warm-up request, one client, rotations off. The server reports how many prompt tokens it actually evaluated, which is the prefix cache doing its work: the command question's prompt is 666 tokens long and 20 of them are evaluated per request.</p>
+<div class="tablewrap"><table class="tight">
+<tr><th>question</th><th class="n">tokens → evaluated</th><th class="n">board 6 thr</th><th class="n">p95</th><th class="n">prompt ms</th><th class="n">dev host 12 thr</th></tr>
+<tr><td>tool (8-way)</td><td class="n">425 → 20.5</td><td class="n">1.28 s</td><td class="n">1.78 s</td><td class="n">1.27 s</td><td class="n">0.61 s</td></tr>
+<tr><td>command (24-way)</td><td class="n">666 → 20.5</td><td class="n">1.32 s</td><td class="n">1.84 s</td><td class="n">1.30 s</td><td class="n">0.71 s</td></tr>
+<tr><td>is_write</td><td class="n">140 → 20.5</td><td class="n">1.23 s</td><td class="n">1.72 s</td><td class="n">1.22 s</td><td class="n">0.56 s</td></tr>
+<tr><td>touches_poe_power</td><td class="n">159 → 20.5</td><td class="n">1.24 s</td><td class="n">1.73 s</td><td class="n">1.22 s</td><td class="n">0.56 s</td></tr>
+<tr class="lead"><td>matches_request (the gate)</td><td class="n">205 → 52.5</td><td class="n">3.09 s</td><td class="n">3.58 s</td><td class="n">3.08 s</td><td class="n">1.32 s</td></tr>
+</table></div>
+<p style="font-size:.86rem;color:var(--muted)">Board and dev-host columns are median wall time per request; p95 is the board; prompt time is the server's own <code>prompt_ms</code> on the board. Wall time is almost entirely prompt time: about 16 evaluated tokens per second on six Kryo threads, plus one decoded token. The gate state is the request plus the proposed call and its one-line description, hence 52 tokens and 3.1 s. The four-question benchmark battery is therefore about 5.1 s sequential, the production two-question pre-turn hook (tool, is_write) about 2.5 s, and one gate check per write 3.1 s. The development host, an aarch64 Grace CPU at 12 threads, answers the same requests in 0.56 to 1.32 s with the same server and protocol.</p>
+<p><b>Co-tenancy costs nothing measurable.</b> A generative turn through the production NPU runtime, with a 96-token answer, was timed with the CPU idle and again while the CPU readout answered a continuous stream of questions.</p>
+<figure>
+<svg viewBox="0 0 760 152" role="img" aria-label="Dot plot of generative turn wall time through the NPU runtime. With the NPU tenant alone, four turns took 4.43 to 4.52 seconds. With the CPU readout streaming questions, five turns took 4.32 to 4.33 seconds. No slowdown.">
+  <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
+    <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">GENERATIVE TURN THROUGH THE NPU RUNTIME · 96-TOKEN ANSWER · WALL SECONDS</text>
+    <line x1="190" y1="110" x2="740" y2="110" stroke="var(--rule)"/>
+    <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)" text-anchor="middle">
+      <text x="190" y="126">4.2</text><text x="327.5" y="126">4.3</text><text x="465" y="126">4.4</text><text x="602.5" y="126">4.5</text><text x="740" y="126">4.6</text>
+    </g>
+    <g stroke="var(--rule)" stroke-dasharray="2 3"><line x1="327.5" y1="34" x2="327.5" y2="110"/><line x1="465" y1="34" x2="465" y2="110"/><line x1="602.5" y1="34" x2="602.5" y2="110"/></g>
+    <text x="180" y="50" text-anchor="end">NPU tenant alone</text>
+    <text x="180" y="66" text-anchor="end" font-size="11" fill="var(--muted)">4 turns</text>
+    <g fill="var(--generative)" stroke="var(--surface)" stroke-width="2">
+      <circle cx="507.6" cy="54" r="6"/><circle cx="559.9" cy="54" r="6"/><circle cx="579.1" cy="54" r="6"/><circle cx="625.9" cy="54" r="6"/>
+    </g>
+    <text x="640" y="58" font-family="IBM Plex Mono, monospace" font-size="11">4.43–4.52 s</text>
+    <text x="180" y="86" text-anchor="end">CPU readout streaming</text>
+    <text x="180" y="102" text-anchor="end" font-size="11" fill="var(--muted)">5 turns</text>
+    <g fill="var(--readout)" stroke="var(--surface)" stroke-width="2">
+      <circle cx="352.3" cy="90" r="6"/><circle cx="364.6" cy="90" r="6"/><circle cx="366" cy="90" r="6"/><circle cx="368.8" cy="90" r="6"/><circle cx="372.9" cy="90" r="6"/>
+    </g>
+    <text x="392" y="94" font-family="IBM Plex Mono, monospace" font-size="11">4.32–4.33 s</text>
+    <text x="0" y="146" font-size="10.5" fill="var(--muted)">the first idle turn took 9.97 s and is excluded as a warm-up; the stream was the 4B readout on six threads, the heavier of the two CPU tenants</text>
+  </g>
+</svg>
+<figcaption>Five loaded turns land in a 15 ms band and none is slower than the idle turns. The compiled path is NPU-bound with prefill on the HTP; the CPU readout and the NPU agent share nothing but memory bandwidth.</figcaption>
+</figure>
+
+<h2>The other option: encoders on the CPU</h2>
+<p>An encoder needs none of the three properties above. It reads the state and the questions in one packed sequence and returns a distribution per question from its own head, so the serving path question does not arise: it runs under CPU torch in an isolated environment beside the tenant, and its cost is the forward pass.</p>
+<div class="tablewrap"><table>
+<tr><th>on the board CPU</th><th class="n">one NOUL (a yes/no question)</th><th class="n">gate question</th><th class="n">four-question battery</th><th>notes</th></tr>
+<tr class="lead"><td>fine-tuned ModernBERT-base 150M, 4 threads</td><td class="n">126 ms</td><td class="n">183 ms</td><td class="n">2.51 s</td><td>the packed battery is about 1,100 tokens; the 24-option question dominates</td></tr>
+<tr><td>fine-tuned ModernBERT-base 150M, 1 thread</td><td class="n">195 ms</td><td class="n">332 ms</td><td class="n">6.47 s</td><td></td></tr>
+<tr><td>Laya 421M, zero-shot, 4 threads</td><td class="n">352 ms</td><td class="n">527 ms</td><td class="n">3.37 s</td><td></td></tr>
+<tr><td>openJev-verdict 151M, zero-shot, torch, 4 threads</td><td class="n">295 ms</td><td class="n">337 ms</td><td class="n">3.35 s</td><td>ONNX fp32: 361 / 429 ms, 4.75 s</td></tr>
+<tr><td>4B readout, 6 threads, for comparison</td><td class="n">1.24 s</td><td class="n">3.1 s</td><td class="n">≈ 5.1 s</td><td>sequential, one slot</td></tr>
+</table></div>
+<p>Latency is only half of the choice. On the 126 held-out rows the fine-tuned encoder routes better than the 4B readout (tool 88.1% against 84.9%, command 77.8% against 69.8%), and on the 217 held-out gate pairs it does not learn the gate at all (AUROC, the area under the ROC curve, 0.556 for the balanced gate-only model against 0.967 for the readout). Single seed, one recipe. The division that follows is the one the main page draws: the encoder answers the per-turn router battery in milliseconds, the readout answers the per-write gate question in seconds, once per confirmation.</p>
+<figure>
+<svg viewBox="0 0 760 318" role="img" aria-label="Horizontal bars of median wall time per call on the board with the NPU tenant running. Text label through the compiled runtime: 0.43 seconds for the tool question and 0.76 for the command question, both without a probability. The 4B readout on six CPU threads: 1.24 seconds for a NOUL, 1.32 for the command question, 3.1 for the gate question. The fine-tuned 150M encoder on four threads: 0.13 seconds for a NOUL and 0.18 for the gate question. Laya 421M zero-shot: 0.35 seconds for a NOUL.">
+  <defs><pattern id="hatchsp3" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="var(--surface)" stroke-width="2"/></pattern></defs>
+  <g font-family="IBM Plex Sans, sans-serif" font-size="11" fill="currentColor">
+    <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">MEDIAN WALL TIME PER CALL ON THE BOARD · NPU TENANT RUNNING · SECONDS</text>
+    <g stroke="var(--rule)" stroke-dasharray="2 3"><line x1="390" y1="30" x2="390" y2="262"/><line x1="530" y1="30" x2="530" y2="262"/><line x1="670" y1="30" x2="670" y2="262"/></g>
+    <text x="244" y="46" text-anchor="end">compiled runtime, text label · tool</text>
+    <rect x="250" y="34" width="60.2" height="16" rx="3" fill="var(--generative)"/><rect x="250" y="34" width="60.2" height="16" rx="3" fill="url(#hatchsp3)"/>
+    <text x="318" y="46" font-family="IBM Plex Mono, monospace">0.43 s · no probability</text>
+    <text x="244" y="74" text-anchor="end">compiled runtime, text label · command</text>
+    <rect x="250" y="62" width="106.4" height="16" rx="3" fill="var(--generative)"/><rect x="250" y="62" width="106.4" height="16" rx="3" fill="url(#hatchsp3)"/>
+    <text x="364" y="74" font-family="IBM Plex Mono, monospace">0.76 s · no probability</text>
+    <text x="244" y="102" text-anchor="end">4B readout, CPU 6 threads · NOUL</text>
+    <rect x="250" y="90" width="173.3" height="16" rx="3" fill="var(--readout)"/>
+    <text x="431" y="102" font-family="IBM Plex Mono, monospace">1.24 s</text>
+    <text x="244" y="130" text-anchor="end">4B readout, CPU 6 threads · command</text>
+    <rect x="250" y="118" width="184.7" height="16" rx="3" fill="var(--readout)"/>
+    <text x="442" y="130" font-family="IBM Plex Mono, monospace">1.32 s</text>
+    <text x="244" y="158" text-anchor="end">4B readout, CPU 6 threads · gate</text>
+    <rect x="250" y="146" width="433.3" height="16" rx="3" fill="var(--readout)"/>
+    <text x="691" y="158" font-family="IBM Plex Mono, monospace">3.1 s</text>
+    <text x="244" y="186" text-anchor="end">150M encoder, CPU 4 threads · NOUL</text>
+    <rect x="250" y="174" width="17.6" height="16" rx="3" fill="var(--finetuned)"/>
+    <text x="275" y="186" font-family="IBM Plex Mono, monospace">0.13 s</text>
+    <text x="244" y="214" text-anchor="end">150M encoder, CPU 4 threads · gate</text>
+    <rect x="250" y="202" width="25.6" height="16" rx="3" fill="var(--finetuned)"/>
+    <text x="283" y="214" font-family="IBM Plex Mono, monospace">0.18 s</text>
+    <text x="244" y="242" text-anchor="end">Laya 421M zero-shot, CPU 4 threads · NOUL</text>
+    <rect x="250" y="230" width="49.3" height="16" rx="3" fill="var(--encoder)"/>
+    <text x="307" y="242" font-family="IBM Plex Mono, monospace">0.35 s</text>
+    <line x1="250" y1="262" x2="740" y2="262" stroke="var(--rule)"/>
+    <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)" text-anchor="middle">
+      <text x="250" y="278">0</text><text x="390" y="278">1</text><text x="530" y="278">2</text><text x="670" y="278">3</text>
+    </g>
+    <rect x="0" y="298" width="10" height="10" fill="var(--generative)"/><rect x="0" y="298" width="10" height="10" fill="url(#hatchsp3)"/><text x="16" y="307" fill="var(--muted)">text label, no probability</text>
+    <rect x="170" y="298" width="10" height="10" fill="var(--readout)"/><text x="186" y="307" fill="var(--muted)">4B readout via llama-server</text>
+    <rect x="360" y="298" width="10" height="10" fill="var(--finetuned)"/><text x="376" y="307" fill="var(--muted)">fine-tuned encoder</text>
+    <rect x="500" y="298" width="10" height="10" fill="var(--encoder)"/><text x="516" y="307" fill="var(--muted)">zero-shot encoder</text>
+  </g>
+</svg>
+<figcaption>Per-call cost of the paths that run at all beside the tenant. The text label is cheap and returns nothing the card can use; the readout is the only 4B path with a probability and it costs seconds; the encoder costs a tenth of that for the router and does not carry the gate.</figcaption>
+</figure>
+
+<h2>If you need X, run Y</h2>
+<div class="tablewrap"><table>
+<tr><th>if you need</th><th>run</th><th>what you get</th><th>what it costs</th></tr>
+<tr><td>a probability from the resident 4B, once per proposed write</td><td><code>llama-server</code> CPU-only with <code>GGML_HEXAGON_NDEV=0</code>, legend in the system message, one token with logprobs</td><td>the gate: AUROC 0.952 on all 939 pairs (out-of-fold), 0.967 on the held-out pairs</td><td>3.1 s per gate question on six Kryo threads; no measurable slowdown of the NPU agent</td></tr>
+<tr><td>a router answered every turn, with a calibrated probability</td><td>the fine-tuned 150M encoder on the CPU, four threads, questions packed as trained</td><td>tool 88.1%, command 77.8% on held-out rows, ECE (expected calibration error) 0.047 → 0.021 and 0.069 → 0.058 raw → scaled</td><td>126 ms per NOUL, 2.51 s for the four-question battery</td></tr>
+<tr><td>a decision from the 4B on the NPU itself</td><td>upstream <code>llama-server</code> on the Hexagon backend, with the agent moved to it</td><td>logprobs and a prefix cache; 98.5% on the canonical bench for the agent</td><td>14.5 s per agent turn instead of 7.3 s; the package has never run on this board</td></tr>
+<tr><td>an answer from the production runtime with no second process</td><td>a text-label choice through the compiled bundle</td><td>a letter, parsed; 88.7% tool and 70.8% command on the paraphrases</td><td>0.43 to 0.76 s, no probability, 7% of answers move with the option order</td></tr>
+<tr><td>a decision without any training on the domain</td><td>Laya 421M zero-shot on the CPU</td><td>tool 61.7%, command 51.4% on all 519 rows; zero-shot heads want small option sets</td><td>352 ms per NOUL</td></tr>
+<tr><td>a floor that never times out</td><td>the rules backend</td><td>one-hot, no probability</td><td>nothing; it is also the fallback on a model timeout</td></tr>
+</table></div>
+
+<h2>Porting checklist for another SoC</h2>
+<p>Each item is something that cost time here, in the order it would have saved the most.</p>
+<ol>
+<li><b>Probe the production runtime before designing around logits.</b> Send it one request with <code>max_tokens: 1</code> and <code>logprobs: true</code>, and read three fields: <code>logprobs</code>, <code>completion_tokens</code> and <code>cached_tokens</code>. Here they were <code>null</code>, 3 and 0.</li>
+<li><b>Search the runtime binary, not its changelog.</b> Count the strings for <code>n_probs</code> and <code>llama_get_logits</code>; a front end that shows the OpenAI request struct can still implement none of it. Two versions on hand both returned 0 hits.</li>
+<li><b>Find out whether the accelerator is a single tenant.</b> Start the second runtime while the first holds the device and keep the error text; here it was session error 0x80000406 followed by an assert.</li>
+<li><b>Find the backend's device-count knob.</b> With <code>GGML_HEXAGON_NDEV=0</code> one Snapdragon binary served the readout on the CPU beside the agent; a separate CPU-only build was not needed.</li>
+<li><b>Put the legend in the system message and check <code>timings.prompt_n</code>.</b> It should equal the state's length. Here it was 20 of a 425-token prompt for the tool question and 52 of 205 for the gate.</li>
+<li><b>Loop rotation-major when averaging option rotations.</b> All states for one rotation, then the next; with a single slot, cycling rotations per state thrashes the cache.</li>
+<li><b>Disable thinking in the chat template.</b> A template that opens a thinking block puts zero mass on the labels at position 0; the readout sends <code>enable_thinking: false</code>.</li>
+<li><b>Measure co-tenancy with the production runtime running, and drop the first turn.</b> Four idle turns and five loaded turns settled the question here; the first turn after idling took 9.97 s.</li>
+<li><b>Time the encoder at one and four threads.</b> The 24-option question dominates every encoder battery (2.51 s of the fine-tuned model's battery for 126 ms per NOUL).</li>
+<li><b>Check that the runtime comes back after a reboot.</b> On this board the container engine is socket-activated and disabled at boot, so the production runtime stays down until something touches it and the agent service runs against a dead backend.</li>
+</ol>
+
+<footer>
+<p>Companion to <a href="https://claude.ai/artifact/BBMh93V3pxKYzSMe7UcpN3">the Jevlet results page</a> and <a href="https://claude.ai/artifact/3cL2PYgWi5ti1gRXScxhKa">the encoder fine-tune page</a>. Code, data and receipts: <a href="https://github.com/kvapr/jevlet">github.com/kvapr/jevlet</a> (<code>docs/serving-path.md</code>, <code>results/latency-readout.json</code>, <code>results/latency-cpu-board.json</code>, <code>jevlet/backends/llamacpp.py</code>); the long-form account is the "Serving-path reality" section of the <a href="https://kvapr.github.io/posts/jevlet-system-one-on-the-edge/">blog post</a> and of the <a href="https://github.com/kvapr/jevlet/blob/main/paper/main.pdf">preprint</a>. Board: Qualcomm Dragonwing IQ-9075 EVK (QCS9075, 8 Kryo cores); production runtime GenieX v0.4.0 with Qwen3-4B-Instruct-2507 compiled W4A16, 4K context; CPU rows use the llama.cpp Snapdragon package (commit cb295bf) with the Hexagon device count set to zero and CPU torch 2.10. Accuracy runs: aarch64 Grace development host. Measured 2026-09-21.</p>
+</footer>
+</main>

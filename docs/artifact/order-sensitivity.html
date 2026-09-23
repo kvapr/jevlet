@@ -1,0 +1,247 @@
+<title>Option Order Flips</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #f3f5f4; --surface: #ffffff; --ink: #172026; --muted: #5e6b72; --rule: #d3dbd8;
+    --accent: #2f6690; --accent-soft: #e3edf4;
+    --ok: #2e7d5b; --ok-soft: #e2f1e8; --warn: #c7831c; --warn-soft: #f7ecd6; --bad: #b5432f; --bad-soft: #f6e2dd;
+    --readout: #2f6690; --encoder: #c98a2b; --finetuned: #a8404b; --generative: #6b7378;
+    --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    --sans: "IBM Plex Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0f1518; --surface: #161e22; --ink: #e6ecee; --muted: #98a6ac; --rule: #2a363b;
+      --accent: #7fb0d6; --accent-soft: #1c2b36;
+      --ok: #63c08f; --ok-soft: #173126; --warn: #e2a64c; --warn-soft: #3a2c15; --bad: #e07a68; --bad-soft: #3d201c;
+      --readout: #7fb0d6; --encoder: #e2a64c; --finetuned: #e28a93; --generative: #9aa6ab;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0f1518; --surface: #161e22; --ink: #e6ecee; --muted: #98a6ac; --rule: #2a363b;
+    --accent: #7fb0d6; --accent-soft: #1c2b36;
+    --ok: #63c08f; --ok-soft: #173126; --warn: #e2a64c; --warn-soft: #3a2c15; --bad: #e07a68; --bad-soft: #3d201c;
+    --readout: #7fb0d6; --encoder: #e2a64c; --finetuned: #e28a93; --generative: #9aa6ab;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 16px/1.6 var(--sans); }
+  main { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font: 600 2rem/1.15 var(--serif); margin: 0 0 .4rem; text-wrap: balance; letter-spacing: -.01em; }
+  h2 { font: 600 1.35rem/1.25 var(--serif); margin: 2.6rem 0 .7rem; text-wrap: balance; }
+  h3 { font: 600 1.02rem/1.3 var(--sans); margin: 1.6rem 0 .4rem; }
+  p { margin: .7rem 0; max-width: 68ch; }
+  .lede { color: var(--muted); font-size: 1.05rem; max-width: 62ch; }
+  .eyebrow { font: 500 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: .6rem; }
+  a { color: var(--accent); }
+  code, .mono { font-family: var(--mono); font-size: .88em; }
+  figure { margin: 1.4rem 0; }
+  figure svg { max-width: 100%; height: auto; display: block; }
+  figcaption { font-size: .82rem; color: var(--muted); margin-top: .5rem; max-width: 68ch; }
+  .card-demo { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.1rem; margin: 1.2rem 0; }
+  .card-demo .req { font: 500 .95rem var(--sans); }
+  .card-demo .cmd { font-family: var(--mono); font-size: .85rem; background: var(--ground); padding: .5rem .7rem; border-radius: 5px; margin: .6rem 0; white-space: pre-wrap; }
+  .check { display: flex; gap: .6rem; align-items: flex-start; font-size: .9rem; padding: .55rem .7rem; border-radius: 6px; margin-top: .6rem; }
+  .check.bad { background: var(--bad-soft); color: var(--ink); border-left: 3px solid var(--bad); }
+  .check.ok { background: var(--ok-soft); border-left: 3px solid var(--ok); }
+  .check.warn { background: var(--warn-soft); border-left: 3px solid var(--warn); }
+  .check b { font-family: var(--mono); font-weight: 500; white-space: nowrap; }
+  .actions { display: flex; gap: .5rem; margin-top: .7rem; }
+  .btn { font: 500 .8rem var(--sans); padding: .35rem .7rem; border-radius: 5px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .tablewrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .86rem; font-variant-numeric: tabular-nums; }
+  th { text-align: left; font: 500 .7rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: .45rem .6rem .35rem 0; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  td { padding: .45rem .6rem .45rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td.n, th.n { text-align: right; font-family: var(--mono); font-size: .84rem; }
+  tr.lead td { font-weight: 600; }
+  .swatch { display: inline-block; width: .7em; height: .7em; border-radius: 2px; margin-right: .4em; vertical-align: -1px; }
+  .kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .6rem; margin: 1rem 0; }
+  .kv div { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: .6rem .75rem; }
+  .kv b { display: block; font: 500 1.35rem/1.1 var(--mono); }
+  .kv span { font-size: .78rem; color: var(--muted); }
+  .note { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: .7rem 1rem; border-radius: 0 6px 6px 0; font-size: .92rem; margin: 1.2rem 0; }
+  .pending { color: var(--warn); font-family: var(--mono); font-size: .8rem; }
+  ul { padding-left: 1.2rem; } li { margin: .3rem 0; max-width: 68ch; }
+  .pill { font: 500 .7rem var(--mono); padding: .1rem .45rem; border-radius: 999px; border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+  footer { margin-top: 3rem; font-size: .82rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 1rem; }
+  @media (max-width: 480px) { h1 { font-size: 1.55rem; } .actions { flex-wrap: wrap; } }
+</style>
+<style>
+  .kv b small { font-size: .7em; color: var(--muted); font-weight: 400; }
+  table.wide td:first-child { white-space: nowrap; }
+</style>
+
+<main>
+<div class="eyebrow">Companion to the Jevlet results page · September 2026 · order sensitivity</div>
+<h1>When the option order changes the answer: order sensitivity of the readout</h1>
+<p class="lede">A next-token readout reads one token's distribution over letter labels, and the letter a small model prefers depends on which option sits behind it. This page measures how often the resident 4B and a 0.8B decoder change their answer when the option list is rotated, what averaging three rotations buys, what it costs, and what else would help.</p>
+
+<div class="kv">
+  <div><b>36% / 29%</b><span>of the 259 authored rows flip on the 8-way tool / 24-way command question for the 4B readout: the argmax differs between at least two of three rotations</span></div>
+  <div><b>93 of 94</b><span>flipped tool rows on which one rotation put max p &gt; 0.9 on its answer; on 71 of them two rotations were each above 0.9 on different answers</span></div>
+  <div><b>+3.9 / +5.8</b><span>points of tool accuracy from averaging three rotations instead of taking rotation 0: the 4B on authored rows 64.5 → 68.3, the 0.8B on base rows 68.8 → 74.6</span></div>
+  <div><b>3.8 s <small>vs 1.3 s</small></b><span>one 8-way tool question on the board CPU with three rotations instead of one (3 × 1.28 s per request, legend cached)</span></div>
+</div>
+
+<div class="note"><b>What this page is built on.</b> The readout receipts store, per row and question, the probability vector of each rotation mapped back to canonical option order (<code>per_rotation</code>). Two receipts carry it: the 4B on the 259 authored rows and the 0.8B (thinking off) on the 260 base rows. The 4B's base-row receipt predates the field and holds averaged probabilities only, so the two models are compared on different rows. The yes/no questions were recorded with one rotation and have no flip statistic. Every flip, accuracy and position statistic here comes from bench/order_sensitivity.py over those receipts; latency, temperatures and the encoder numbers are cited from their own receipts; nothing was re-run on the board. Read it with the <a href="https://claude.ai/artifact/BBMh93V3pxKYzSMe7UcpN3">results page</a>, which holds the accuracy and calibration numbers the rotations feed into.</div>
+
+<h2>How a rotation is built</h2>
+<figure>
+<svg viewBox="0 0 760 240" role="img" aria-label="Three cyclic rotations of an eight-option list: the letters A to H stay at their positions while the options shift by one per rotation, so option 0 is shown first in rotation 0, option 1 in rotation 1, option 2 in rotation 2. Each rotation is one prefill whose first-token distribution over the letters is read, mapped back to option order, and the three vectors are averaged in option space.">
+  <defs><marker id="arro" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+  <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
+    <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">THREE CYCLIC ROTATIONS OF ONE OPTION LIST (TOOL QUESTION, K = 8)</text>
+    <text x="0" y="50" font-size="11">rotation 0 (catalog order)</text>
+    <text x="0" y="84" font-size="11">rotation 1</text>
+    <text x="0" y="118" font-size="11">rotation 2</text>
+    <g font-family="IBM Plex Mono, monospace" font-size="11">
+      <rect x="150" y="32" width="44" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="172" y="49" text-anchor="middle">A·o0</text>
+      <rect x="197" y="32" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="219" y="49" text-anchor="middle">B·o1</text>
+      <rect x="244" y="32" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="266" y="49" text-anchor="middle">C·o2</text>
+      <rect x="291" y="32" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="313" y="49" text-anchor="middle">D·o3</text>
+      <rect x="338" y="32" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="360" y="49" text-anchor="middle">E·o4</text>
+      <rect x="385" y="32" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="407" y="49" text-anchor="middle">F·o5</text>
+      <rect x="432" y="32" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="454" y="49" text-anchor="middle">G·o6</text>
+      <rect x="479" y="32" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="501" y="49" text-anchor="middle">H·o7</text>
+      <rect x="150" y="66" width="44" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="172" y="83" text-anchor="middle">A·o1</text>
+      <rect x="197" y="66" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="219" y="83" text-anchor="middle">B·o2</text>
+      <rect x="244" y="66" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="266" y="83" text-anchor="middle">C·o3</text>
+      <rect x="291" y="66" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="313" y="83" text-anchor="middle">D·o4</text>
+      <rect x="338" y="66" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="360" y="83" text-anchor="middle">E·o5</text>
+      <rect x="385" y="66" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="407" y="83" text-anchor="middle">F·o6</text>
+      <rect x="432" y="66" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="454" y="83" text-anchor="middle">G·o7</text>
+      <rect x="479" y="66" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="501" y="83" text-anchor="middle">H·o0</text>
+      <rect x="150" y="100" width="44" height="26" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="172" y="117" text-anchor="middle">A·o2</text>
+      <rect x="197" y="100" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="219" y="117" text-anchor="middle">B·o3</text>
+      <rect x="244" y="100" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="266" y="117" text-anchor="middle">C·o4</text>
+      <rect x="291" y="100" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="313" y="117" text-anchor="middle">D·o5</text>
+      <rect x="338" y="100" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="360" y="117" text-anchor="middle">E·o6</text>
+      <rect x="385" y="100" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="407" y="117" text-anchor="middle">F·o7</text>
+      <rect x="432" y="100" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="454" y="117" text-anchor="middle">G·o0</text>
+      <rect x="479" y="100" width="44" height="26" rx="4" fill="var(--surface)" stroke="var(--rule)"/><text x="501" y="117" text-anchor="middle">H·o1</text>
+    </g>
+    <text x="536" y="50" font-size="10.5" fill="var(--muted)">first shown: option 0</text>
+    <text x="536" y="84" font-size="10.5" fill="var(--muted)">first shown: option 1</text>
+    <text x="536" y="118" font-size="10.5" fill="var(--muted)">first shown: option 2</text>
+    <rect x="0" y="150" width="236" height="46" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="12" y="169" font-weight="600">one prefill per rotation</text>
+    <text x="12" y="186" font-size="11" fill="var(--muted)">read p(A…H) at the first token</text>
+    <line x1="236" y1="173" x2="260" y2="173" stroke="currentColor" stroke-width="1.2" marker-end="url(#arro)"/>
+    <rect x="262" y="150" width="236" height="46" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="274" y="169" font-weight="600">map back to option order</text>
+    <text x="274" y="186" font-size="11" fill="var(--muted)">p_r[option] = p(its letter in this rotation)</text>
+    <line x1="498" y1="173" x2="522" y2="173" stroke="currentColor" stroke-width="1.2" marker-end="url(#arro)"/>
+    <rect x="524" y="150" width="236" height="46" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="536" y="169" font-weight="600">average in option space</text>
+    <text x="536" y="186" font-size="11" fill="var(--muted)">mean of the three vectors; its argmax wins</text>
+    <text x="0" y="222" font-size="11" fill="var(--muted)">a flip = a row whose argmax differs between at least two rotations. Yes/no questions are not rotated. Each rotation has its own system prompt.</text>
+  </g>
+</svg>
+<figcaption>How <code>bench/run_readout.py</code> and <code>jevlet/backends/llamacpp.py</code> build the three requests. The letters stay with their positions and the options move, so a model that likes the letter B picks a different option in every rotation, and a model that knows the answer picks the same option under three different letters.</figcaption>
+</figure>
+<p>In rotation r the option list is shown in the order (i + r) mod k: option r comes first under label A, option r + 1 under B, and so on. The server returns the pre-sampling distribution at the first generated token; the mass on each letter is assigned to the option shown behind it, so each rotation yields a probability vector in canonical option order. <code>combine_rotations</code> stores the arithmetic mean of the three vectors as <code>probs</code> and the mean log-probability as <code>logits</code>, which the temperature fit uses; <code>per_rotation</code> keeps the three vectors. Three cyclic rotations cover three of the k! orderings, chosen so that each of the first three options is shown first once.</p>
+
+<h2>What flips</h2>
+<figure>
+<img src="order-sensitivity-flip-rate.png" alt="Horizontal bars of the order-flip rate: Qwen3-4B tool 36 percent and command 29 percent on the 259 authored rows, nearly all with one rotation above 0.9 confidence; Qwen3.5-0.8B tool 95 percent and command 86 percent on the 260 base rows, almost none confident." style="max-width:100%;border:1px solid var(--rule);border-radius:6px;background:#fff">
+<figcaption>Flip rate by question and model. The 4B flips a third of the hard rows and does so with conviction; the 0.8B flips almost every row and is rarely confident in any rotation.</figcaption>
+</figure>
+<div class="tablewrap"><table>
+<tr><th>readout · rows</th><th>question</th><th class="n">k</th><th class="n">flips</th><th class="n">rows</th><th class="n">one rot &gt; 0.9</th><th class="n">two &gt; 0.9, split</th></tr>
+<tr><td>Qwen3-4B · 259 authored</td><td>tool</td><td class="n">8</td><td class="n">36.3%</td><td class="n">94</td><td class="n">93</td><td class="n">71</td></tr>
+<tr><td>Qwen3-4B · 259 authored</td><td>command</td><td class="n">24</td><td class="n">29.3%</td><td class="n">76</td><td class="n">75</td><td class="n">49</td></tr>
+<tr class="lead"><td>Qwen3.5-0.8B · 260 base</td><td>tool</td><td class="n">8</td><td class="n">95.0%</td><td class="n">247</td><td class="n">15</td><td class="n">0</td></tr>
+<tr><td>Qwen3.5-0.8B · 260 base</td><td>command</td><td class="n">24</td><td class="n">85.8%</td><td class="n">223</td><td class="n">3</td><td class="n">0</td></tr>
+</table></div>
+<p style="font-size:.86rem;color:var(--muted)">"Flips" counts rows whose argmax differs between at least two rotations; per rotation pair it is 24.3 / 28.6 / 22.4% (4B tool), 23.9 / 19.7 / 23.6% (4B command), 71.2 / 92.3 / 71.9% (0.8B tool) and 66.9 / 71.9 / 74.2% (0.8B command). The two questions missing from this table have no flip statistic: <code>is_write</code> and <code>touches_poe_power</code> are yes/no and were recorded with one rotation, and the 4B's 260-base-row receipt predates the <code>per_rotation</code> field on all four questions.</p>
+<p>Two different phenomena share the word "flip". The 4B flips with conviction: on 258 of the 259 authored rows some rotation puts more than 0.9 on its answer, for each question, and on 71 tool rows and 49 command rows two rotations are each above 0.9 on different answers. The 0.8B flips almost everything and believes almost nothing: only 23 tool rows and 8 command rows reach 0.9 in any rotation, and its fitted temperatures on the tool question are 0.29 to 0.30, below one, where the 4B's are 5.2 to 5.8.</p>
+<p>What the 4B flips between is what it confuses anyway. On the tool question the most frequent pairs are <code>query_device_info</code> ↔ <code>configure_device_setting</code> (33 rows), <code>query_device_info</code> ↔ <code>diagnose_port_issues</code> (19), <code>configure_device_setting</code> ↔ <code>diagnose_port_issues</code> (12) and <code>query_device_info</code> ↔ <code>get_network_events</code> (10); 17 of the 94 flipped rows involve <code>none_of_these</code>. On the command question: <code>show_port_status</code> ↔ <code>show_all_ports_status</code> (14), <code>show_cable_diagnostics</code> ↔ <code>none_of_these</code> (7), <code>enable_port</code> ↔ <code>disable_port</code> (6), <code>show_all_ports_status</code> ↔ <code>show_poe_status</code> (6), speed ↔ duplex (5); 21 of the 76 involve <code>none_of_these</code> and 5 involve a dangerous pair. The 0.8B's command flips involve a dangerous pair on 31 of 223 rows.</p>
+
+<h3>Where the 4B's flips sit (authored rows)</h3>
+<div class="tablewrap"><table>
+<tr><th>authored subset</th><th class="n">rows</th><th class="n">tool flips</th><th class="n">tool acc.</th><th class="n">command flips</th><th class="n">command acc.</th></tr>
+<tr><td>adversarial confusables</td><td class="n">81</td><td class="n">30.9%</td><td class="n">88.9%</td><td class="n">21.0%</td><td class="n">69.1%</td></tr>
+<tr><td>symptom-first diagnostics</td><td class="n">54</td><td class="n">33.3%</td><td class="n">72.2%</td><td class="n">53.7%</td><td class="n">40.7%</td></tr>
+<tr class="lead"><td>documentation / out-of-scope</td><td class="n">76</td><td class="n">53.9%</td><td class="n">34.2%</td><td class="n">27.6%</td><td class="n">60.5%</td></tr>
+<tr><td>other tools</td><td class="n">48</td><td class="n">20.8%</td><td class="n">83.3%</td><td class="n">18.8%</td><td class="n">66.7%</td></tr>
+</table></div>
+<div class="tablewrap"><table>
+<tr><th>style</th><th class="n">rows</th><th class="n">tool flips</th><th class="n">tool acc.</th><th class="n">command flips</th><th class="n">command acc.</th></tr>
+<tr><td>A casual</td><td class="n">93</td><td class="n">43.0%</td><td class="n">58.1%</td><td class="n">40.9%</td><td class="n">53.8%</td></tr>
+<tr><td>B verbose</td><td class="n">24</td><td class="n">33.3%</td><td class="n">79.2%</td><td class="n">12.5%</td><td class="n">79.2%</td></tr>
+<tr><td>C indirect</td><td class="n">28</td><td class="n">25.0%</td><td class="n">60.7%</td><td class="n">32.1%</td><td class="n">46.4%</td></tr>
+<tr><td>T terse / typos</td><td class="n">25</td><td class="n">44.0%</td><td class="n">48.0%</td><td class="n">28.0%</td><td class="n">56.0%</td></tr>
+<tr><td>X adversarial confusables</td><td class="n">89</td><td class="n">31.5%</td><td class="n">84.3%</td><td class="n">21.3%</td><td class="n">67.4%</td></tr>
+</table></div>
+<p style="font-size:.86rem;color:var(--muted)">Accuracy is of the three-rotation average. Flips track difficulty. Rows the averaged answer gets wrong flip 56% (tool) and 49% (command) of the time; rows it gets right flip 27% and 17%. Averaged accuracy is 78.2% / 71.0% on the stable rows and 51.1% / 34.2% on the flipped ones. Cells hold 24 to 93 rows, so differences of a few points between subsets are noise.</p>
+
+<h2>Position bias: letter or content?</h2>
+<figure>
+<img src="order-sensitivity-position-bias.png" alt="Four panels of bars: share of wins at each display position against the share of gold labels there. For the 4B the bars follow the gold dots on the tool question and fall short only at the last three positions of the command question. For the 0.8B position B takes 56 percent of tool wins against 23 percent of gold, and on the command question wins pile onto positions A to D and O while positions Q to X are starved." style="max-width:100%;border:1px solid var(--rule);border-radius:6px;background:#fff">
+<figcaption>Pooled over the three rotations, the display position of each winning answer against the display position of the gold. A model with no letter preference would put the bars on the dots. The 4B does; the 0.8B picks B.</figcaption>
+</figure>
+<p>The pooled comparison separates a letter preference from an ordinary confusion. If wins land at a position more often than the gold does, the model likes that position; if both distributions match, whatever errors remain are about the options, not the letters.</p>
+<p><b>The 4B has almost no letter preference.</b> On the tool question the share of wins at each position stays within 3.0 points of the gold share (total variation 8.9%); the first-shown option wins 16.7% of the time against an 18.4% gold share and a 12.5% chance level. Its flips are content confusions that happen to depend on order. On the command question the three positions V, W and X, which hold <code>none_of_these</code> in rotations 2, 1 and 0, take 12.1% of the wins each against 20.6 to 21.4% of the gold: the known under-use of <code>none_of_these</code> on out-of-scope rows, not a letter effect. One small first-position pull is measurable on the 24-way list: the option shown first wins 5.7% of the time, against 2.1% when the same option sits elsewhere and a 1.3% gold share.</p>
+<p><b>The 0.8B has a letter preference, and it is B.</b> Position B collects 56.2% of the tool wins against 23.1% of the gold; position A gets 15.5% against 33.3%. The three options that occupy B across the rotations, <code>configure_device_setting</code>, <code>diagnose_port_issues</code> and <code>search_documentation</code>, make up the first, third and fourth most common flip pairs (117, 90 and 61 rows). Rotation 2 puts <code>search_documentation</code>, gold on no base row, at B, and that rotation alone scores 19.2%. On the command question the wins pile onto A to D and O (O: 20.0% of wins, 9.2% of gold; D: 16.8% against 0.0%), while positions Q to T, holding 4.6 to 10.8% of the gold each, receive 0 to 2.6%. Total variation is 40% on tool and 52% on command. Averaging helps this model precisely because its bias lands on a different option in each rotation and partly cancels.</p>
+
+<h2>What averaging buys</h2>
+<figure>
+<img src="order-sensitivity-averaging.png" alt="Dot plot of accuracy per rotation against the three-rotation average. Qwen3-4B tool: rotations 63 to 64, average 68.3, any rotation right 75. Qwen3-4B command: rotations 57 to 60, average 60.2, bound 68. Qwen3.5-0.8B tool: rotations 19 to 69, average 74.6, bound 87. Qwen3.5-0.8B command: rotations 23 to 36, average 35.0, bound 45." style="max-width:100%;border:1px solid var(--rule);border-radius:6px;background:#fff">
+<figcaption>Each rotation alone (gray), the average the study reports (blue diamond), a plurality vote (square) and the share of rows where at least one rotation was right (hollow circle, an upper bound rather than a method).</figcaption>
+</figure>
+<div class="tablewrap"><table>
+<tr><th>readout · question</th><th class="n">rot 0</th><th class="n">rot 1</th><th class="n">rot 2</th><th class="n">averaged</th><th class="n">vote</th><th class="n">any right</th><th class="n">all right</th></tr>
+<tr><td>Qwen3-4B · tool</td><td class="n">64.5%</td><td class="n">64.5%</td><td class="n">63.3%</td><td class="n">68.3%</td><td class="n">68.3%</td><td class="n">74.9%</td><td class="n">49.8%</td></tr>
+<tr><td>Qwen3-4B · command</td><td class="n">60.2%</td><td class="n">57.1%</td><td class="n">60.2%</td><td class="n">60.2%</td><td class="n">59.8%</td><td class="n">68.3%</td><td class="n">50.2%</td></tr>
+<tr class="lead"><td>Qwen3.5-0.8B · tool</td><td class="n">68.8%</td><td class="n">43.8%</td><td class="n">19.2%</td><td class="n">74.6%</td><td class="n">70.8%</td><td class="n">87.3%</td><td class="n">4.6%</td></tr>
+<tr><td>Qwen3.5-0.8B · command</td><td class="n">35.8%</td><td class="n">26.2%</td><td class="n">23.5%</td><td class="n">35.0%</td><td class="n">35.4%</td><td class="n">45.0%</td><td class="n">10.4%</td></tr>
+</table></div>
+<p>Against rotation 0, the catalog's own order, averaging adds 3.9 tool points and 0.0 command points for the 4B and 5.8 and −0.8 for the 0.8B; against the mean of the three single rotations it adds 4.2, 1.0, 30.6 and 6.5. The 4B's averaged command accuracy allowing the row's listed alternatives is 64.1%. A plurality vote matches or trails the mean in three of four cases and beats it by 0.4 points on the 0.8B command question, within noise. The bound leaves 6.6 (tool) and 8.1 (command) points on the table for the 4B and 12.7 and 10.0 for the 0.8B: some rotation was right on 17 tool and 21 command rows that the 4B's average still gets wrong, 33 and 26 for the 0.8B. Rotation 0 is the best or joint-best single rotation in all four cases, which is a property of this catalog order, not something to rely on.</p>
+<p>Averaging is a partial fix for accuracy and a weak fix for over-confidence. Taken alone, the 4B's rotations were wrong above 0.9 on 79, 74 and 79 tool rows and 91, 91 and 80 command rows; averaging rescued 15, 8 and 14 of the former and 7, 9 and 3 of the latter, and 32 tool errors and 51 command errors remain above 0.9 after it. The temperature step on the results page is what takes the rest of the confidence down.</p>
+
+<h2>Disagreement as a signal</h2>
+<p>A row whose rotations disagree could be sent to the human instead of answered. For the 4B that rule keeps 63.7% of the tool rows at 78.2% accuracy and 70.7% of the command rows at 71.0%. The averaged distribution already carries the same information, and carries it better: the maximum averaged probability ranks correct above wrong answers with AUROC (area under the receiver operating characteristic curve) 0.736 on tool and 0.762 on command, against 0.645 and 0.659 for the stable-versus-flipped indicator, because the mean of three disagreeing vectors is flat (mean max p 0.64 and 0.56 on flipped rows against 0.99 on stable ones). For the 0.8B only 13 tool rows and 37 command rows are stable at all, so the indicator is useless there (AUROC 0.523 and 0.619).</p>
+
+<h2>What it costs</h2>
+<div class="tablewrap"><table>
+<tr><th>what is asked</th><th class="n">board CPU, 6 threads</th><th class="n">development host, 12 threads</th></tr>
+<tr><td>one tool question, one ordering</td><td class="n">1.28 s</td><td class="n">0.61 s</td></tr>
+<tr class="lead"><td>one tool question, three rotations</td><td class="n">3.84 s</td><td class="n">1.83 s</td></tr>
+<tr><td>one command question, one ordering</td><td class="n">1.32 s</td><td class="n">0.71 s</td></tr>
+<tr class="lead"><td>one command question, three rotations</td><td class="n">3.96 s</td><td class="n">2.13 s</td></tr>
+<tr><td>four-question battery, one ordering</td><td class="n">5.07 s</td><td class="n">2.44 s</td></tr>
+<tr><td>four-question battery, three rotations on the two choice questions</td><td class="n">10.27 s</td><td class="n">5.08 s</td></tr>
+</table></div>
+<p style="font-size:.86rem;color:var(--muted)">Single-ordering cells are median wall times per request from <code>results/latency-readout.json</code> for the 4B (quiet host, legend prefix cached, about 20 of the 425 tool-prompt or 666 command-prompt tokens evaluated per call). Three-rotation cells are three times those medians: arithmetic, not measurement. Board = Qualcomm QCS9075; development host = the Grace CPU. The 0.8B's latency was not measured on the board.</p>
+<p>Two caveats on the arithmetic. The benchmark loops rotation-major, all rows under rotation 0, then 1, then 2, so the legend stays in the server's prefix cache; the receipts' own summed latency for three rotations on the loaded development host was 3.0 s (tool) and 2.2 s (command) per row for the 4B and 0.43 and 0.45 s for the 0.8B. A per-call loop over three rotations, which is what <code>_decide</code> does at serving time, alternates three different system prompts on one slot; the backend's docstring points callers at rotation-major batching precisely so that the prefix cache is reused, and the per-call cost was not measured. Rotation averaging is therefore a per-write cost, in line with how the results page splits the work: encoder for the per-turn router, readout for the per-write gate.</p>
+
+<h2>What does not fix it, and what might</h2>
+<ul>
+<li><b>Temperature does not touch order.</b> A fitted temperature rescales the averaged log-probabilities; it cannot change the argmax of any rotation or of the mean, so the flip rate is the same before and after scaling. The 71 tool rows and 49 command rows on which two rotations are each above 0.9 on different answers show why: no scalar reconciles two confident, contradictory answers, it only lowers both. Sampling temperature does not enter at all: the readout runs at temperature 0 and reads the distribution instead of sampling from it.</li>
+<li><b>More rotations cost linearly and are bounded.</b> Cyclic rotations give k orderings out of k!, each one request. The any-rotation bound (74.9% tool, 68.3% command for the 4B) caps what further rotations of this kind can recover, at up to k times the price of one request (8 for the tool question, 24 for the command question).</li>
+<li><b>An encoder trained with option shuffling.</b> The fine-tuned ModernBERT on the results page scores each option's span with a softmax inside the question and was trained with gold-preserving augmentation that shuffles the options at rate 0.5; its second round also permuted the question order, and trained twice as long, and went from 65.1% to 77.8% on the command question. Its receipts carry no per-rotation data, so its option-order flip rate is not measured here; the expectation is that it is low, and that should be measured before it is claimed.</li>
+<li><b>Hierarchical questions.</b> Ask the 8-way tool question first, then a command question among that tool's own commands: 13 read commands under <code>query_device_info</code>, 10 write commands under <code>configure_device_setting</code>, instead of 24 at once. One zero-shot encoder (Verdict) collapses to a single label above about six options when the options carry descriptions, which is the other argument for it. Not measured here. The 4B's own numbers warn against expecting arity alone to do it: its 24-way command question flips less (29%) than its 8-way tool question (36%); the hard rows drive the flips, not the length of the list.</li>
+<li><b>Abstain on disagreement.</b> Free once the rotations are paid for, but the averaged confidence is the better signal (AUROC 0.74 / 0.76 against 0.65 / 0.66).</li>
+<li><b>Earlier and other measurements.</b> An earlier single-ordering pass on a 15-way variant of the command question flipped 15.8% of its predictions when the order was reversed (reported in the write-up, not re-run here, no receipt in the repository). On the compiled NPU (neural processing unit) path, where the same 4B answers with a text label instead of a distribution, 7% of its labels changed on reversed order, measured live on the 195 paraphrases.</li>
+</ul>
+
+<h2>Caveats</h2>
+<ul>
+<li>The two models are measured on different rows: the 4B's rotation data exist only for the 259 authored rows, the 0.8B's only for the 260 base rows. The 4B's base-row receipt predates the <code>per_rotation</code> field and was not re-run. Nothing on this page says how much the 4B flips on the easy rows.</li>
+<li>Yes/no questions were recorded with one rotation and a fixed Yes/No label order; no reversal experiment exists for them.</li>
+<li>Three cyclic rotations reach three of the k! orderings, so each display position hosts only three options in the pooled shares; the paired first-versus-elsewhere numbers cover the three options that are shown first at all.</li>
+<li>Averaging in probability space and in log space disagree on the argmax of 9 tool and 8 command rows for the 4B and 43 and 28 for the 0.8B; the raw accuracies use the probability mean, the calibrated numbers on the results page use the log-space mean. Neither is more right; the disagreement is one more thing order sensitivity does.</li>
+<li>Labels on the authored rows are written and verified by large language models (LLMs), human review pending; N is in the hundreds, so per-subset differences of a few points are within noise; the accuracy runs were on the development host and the board contributed latency only.</li>
+</ul>
+
+<h2>Reproduce</h2>
+<div class="card-demo"><div class="cmd">python -m bench.order_sensitivity --figdir docs/artifact
+# reads results/router-qwen3-4b-q4_0-cpu-{,authored-,all-}rot3.json and results/router-qwen3.5-0.8b-q4_0-cpu-v2-rot3.json
+# writes results/order-sensitivity.json, results/summary/order-sensitivity.md, docs/artifact/order-sensitivity-*.png</div></div>
+<p style="font-size:.86rem;color:var(--muted)">The receipt's <code>definitions</code> block states every statistic; the <code>all-rot3</code> file carries rotation data for its 259 authored rows only and reproduces the authored numbers.</p>
+
+<footer>
+<p>Companion to <a href="https://claude.ai/artifact/BBMh93V3pxKYzSMe7UcpN3">the Jevlet results page</a>; the fine-tune it refers to is on <a href="https://claude.ai/artifact/3cL2PYgWi5ti1gRXScxhKa">its own page</a>. Code, data and receipts: <a href="https://github.com/kvapr/jevlet">github.com/kvapr/jevlet</a> (<code>bench/order_sensitivity.py</code>, <code>results/order-sensitivity.json</code>, <code>results/summary/order-sensitivity.md</code>); the long-form account is Results 2, 6 and 7 of the <a href="https://kvapr.github.io/posts/jevlet-system-one-on-the-edge/">blog post</a>; the <a href="https://github.com/kvapr/jevlet/blob/main/paper/main.pdf">preprint</a> cites the order-sensitivity literature. Readouts: Qwen3-4B-Instruct-2507 Q4_0 and Qwen3.5-0.8B Q4_0 through <code>llama-server</code> on the development host's CPU; board latency: Qualcomm QCS9075, 6 threads. Numbers measured 2026-09-21, analysed 2026-09-22.</p>
+</footer>
+</main>

@@ -1,0 +1,410 @@
+<title>Sanitizing the Netops Dataset</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #f3f5f4; --surface: #ffffff; --ink: #172026; --muted: #5e6b72; --rule: #d3dbd8;
+    --accent: #2f6690; --accent-soft: #e3edf4;
+    --ok: #2e7d5b; --ok-soft: #e2f1e8; --warn: #c7831c; --warn-soft: #f7ecd6; --bad: #b5432f; --bad-soft: #f6e2dd;
+    --readout: #2f6690; --encoder: #c98a2b; --finetuned: #a8404b; --generative: #6b7378;
+    --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    --sans: "IBM Plex Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0f1518; --surface: #161e22; --ink: #e6ecee; --muted: #98a6ac; --rule: #2a363b;
+      --accent: #7fb0d6; --accent-soft: #1c2b36;
+      --ok: #63c08f; --ok-soft: #173126; --warn: #e2a64c; --warn-soft: #3a2c15; --bad: #e07a68; --bad-soft: #3d201c;
+      --readout: #7fb0d6; --encoder: #e2a64c; --finetuned: #e28a93; --generative: #9aa6ab;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0f1518; --surface: #161e22; --ink: #e6ecee; --muted: #98a6ac; --rule: #2a363b;
+    --accent: #7fb0d6; --accent-soft: #1c2b36;
+    --ok: #63c08f; --ok-soft: #173126; --warn: #e2a64c; --warn-soft: #3a2c15; --bad: #e07a68; --bad-soft: #3d201c;
+    --readout: #7fb0d6; --encoder: #e2a64c; --finetuned: #e28a93; --generative: #9aa6ab;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 16px/1.6 var(--sans); }
+  main { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font: 600 2rem/1.15 var(--serif); margin: 0 0 .4rem; text-wrap: balance; letter-spacing: -.01em; }
+  h2 { font: 600 1.35rem/1.25 var(--serif); margin: 2.6rem 0 .7rem; text-wrap: balance; }
+  h3 { font: 600 1.02rem/1.3 var(--sans); margin: 1.6rem 0 .4rem; }
+  p { margin: .7rem 0; max-width: 68ch; }
+  .lede { color: var(--muted); font-size: 1.05rem; max-width: 62ch; }
+  .eyebrow { font: 500 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: .6rem; }
+  a { color: var(--accent); }
+  code, .mono { font-family: var(--mono); font-size: .88em; }
+  figure { margin: 1.4rem 0; }
+  figure svg { max-width: 100%; height: auto; display: block; }
+  figcaption { font-size: .82rem; color: var(--muted); margin-top: .5rem; max-width: 68ch; }
+  .card-demo { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.1rem; margin: 1.2rem 0; }
+  .card-demo .req { font: 500 .95rem var(--sans); }
+  .card-demo .cmd { font-family: var(--mono); font-size: .85rem; background: var(--ground); padding: .5rem .7rem; border-radius: 5px; margin: .6rem 0; white-space: pre-wrap; }
+  .check { display: flex; gap: .6rem; align-items: flex-start; font-size: .9rem; padding: .55rem .7rem; border-radius: 6px; margin-top: .6rem; }
+  .check.bad { background: var(--bad-soft); color: var(--ink); border-left: 3px solid var(--bad); }
+  .check.ok { background: var(--ok-soft); border-left: 3px solid var(--ok); }
+  .check.warn { background: var(--warn-soft); border-left: 3px solid var(--warn); }
+  .check b { font-family: var(--mono); font-weight: 500; white-space: nowrap; }
+  .actions { display: flex; gap: .5rem; margin-top: .7rem; }
+  .btn { font: 500 .8rem var(--sans); padding: .35rem .7rem; border-radius: 5px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .tablewrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .86rem; font-variant-numeric: tabular-nums; }
+  th { text-align: left; font: 500 .7rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: .45rem .6rem .35rem 0; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  td { padding: .45rem .6rem .45rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td.n, th.n { text-align: right; font-family: var(--mono); font-size: .84rem; }
+  tr.lead td { font-weight: 600; }
+  .swatch { display: inline-block; width: .7em; height: .7em; border-radius: 2px; margin-right: .4em; vertical-align: -1px; }
+  .kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .6rem; margin: 1rem 0; }
+  .kv div { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: .6rem .75rem; }
+  .kv b { display: block; font: 500 1.35rem/1.1 var(--mono); }
+  .kv span { font-size: .78rem; color: var(--muted); }
+  .note { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: .7rem 1rem; border-radius: 0 6px 6px 0; font-size: .92rem; margin: 1.2rem 0; }
+  .pending { color: var(--warn); font-family: var(--mono); font-size: .8rem; }
+  ul { padding-left: 1.2rem; } li { margin: .3rem 0; max-width: 68ch; }
+  .pill { font: 500 .7rem var(--mono); padding: .1rem .45rem; border-radius: 999px; border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+  footer { margin-top: 3rem; font-size: .82rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 1rem; }
+  @media (max-width: 480px) { h1 { font-size: 1.55rem; } .actions { flex-wrap: wrap; } }
+</style>
+<style>
+  .card-demo .cmd.script { font-size: .78rem; line-height: 1.45; }
+  .kv b { font-size: 1.2rem; }
+</style>
+<main>
+<div class="eyebrow">Companion to the Jevlet results page · September 2026</div>
+<h1>Publishing a dataset cut from a private network</h1>
+<p class="lede">The netops dataset comes from one operator's own switch and one assistant's own run logs, so publishing it meant deleting every private string first. This page is the process note: the pipeline that sanitizes, the leak that got past it, and the pre-commit scan that now stands between the two.</p>
+
+<div class="kv">
+  <div><b>1,502</b><span>rows published (519 evaluation + 983 training); zero private names, addresses or credentials remain in them</span></div>
+  <div><b>6,788 → 0</b><span>occurrences of the device's real inventory name in the raw run logs, before and after the build</span></div>
+  <div><b>6 files</b><span>8 lines across them: what the first of four pushes carried, found by a whole-tree grep sweep run after the pushes</span></div>
+  <div><b>0.6 s / 7.9 s</b><span>the scan hook over the tracked tree / over all 13 commits of history, median of three runs</span></div>
+</div>
+
+<div class="note"><b>The only device name on this page is <code>@sw1</code>.</b> That is the public placeholder the dataset uses. Nothing here prints a real device name, host name, address, path or credential, including in the figures and in the script: the scan hook reads its patterns from a file that is not in the repository, and reports hits as <code>file:line</code> without the matched text. Read this with <a href="https://claude.ai/artifact/BBMh93V3pxKYzSMe7UcpN3">the Jevlet results page</a>, which uses the dataset this page is about.</div>
+
+<h2>What was private</h2>
+<p>The raw side of this dataset was never written to be published. It holds three things. The seed requests and their paraphrases were written by the application team against a real switch, so they address it by its inventory name. The generative run logs were produced by a benchmark harness pointed at a live serving endpoint: 51 of the 52 carry the endpoint they called under a <code>url</code> key, and the eight produced after the harness began stamping provenance carry the name of the machine that ran them. The review log is written by an agent that quotes the rows it changed, so anything in a row reaches the log too.</p>
+<p>Counting before the build gives the size of the job. Occurrences, not rows: one row can name the device twice.</p>
+<div class="tablewrap"><table>
+<tr><th>raw source</th><th class="n">device inventory name</th><th class="n">addresses, non-loopback</th><th class="n">development host name</th></tr>
+<tr><td>the two seed / paraphrase files</td><td class="n">456</td><td class="n">0</td><td class="n">0</td></tr>
+<tr class="lead"><td>52 generative run logs</td><td class="n">6,788</td><td class="n">42</td><td class="n">8</td></tr>
+<tr><td>published <code>data/netops</code>, after the build</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr>
+</table></div>
+<p style="font-size:.86rem;color:var(--muted)">Where each sits: the device name is in the operator text itself and in the run logs' copies of it; every address is under a <code>url</code> or <code>summary.url</code> key; the development host is under <code>provenance.host</code>. No credential value is on either side of the build; six published rows mention a password (one of them also a bearer token) because they are documentation questions about changing one, which is a distinction a scanner has to respect. The 33-entry tool catalog contributed one description with an example device name in a parenthetical, which the builder strips. The published set holds no address at all: the three loopback addresses in the raw logs sat under <code>summary.url</code> and left with the key.</p>
+
+<h2>Raw to public, in one pass</h2>
+<figure>
+<svg viewBox="0 0 760 296" role="img" aria-label="The build reads three private sources, applies four sanitizing mechanisms (name substitution from an untracked names file, a redaction list, an address mask and a recursive key drop), and writes the public dataset; the names file itself is gitignored and never committed.">
+  <defs><marker id="arh1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+  <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
+    <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--bad)" letter-spacing=".1em">PRIVATE · NEVER IN THE REPOSITORY</text>
+    <rect x="0" y="22" width="196" height="106" rx="6" fill="var(--bad-soft)" stroke="var(--bad)"/>
+    <text x="12" y="42" font-size="11.5">data/raw/ (gitignored):</text>
+    <text x="12" y="60" font-size="11.5">seed + paraphrase files,</text>
+    <text x="12" y="78" font-size="11.5">52 run logs, tool catalog</text>
+    <text x="12" y="100" font-size="11.5">authoring output, outside the tree</text>
+    <text x="12" y="118" font-size="10.5" fill="var(--muted)">never synced, never committed</text>
+
+    <rect x="0" y="150" width="196" height="62" rx="6" fill="var(--surface)" stroke="var(--bad)" stroke-dasharray="4 3"/>
+    <text x="12" y="170" font-size="11.5" font-weight="600">private.json</text>
+    <text x="12" y="187" font-size="10.5" fill="var(--muted)">the real device name +</text>
+    <text x="12" y="201" font-size="10.5" fill="var(--muted)">a redaction list, 2 patterns</text>
+
+    <line x1="196" y1="75" x2="252" y2="75" stroke="currentColor" stroke-width="1.2" marker-end="url(#arh1)"/>
+    <text x="224" y="68" text-anchor="middle" font-size="9.5" fill="var(--muted)">reads</text>
+    <line x1="196" y1="181" x2="240" y2="181" stroke="currentColor" stroke-width="1.2"/>
+    <line x1="240" y1="181" x2="240" y2="120" stroke="currentColor" stroke-width="1.2"/>
+    <line x1="240" y1="120" x2="252" y2="112" stroke="currentColor" stroke-width="1.2" marker-end="url(#arh1)"/>
+    <text x="236" y="150" text-anchor="end" font-size="9.5" fill="var(--muted)">patterns</text>
+
+    <rect x="254" y="22" width="252" height="190" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="266" y="42" font-weight="600">bench/netops.py build</text>
+    <text x="266" y="64" font-size="11.5">1 · inventory name → <tspan font-family="IBM Plex Mono, monospace">@sw1</tspan></text>
+    <text x="266" y="86" font-size="11.5">2 · redaction list → <tspan font-family="IBM Plex Mono, monospace">&lt;redacted&gt;</tspan></text>
+    <text x="266" y="108" font-size="11.5">3 · IPv4 regex → <tspan font-family="IBM Plex Mono, monospace">&lt;addr&gt;</tspan></text>
+    <text x="266" y="130" font-size="11.5">4 · drop 6 key names, at any depth</text>
+    <text x="266" y="152" font-size="10.5" fill="var(--muted)">applied to every string of every row,</text>
+    <text x="266" y="166" font-size="10.5" fill="var(--muted)">recursively through dicts and lists</text>
+    <text x="266" y="188" font-size="10.5" fill="var(--muted)">with no name loaded, steps 1 and 2 are no-ops,</text>
+    <text x="266" y="202" font-size="10.5" fill="var(--muted)">so a machine without the file cannot rebuild</text>
+
+    <line x1="506" y1="112" x2="556" y2="112" stroke="currentColor" stroke-width="1.2" marker-end="url(#arh1)"/>
+    <text x="531" y="105" text-anchor="middle" font-size="9.5" fill="var(--muted)">writes</text>
+
+    <text x="558" y="12" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ok)" letter-spacing=".1em">PUBLIC · COMMITTED</text>
+    <rect x="558" y="22" width="202" height="190" rx="6" fill="var(--ok-soft)" stroke="var(--ok)"/>
+    <text x="570" y="42" font-size="11.5">canonical 65 · paraphrase 195</text>
+    <text x="570" y="60" font-size="11.5">authored 259 + 983 training</text>
+    <text x="570" y="78" font-size="11.5">catalog 33</text>
+    <text x="570" y="96" font-size="11.5">46 run logs, endpoints stripped</text>
+    <text x="570" y="114" font-size="11.5">docs/data-review-log.md</text>
+    <text x="570" y="136" font-size="10.5" fill="var(--muted)">1,327 of 1,502 rows name <tspan font-family="IBM Plex Mono, monospace">@sw1</tspan>;</text>
+    <text x="570" y="150" font-size="10.5" fill="var(--muted)">3,335 run records do</text>
+    <text x="570" y="172" font-size="10.5" fill="var(--muted)">0 markers <tspan font-family="IBM Plex Mono, monospace">&lt;addr&gt;</tspan> or <tspan font-family="IBM Plex Mono, monospace">&lt;redacted&gt;</tspan>:</text>
+    <text x="570" y="186" font-size="10.5" fill="var(--muted)">no operator sentence held either</text>
+
+    <text x="0" y="232" font-size="10.5" fill="var(--muted)">the names file supplies patterns, not code</text>
+    <rect x="254" y="232" width="506" height="52" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="266" y="252" font-size="11.5" font-weight="600">the gap this pipeline had</text>
+    <text x="266" y="268" font-size="11" fill="var(--muted)">it sanitizes the data it reads, and nothing else: not its own</text>
+    <text x="266" y="282" font-size="11" fill="var(--muted)">source, not a nested key, not a log line appended later</text>
+    <line x1="380" y1="212" x2="380" y2="230" stroke="var(--bad)" stroke-width="1.2" marker-end="url(#arh1)"/>
+    <text x="388" y="226" font-size="9.5" fill="var(--bad)">what it did not cover</text>
+  </g>
+</svg>
+<figcaption>One build, four mechanisms, one direction. The private names live in a file the repository never sees, so the code that removes them can be published; the cost is that only a machine holding that file can rebuild the dataset, which is the intended trade.</figcaption>
+</figure>
+
+<h2>The four mechanisms</h2>
+<div class="tablewrap"><table>
+<tr><th>mechanism</th><th>what it does</th><th>scope</th></tr>
+<tr class="lead"><td>name substitution</td><td>a case-insensitive replace of the device's inventory name with the public name <code>sw1</code>, so every operator sentence reads <code>@sw1</code></td><td>every string in every row, and every line of the review log</td></tr>
+<tr><td>redaction list</td><td>each string on a list, replaced with <code>&lt;redacted&gt;</code>; this is what the development host's name goes through</td><td>same</td></tr>
+<tr><td>address mask</td><td>one IPv4 regex, replaced with <code>&lt;addr&gt;</code>; it is a mask, not a drop, so a sentence keeps its shape</td><td>same</td></tr>
+<tr><td>key drop</td><td>six key names (<code>url</code>, <code>base_url</code>, <code>endpoint</code>, <code>host</code>, <code>server</code>, <code>address</code>) deleted wherever they occur in a run log, at any nesting depth, plus an explicit drop of <code>summary.url</code></td><td>the 46 published run logs</td></tr>
+</table></div>
+<p>The name and the redaction list come from <code>data/raw/private.json</code>, a file inside the gitignored raw directory, or from an environment variable. The sanitizer holds no literal, so it is safe to publish, and it is inert without the file: with nothing loaded, substitution and redaction become no-ops and only the address mask fires. That is deliberate. A rebuild on a machine without the names file cannot silently produce a half-sanitized dataset, because the row text would change visibly.</p>
+<p>Two details are worth copying. The key drop is recursive, so a key added later three levels down in a harness's provenance block is caught without anyone remembering to add it. And the mask leaves a marker rather than deleting: the published dataset contains zero <code>&lt;addr&gt;</code> and zero <code>&lt;redacted&gt;</code> markers, which is itself a finding. No operator sentence ever held an address or a listed string. Every private string outside the device name sat in machine-written metadata, not in the human-written part of the data.</p>
+
+<h2>The authored rows</h2>
+<p>259 evaluation rows and 983 training paraphrases were not written by the application team. One large language model (LLM) authored them, a second LLM verified them row by row, and the ingest writes both the rows and a log of every change. The log is public: <code>docs/data-review-log.md</code>, 134 entries across five categories, including 29 rows removed as ambiguous, near-duplicate, physically inconsistent or drifting from their seed's label (16 evaluation rows, 13 training paraphrases), and 15 rows whose ambiguity rating was changed with a reason. Human review of these labels is still pending and is flagged as pending everywhere they are used.</p>
+<p>The verifier's mechanical pass is part of the hygiene story, because it checks the same things the sanitizer does, per row, in the layer above: that every device mention is <code>@sw1</code> and no other inventory name, that no address-like string appears, that no vendor product names creep in, that ports are written <code>1/N</code>, and that no row duplicates another after normalization. Those checks are recorded per category in the log, so a reader can see what was looked for rather than trusting that something was.</p>
+<div class="card-demo">
+  <div class="req">The sanitizer's fingerprint, at two places in the review log</div>
+  <div class="cmd">- Mechanical checks: every row addresses '@sw1' only (no '@sw1' or other inventory names) …
+- CHECKS: 160 rows in, 159 out. Every @-mention is @sw1 (no @sw1 or other inventory names).</div>
+  <div class="check warn"><b>lines 105, 114</b><span>Both sentences say "no @sw1" while insisting every row is @sw1. The verifier wrote a real name there; the sanitizer rewrote it afterwards and made the sentence circular. The oddity is the proof that the log goes through the sanitizer, and it is also where the log once did not.</span></div>
+</div>
+
+<h2>Splits, the other kind of leak</h2>
+<p>The same discipline applies to a secret of a different kind. Every split in this study is grouped by <code>base_input</code>, the seed request a row derives from, so a paraphrase can never sit in a different split from its seed: the group is the unit, not the row. The builder draws 25% of groups for the test split and 10% for validation, attaches the training-only paraphrases to their seed's group, and refuses to emit a training paraphrase whose group landed in the test set. It writes a manifest naming which seeds went where.</p>
+<p>That manifest is what every backend is later scored against: 126 held-out rows shared by the readout and the encoders. Ungrouped, the held-out number would be a memorization score with a paraphrase for a hint.</p>
+
+<h2>The run logs keep their provenance</h2>
+<p>46 of the 52 raw run logs are published. The six that are not, five phase probes and one soak run, have no per-row results array, so the builder skips them. Stripping the endpoint does not mean stripping the file's identity.</p>
+<p>Thirteen provenance keys survive the build, and they are the ones that make a number checkable: <code>timestamp_utc</code>, <code>schema_version</code>, <code>harness_sha256</code>, <code>cases_sha256</code>, <code>tool_definitions_sha256</code>, <code>tools_source</code>, <code>tool_names</code>, <code>request_config</code>, <code>endpoint_models</code>, <code>python</code>, <code>cases_file</code>, <code>board</code>, <code>board_after</code>. Two keys are removed: the endpoint address and the host name. A comparison of every raw file against its published copy finds exactly those two key paths dropped and nothing else, which is the check worth automating: not "does the output look clean" but "is the difference between raw and public exactly the difference I intended".</p>
+
+<h2>The incident</h2>
+<p>The pipeline above is the second version. The first push leaked, and the way it leaked is the useful part.</p>
+<figure>
+<svg viewBox="0 0 760 272" role="img" aria-label="Timeline: a first commit at 13:43, the first of four pushes at 14:15, a grep sweep at 15:05 that found six files, and a single clean commit force-pushed at 15:07. Below, the three root causes: a literal in the sanitizer's own source, a key the drop list did not name, and a review log the ingest never sanitized.">
+  <defs><marker id="arh2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+  <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
+    <line x1="10" y1="60" x2="750" y2="60" stroke="var(--rule)" stroke-width="1.5"/>
+    <circle cx="40" cy="60" r="5" fill="var(--muted)"/>
+    <circle cx="270" cy="60" r="5" fill="var(--bad)"/>
+    <circle cx="640" cy="60" r="5" fill="var(--warn)"/>
+    <circle cx="700" cy="60" r="5" fill="var(--ok)"/>
+    <circle cx="400" cy="60" r="3.5" fill="var(--bad)" opacity=".6"/>
+    <circle cx="560" cy="60" r="3.5" fill="var(--bad)" opacity=".6"/>
+    <text x="40" y="40" text-anchor="middle" font-size="11">first commit</text>
+    <text x="270" y="30" text-anchor="middle" font-size="11" fill="var(--bad)">first push, after a</text>
+    <text x="270" y="44" text-anchor="middle" font-size="11" fill="var(--bad)">message rewrite</text>
+    <text x="480" y="30" text-anchor="middle" font-size="11" fill="var(--muted)">two more pushes,</text>
+    <text x="480" y="44" text-anchor="middle" font-size="11" fill="var(--muted)">same six files</text>
+    <text x="640" y="30" text-anchor="end" font-size="11" fill="var(--warn)">grep sweep, inside the</text>
+    <text x="640" y="44" text-anchor="end" font-size="11" fill="var(--warn)">fourth push command</text>
+    <text x="700" y="110" text-anchor="middle" font-size="11" fill="var(--ok)">one clean commit,</text>
+    <text x="700" y="124" text-anchor="middle" font-size="11" fill="var(--ok)">force-pushed</text>
+    <text x="155" y="80" text-anchor="middle" font-size="10.5" fill="var(--muted)">32 min</text>
+    <text x="470" y="96" text-anchor="middle" font-size="10.5" fill="var(--muted)">52 min from first push to clean history</text>
+    <text x="40" y="80" text-anchor="middle" font-size="10.5" fill="var(--muted)">13:43</text>
+    <text x="270" y="80" text-anchor="middle" font-size="10.5" fill="var(--muted)">14:15</text>
+    <text x="400" y="80" text-anchor="middle" font-size="10.5" fill="var(--muted)">14:32</text>
+    <text x="560" y="80" text-anchor="middle" font-size="10.5" fill="var(--muted)">14:55</text>
+    <text x="640" y="80" text-anchor="middle" font-size="10.5" fill="var(--warn)">15:05</text>
+    <text x="700" y="80" text-anchor="middle" font-size="10.5" fill="var(--muted)">15:07</text>
+
+    <rect x="0" y="140" width="246" height="82" rx="6" fill="var(--bad-soft)" stroke="var(--bad)"/>
+    <text x="12" y="160" font-size="11.5" font-weight="600">1 · a literal in the sanitizer</text>
+    <text x="12" y="178" font-size="10.5" fill="var(--muted)">the real name was assigned in the module</text>
+    <text x="12" y="192" font-size="10.5" fill="var(--muted)">that replaces it, and in the ingest script</text>
+    <text x="12" y="212" font-size="11" fill="var(--bad)">2 code files · 3 lines</text>
+
+    <rect x="258" y="140" width="246" height="82" rx="6" fill="var(--bad-soft)" stroke="var(--bad)"/>
+    <text x="270" y="160" font-size="11.5" font-weight="600">2 · a key the list did not name</text>
+    <text x="270" y="178" font-size="10.5" fill="var(--muted)">url was dropped at every depth; host was not</text>
+    <text x="270" y="192" font-size="10.5" fill="var(--muted)">on the list, and no address mask existed yet</text>
+    <text x="270" y="212" font-size="11" fill="var(--bad)">3 run logs · 3 lines</text>
+
+    <rect x="516" y="140" width="244" height="82" rx="6" fill="var(--bad-soft)" stroke="var(--bad)"/>
+    <text x="528" y="160" font-size="11.5" font-weight="600">3 · a log never sanitized</text>
+    <text x="528" y="178" font-size="10.5" fill="var(--muted)">the ingest replaced the name in row inputs,</text>
+    <text x="528" y="192" font-size="10.5" fill="var(--muted)">not in the review lines it wrote itself</text>
+    <text x="528" y="212" font-size="11" fill="var(--bad)">1 doc file · 2 lines</text>
+
+    <text x="380" y="250" text-anchor="middle" font-size="11.5">all three are the same mistake: the scan covered the data, and the repository is larger than the data</text>
+    <text x="380" y="266" text-anchor="middle" font-size="10.5" fill="var(--muted)">the fix scans tracked files, not a chosen directory</text>
+  </g>
+</svg>
+<figcaption>Six files, eight lines, in a tree of 97 at the first push. Nothing in the data rows was wrong: the dataset built by the sanitizer was clean, and every leak was in the code around it, in metadata under a key the drop list did not name, and in a review log the ingest never passed through the sanitizer at all. Times are local, from the session transcript; the reflog records commits, not pushes.</figcaption>
+</figure>
+<p>The sweep that found it was a grep over the whole tracked tree against the private strings. It ran inside the fourth push command, after three pushes had already carried the same six files, and its result did not gate that push: the command scanned, printed what it found, committed and pushed in one line. The ordering is the whole lesson. Two minutes later the fix was in and a single clean commit replaced the history.</p>
+<p>A rewrite can make the branch clean, and it did: the published history is a single commit of 244 files and 46,086 lines, and a scan of every commit reachable from any ref finds no private name (its one address hit is this page's own test fixture, discussed below). What a rewrite does not do is unpublish. Unreachable objects can survive on a forge until it garbage-collects, and for anything already public the durable remedy is to delete the repository and recreate it, treating any secret in those objects as exposed.</p>
+<p>They survive locally for certain. This clone still held the old commits two ways after the rewrite: 7 commits that no ref reaches sit in its object store and the reflog names 6 of them, and <code>filter-branch</code> had left a backup ref, <code>refs/original/refs/heads/main</code>, pointing at the pre-rewrite tip, which kept its two commits reachable outside any branch walk until the ref was deleted. After a rewrite, check both.</p>
+
+<h2>The scan, as a hook</h2>
+<p>What was missing was not a better sanitizer. It was a check between "the files look right" and "the files are on a server". This is that check, written as one script with four modes, runnable as both hooks. It reads its patterns from the same untracked names file the sanitizer uses, so committing the hook commits no secret, and it prints <code>file:line</code> with a category, never the matched text, so its own output cannot become the leak.</p>
+<div class="card-demo"><div class="cmd script">#!/usr/bin/env bash
+# bench/scan_private.sh: refuse to commit or push anything carrying a private name
+# or an address. Modes: (none) working tree · --staged · --push · --history.
+set -euo pipefail
+
+ROOT=$(git rev-parse --show-toplevel)
+cd &quot;$ROOT&quot;
+MODE=${1:-tree}
+PRIV=data/raw/private.json
+IP_RE=&#x27;\b([0-9]{1,3}\.){3}[0-9]{1,3}\b&#x27;
+ALLOW_IP=&#x27;\b(127\.0\.0\.1|0\.0\.0\.0)\b&#x27;   # masked before the hit test
+
+PATS=$(mktemp); trap &#x27;rm -f &quot;$PATS&quot;&#x27; EXIT
+chmod 600 &quot;$PATS&quot;
+if [ -f &quot;$PRIV&quot; ]; then
+  python3 - &quot;$PRIV&quot; &gt; &quot;$PATS&quot; &lt;&lt;&#x27;PY&#x27;
+import json, sys
+d = json.load(open(sys.argv[1]))
+for n in [d.get(&quot;real_device_name&quot;, &quot;&quot;)] + list(d.get(&quot;redact&quot;, [])):
+    n = str(n).strip()
+    if len(n) &gt;= 3:                 # shorter than that greps up too much noise
+        print(n)
+PY
+else
+  echo &quot;scan_private: $PRIV not found; scanning for addresses only&quot; &gt;&amp;2
+fi
+NPAT=$(wc -l &lt; &quot;$PATS&quot; | tr -d &#x27; &#x27;)
+EXTRA=&quot;&quot;
+if [ -n &quot;${JEVLET_SCAN_EXTRA:-}&quot; ] &amp;&amp; [ -f &quot;$JEVLET_SCAN_EXTRA&quot; ]; then
+  EXTRA=&quot;$JEVLET_SCAN_EXTRA&quot;
+fi
+
+hits=0
+LABEL=&quot;&quot;
+
+# report &lt;file:line list&gt; &lt;kind&gt;: print each location and count it. No pipeline here,
+# so the count survives; the matched text never enters the output.
+report() {
+  local kind=$2 loc
+  [ -n &quot;$1&quot; ] || return 0
+  while IFS= read -r loc; do
+    [ -n &quot;$loc&quot; ] || continue
+    echo &quot;$LABEL$loc [$kind]&quot;
+    hits=$((hits + 1))
+  done &lt;&lt;&lt; &quot;$1&quot;
+}
+
+# scan &lt;what&gt;: &quot;&quot; = the working tree, --cached = the index, anything else = a commit.
+scan() {
+  local what=$1 strip=cat locs
+  local -a tgt=()
+  LABEL=&quot;&quot;
+  case &quot;$what&quot; in
+    &quot;&quot;)       ;;
+    --cached) tgt=(--cached) ;;
+    *)        tgt=(&quot;$what&quot;); LABEL=&quot;${what:0:7}:&quot;
+              strip=&quot;cut -d: -f2-&quot; ;;        # drop git grep&#x27;s &quot;&lt;sha&gt;:&quot; prefix
+  esac
+
+  # 1. private names: fixed strings, case-insensitive; -I skips binary files
+  if [ &quot;$NPAT&quot; -gt 0 ]; then
+    locs=$(git grep -I -i -n -F -f &quot;$PATS&quot; &quot;${tgt[@]}&quot; -- . 2&gt;/dev/null \
+           | $strip | cut -d: -f1-2 | sort -u || true)
+    report &quot;$locs&quot; &quot;private name&quot;
+  fi
+
+  # 2. IPv4 literals, except allowlisted ones: mask the allowed ones first, then
+  #    anything still matching is a hit, so a line holding both is not waved through.
+  locs=$(git grep -I -n -E -e &quot;$IP_RE&quot; &quot;${tgt[@]}&quot; -- . 2&gt;/dev/null | $strip \
+         | sed -E &quot;s/$ALLOW_IP/&lt;allowed&gt;/g&quot; | grep -E &quot;$IP_RE&quot; \
+         | cut -d: -f1-2 | sort -u || true)
+  report &quot;$locs&quot; &quot;ipv4 outside allowlist&quot;
+
+  # 3. extra regexes, one per line, from $JEVLET_SCAN_EXTRA
+  if [ -n &quot;$EXTRA&quot; ]; then
+    locs=$(git grep -I -i -n -E -f &quot;$EXTRA&quot; &quot;${tgt[@]}&quot; -- . 2&gt;/dev/null \
+           | $strip | cut -d: -f1-2 | sort -u || true)
+    report &quot;$locs&quot; &quot;extra pattern&quot;
+  fi
+}
+
+commits=0
+case &quot;$MODE&quot; in
+  tree|--tree) scan &quot;&quot; ;;
+  --staged)    scan --cached ;;
+  --history)
+    for c in $(git rev-list --all); do
+      scan &quot;$c&quot;; commits=$((commits + 1))
+    done ;;
+  --push)
+    z=0000000000000000000000000000000000000000
+    while read -r lref lsha rref rsha; do
+      [ &quot;$lsha&quot; = &quot;$z&quot; ] &amp;&amp; continue              # a branch deletion pushes nothing
+      if [ &quot;$rsha&quot; = &quot;$z&quot; ]; then range=$lsha; else range=&quot;$rsha..$lsha&quot;; fi
+      for c in $(git rev-list &quot;$range&quot;); do
+        scan &quot;$c&quot;; commits=$((commits + 1))
+      done
+    done ;;
+  *) echo &quot;usage: $0 [--staged|--push|--history]&quot; &gt;&amp;2; exit 2 ;;
+esac
+
+n_tracked=$(git ls-files | wc -l | tr -d &#x27; &#x27;)
+echo &quot;scan_private: mode=${MODE#--} names=$NPAT ipv4-allowlist=loopback&quot; \
+     &quot;tracked-files=$n_tracked commits=$commits hits=$hits&quot; &gt;&amp;2
+[ &quot;$hits&quot; -eq 0 ]</div></div>
+<p>Install it and it runs on every commit and every push. The hook files themselves are not tracked, which is a weakness of git hooks generally; on a shared repository the same script belongs in continuous integration, where <code>--history</code> is the mode to run.</p>
+<div class="card-demo"><div class="cmd">printf '#!/bin/sh\nexec bench/scan_private.sh --staged\n' &gt; .git/hooks/pre-commit
+printf '#!/bin/sh\nexec bench/scan_private.sh --push\n'   &gt; .git/hooks/pre-push
+chmod +x .git/hooks/pre-commit .git/hooks/pre-push</div></div>
+
+<h3>Tested against this repository, and against a repository built to leak</h3>
+<p>Two runs. On this repository the working tree passes and the other three modes fail on one line, which turned out to be the interesting half of this half: the hook's first real catch was this page's own test fixture¹. The other run is a throw-away repository seeded with invented names, taken through the same sequence of mistakes: stage a leak, commit it, remove it, rewrite history, forget the backup ref. Both runs are reproduced by <code>python -m bench.hygiene_audit</code>, which writes the receipt every number on this page comes from.</p>
+<div class="tablewrap"><table>
+<tr><th>mode</th><th>what it scans</th><th class="n">this repo</th><th class="n">wall</th><th class="n">leaking repo</th></tr>
+<tr><td><code>(default)</code></td><td>the tracked working tree</td><td class="n">pass</td><td class="n">0.57&nbsp;s</td><td class="n">fails</td></tr>
+<tr class="lead"><td style="white-space:nowrap"><code>--staged</code> · pre-commit</td><td>the index, so what the commit would contain</td><td class="n">fails¹</td><td class="n">0.65&nbsp;s</td><td class="n">fails, 3 hits</td></tr>
+<tr><td><code>--push</code> · pre-push</td><td>every commit in the range being pushed</td><td class="n">fails¹</td><td class="n">8.15&nbsp;s</td><td class="n">fails</td></tr>
+<tr><td><code>--history</code> · CI</td><td>every commit reachable from any ref, leftover backup refs included</td><td class="n">fails¹</td><td class="n">7.91&nbsp;s</td><td class="n">fails</td></tr>
+</table></div>
+<p style="font-size:.86rem;color:var(--muted)">¹ The one hit is a synthetic, non-routable address that the audit script behind this page wrote as a literal into its leaking-repository fixture. It was committed that way, then rewritten to assemble the address at run time, so the working tree is clean while the index and every commit since carry the literal: exactly the shape the hook exists for, and a rewrite is the only cure. This repository at the time of the run: 313 tracked files, 13 commits, 2 patterns loaded from the names file. Wall times are the median of three runs on the development host and move by tens of percent with load; the two history modes walk all 13 commits, and the push mode here is a first push, so its range is the whole history. The leaking repository stages a row naming a fake device in mixed case, a run file with a fake host under <code>provenance.host</code> and a non-loopback address under <code>summary.url</code>, and a binary file with the same fake name.</p>
+<div class="tablewrap"><table>
+<tr><th>the sequence, on the leaking repository</th><th class="n">tree</th><th class="n">--history</th><th>what it shows</th></tr>
+<tr><td>clean commit only</td><td class="n">pass</td><td class="n">pass</td><td>no false alarm on <code>@sw1</code> or on a loopback address</td></tr>
+<tr class="lead"><td>leak staged, not yet committed</td><td class="n">not&nbsp;run</td><td class="n">not&nbsp;run</td><td><code>--staged</code> fails with 3 hits: the name in two files, the address in one</td></tr>
+<tr><td>leak committed</td><td class="n">fails</td><td class="n">fails</td><td><code>--push</code> also fails, so the push is stopped</td></tr>
+<tr class="lead"><td>files deleted, history kept</td><td class="n">pass</td><td class="n">fails</td><td>the case that matters: a clean tree over a dirty history</td></tr>
+<tr><td>history replaced by one commit</td><td class="n">pass</td><td class="n">pass</td><td>only a rewrite clears it, and only locally</td></tr>
+<tr class="lead"><td>a leftover <code>refs/original</code> backup ref</td><td class="n">pass</td><td class="n">fails</td><td>what <code>filter-branch</code> leaves behind still reaches the old commits</td></tr>
+<tr><td>backup ref deleted</td><td class="n">pass</td><td class="n">pass</td><td>clean at last, in this clone</td></tr>
+</table></div>
+
+<h2>What this scan does not catch</h2>
+<ul>
+<li><b>Anything not on the list.</b> It is a grep. A person's name, a site, a building, a camera label in an operator sentence: all pass. The review log's per-row checks are what cover that layer, and they are LLM-run and pending human review.</li>
+<li><b>Binary files.</b> <code>git grep -I</code> skips them, and the test above confirms a binary carrying the fake name is not flagged. An image or an archive has to be handled by not committing it.</li>
+<li><b>Absolute paths from the development host.</b> Aimed at them through the script's extra-patterns file, the scan fails on this repository: 11 lines across 7 files carry a path under a user's home directory, inside harness provenance and trainer reports. They name a login, not a device, so they were left; the point is that the default patterns did not look and one line of configuration made them.</li>
+<li><b>Untracked files</b>, by design, since they are not being committed. A <code>git add -f</code> of an ignored file is caught, because <code>--staged</code> scans the index.</li>
+<li><b>The remote's memory, and the local one.</b> No hook can retract what was pushed; it can only ensure there is nothing to retract. Locally, <code>--history</code> walks every ref, so a leftover <code>refs/original</code> backup is caught, but the reflog is not a ref: expire it and run <code>git gc</code> after a rewrite.</li>
+</ul>
+
+<h2>Checklist</h2>
+<ul>
+<li>Keep the private strings in a file the repository cannot see, and make the sanitizer read them. A sanitizer that contains a secret is a leak with extra steps.</li>
+<li>Make the pipeline inert without that file, so a rebuild elsewhere fails loudly rather than publishing half-sanitized rows.</li>
+<li>Drop keys recursively and by name, and mask with a marker instead of deleting, so the absence of markers is evidence.</li>
+<li>Diff raw against published by key name and assert the difference is exactly what was intended.</li>
+<li>Sanitize logs once, at the end, over the whole text. Any line appended after the call is a line that did not go through it.</li>
+<li>Scan tracked files, not the data directory. The three leaks here were two code files, three metadata blocks and a log.</li>
+<li>Scan before the push, not after: <code>--staged</code> on commit, <code>--push</code> on push, <code>--history</code> in CI.</li>
+<li>Never print the match. A scanner that echoes what it found writes the secret into a terminal log, a CI page, or a transcript.</li>
+<li>Group the splits by seed and publish the manifest; a leaked paraphrase is a leak too.</li>
+<li>Publish the provenance and the review log. Removing an endpoint is compatible with keeping every hash, timestamp and version that makes a number checkable.</li>
+<li>After a leak, rewrite and then assume exposure: delete <code>refs/original</code>, expire the reflog and garbage-collect locally; delete and recreate a public repository; rotate anything that was a credential.</li>
+</ul>
+
+<footer>
+<p>Companion to <a href="https://claude.ai/artifact/BBMh93V3pxKYzSMe7UcpN3">the Jevlet results page</a> and <a href="https://claude.ai/artifact/3cL2PYgWi5ti1gRXScxhKa">the encoder fine-tune page</a>. Code, dataset and receipts: <a href="https://github.com/kvapr/jevlet">github.com/kvapr/jevlet</a> (<code>bench/netops.py</code>, <code>bench/ingest_authored.py</code>, <code>bench/scan_private.sh</code>, <code>data/README.md</code>, <code>docs/data-review-log.md</code>). Long-form account: the <a href="https://kvapr.github.io/posts/jevlet-system-one-on-the-edge/">blog post</a>; the <a href="https://github.com/kvapr/jevlet/blob/main/paper/main.pdf">preprint</a>. Every number here is recomputed by <code>python -m bench.hygiene_audit</code> into <code>results/hygiene-audit-2026-09-22.json</code>; counts are counts, and no private value is written to that receipt either. Labels on the authored rows are LLM-written and LLM-verified, human review pending. Measured 2026-09-22.</p>
+</footer>
+</main>

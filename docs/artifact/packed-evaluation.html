@@ -1,0 +1,363 @@
+<title>Packed Battery Gotcha</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #f3f5f4; --surface: #ffffff; --ink: #172026; --muted: #5e6b72; --rule: #d3dbd8;
+    --accent: #2f6690; --accent-soft: #e3edf4;
+    --ok: #2e7d5b; --ok-soft: #e2f1e8; --warn: #c7831c; --warn-soft: #f7ecd6; --bad: #b5432f; --bad-soft: #f6e2dd;
+    --readout: #2f6690; --encoder: #c98a2b; --finetuned: #a8404b; --generative: #6b7378;
+    --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    --sans: "IBM Plex Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0f1518; --surface: #161e22; --ink: #e6ecee; --muted: #98a6ac; --rule: #2a363b;
+      --accent: #7fb0d6; --accent-soft: #1c2b36;
+      --ok: #63c08f; --ok-soft: #173126; --warn: #e2a64c; --warn-soft: #3a2c15; --bad: #e07a68; --bad-soft: #3d201c;
+      --readout: #7fb0d6; --encoder: #e2a64c; --finetuned: #e28a93; --generative: #9aa6ab;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0f1518; --surface: #161e22; --ink: #e6ecee; --muted: #98a6ac; --rule: #2a363b;
+    --accent: #7fb0d6; --accent-soft: #1c2b36;
+    --ok: #63c08f; --ok-soft: #173126; --warn: #e2a64c; --warn-soft: #3a2c15; --bad: #e07a68; --bad-soft: #3d201c;
+    --readout: #7fb0d6; --encoder: #e2a64c; --finetuned: #e28a93; --generative: #9aa6ab;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 16px/1.6 var(--sans); }
+  main { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font: 600 2rem/1.15 var(--serif); margin: 0 0 .4rem; text-wrap: balance; letter-spacing: -.01em; }
+  h2 { font: 600 1.35rem/1.25 var(--serif); margin: 2.6rem 0 .7rem; text-wrap: balance; }
+  h3 { font: 600 1.02rem/1.3 var(--sans); margin: 1.6rem 0 .4rem; }
+  p { margin: .7rem 0; max-width: 68ch; }
+  .lede { color: var(--muted); font-size: 1.05rem; max-width: 62ch; }
+  .eyebrow { font: 500 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: .6rem; }
+  a { color: var(--accent); }
+  code, .mono { font-family: var(--mono); font-size: .88em; }
+  figure { margin: 1.4rem 0; }
+  figure svg { max-width: 100%; height: auto; display: block; }
+  figcaption { font-size: .82rem; color: var(--muted); margin-top: .5rem; max-width: 68ch; }
+  .card-demo { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.1rem; margin: 1.2rem 0; }
+  .card-demo .req { font: 500 .95rem var(--sans); }
+  .card-demo .cmd { font-family: var(--mono); font-size: .85rem; background: var(--ground); padding: .5rem .7rem; border-radius: 5px; margin: .6rem 0; white-space: pre-wrap; }
+  .check { display: flex; gap: .6rem; align-items: flex-start; font-size: .9rem; padding: .55rem .7rem; border-radius: 6px; margin-top: .6rem; }
+  .check.bad { background: var(--bad-soft); color: var(--ink); border-left: 3px solid var(--bad); }
+  .check.ok { background: var(--ok-soft); border-left: 3px solid var(--ok); }
+  .check.warn { background: var(--warn-soft); border-left: 3px solid var(--warn); }
+  .check b { font-family: var(--mono); font-weight: 500; white-space: nowrap; }
+  .actions { display: flex; gap: .5rem; margin-top: .7rem; }
+  .btn { font: 500 .8rem var(--sans); padding: .35rem .7rem; border-radius: 5px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .tablewrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .86rem; font-variant-numeric: tabular-nums; }
+  th { text-align: left; font: 500 .7rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: .45rem .6rem .35rem 0; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  td { padding: .45rem .6rem .45rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td.n, th.n { text-align: right; font-family: var(--mono); font-size: .84rem; }
+  tr.lead td { font-weight: 600; }
+  .swatch { display: inline-block; width: .7em; height: .7em; border-radius: 2px; margin-right: .4em; vertical-align: -1px; }
+  .kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .6rem; margin: 1rem 0; }
+  .kv div { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: .6rem .75rem; }
+  .kv b { display: block; font: 500 1.35rem/1.1 var(--mono); }
+  .kv span { font-size: .78rem; color: var(--muted); }
+  .note { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: .7rem 1rem; border-radius: 0 6px 6px 0; font-size: .92rem; margin: 1.2rem 0; }
+  .pending { color: var(--warn); font-family: var(--mono); font-size: .8rem; }
+  ul { padding-left: 1.2rem; } li { margin: .3rem 0; max-width: 68ch; }
+  .pill { font: 500 .7rem var(--mono); padding: .1rem .45rem; border-radius: 999px; border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+  footer { margin-top: 3rem; font-size: .82rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 1rem; }
+  @media (max-width: 480px) { h1 { font-size: 1.55rem; } .actions { flex-wrap: wrap; } }
+</style>
+
+<style>
+  .runs td:first-child, .nowrap { white-space: nowrap; }
+  .patch { display: block; }
+  .patch .add { color: var(--ok); }
+  .patch .del { color: var(--bad); }
+  .patch .hunk { color: var(--muted); }
+  .draft { border-left: 3px solid var(--warn); background: var(--warn-soft); padding: .7rem 1rem; border-radius: 0 6px 6px 0; font-size: .92rem; margin: 1.2rem 0; }
+  figure img { max-width: 100%; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+</style>
+
+<main>
+<div class="eyebrow">Methods note · companion to the Jevlet study · September 2026</div>
+<h1>A packed battery must be asked the way it was trained</h1>
+<p class="lede">The study's round-1 encoder answers a different question when you ask it one question at a time instead of four in one sequence: the 24-way command question falls from 65.1% to 31.7% on the same held-out rows. This page measures the effect across all 24 question orders and three pack sizes, locates it in the training data, and prices the two fixes.</p>
+
+<div class="kv">
+  <div><b>65.1% → 31.7%</b><span>round 1's command question, asked packed then asked alone, same 126 held-out rows</span></div>
+  <div><b>54 pts</b><span>spread of that accuracy across the 24 orders of the same four questions; after shuffling, 6 pts</span></div>
+  <div><b>96.8% → 23.0%</b><span>round 2's <code>touches_poe_power</code> packed then alone: shuffling fixed the order, not the pack size</span></div>
+  <div><b>1 extra copy</b><span>the whole training-side fix: each example emitted once more with its questions permuted</span></div>
+</div>
+
+<div class="note"><b>Where the numbers come from.</b> Every accuracy on this page is from <code>results/packed-vs-single.json</code>, a receipt produced for this note: both fine-tuned bundles, the 126 held-out rows of the grouped split, each battery asked in all 24 question orders and in three pack sizes, 297 s on the development host's GB10 GPU. Training-set shapes are from <code>results/pack-shapes.json</code>, run cost from <code>runs/*/report.json</code>, board latency from <code>results/latency-cpu-board.json</code>. Read this with <a href="https://claude.ai/artifact/3cL2PYgWi5ti1gRXScxhKa">the fine-tune page</a>, which has the recipe and the accuracy tables this note dissects.</div>
+
+<h2>What "packed" means here</h2>
+<p>The typed-decisions recipe answers every question about one state in a single forward pass. The collator writes one token sequence, the backbone reads it once, and a small multilayer perceptron (MLP) head scores each option. The unit of work is the whole battery, not the question.</p>
+
+<figure>
+<svg viewBox="0 0 760 344" role="img" aria-label="One packed sequence carries the state and all four questions in slots one to four; ModernBERT reads it once with a 128-token local attention window and global attention every third layer; the head averages each question's text tokens and each option's text tokens and scores the pair, so the only thing that identifies a question to the head is a span whose vector depends on where in the sequence it sat.">
+  <defs><marker id="pk-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+  <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
+    <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">ONE SEQUENCE, BUILT BY THE COLLATOR (max 2,048 TOKENS)</text>
+    <rect x="0" y="22" width="150" height="34" rx="5" fill="var(--surface)" stroke="var(--rule)"/>
+    <rect x="154" y="22" width="132" height="34" rx="5" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <rect x="290" y="22" width="238" height="34" rx="5" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <rect x="532" y="22" width="108" height="34" rx="5" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <rect x="644" y="22" width="116" height="34" rx="5" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <g font-family="IBM Plex Mono, monospace" font-size="10">
+      <text x="8" y="43"><tspan fill="var(--accent)">[STATE]</tspan> the request</text>
+      <text x="162" y="37"><tspan fill="var(--accent)">[Q]</tspan> tool?</text>
+      <text x="162" y="50"><tspan fill="var(--accent)">[OPT]</tspan> ×8</text>
+      <text x="298" y="37"><tspan fill="var(--accent)">[Q]</tspan> command?</text>
+      <text x="298" y="50"><tspan fill="var(--accent)">[OPT]</tspan> ×24, each "name: description"</text>
+      <text x="540" y="37"><tspan fill="var(--accent)">[Q]</tspan> is_write?</text>
+      <text x="540" y="50"><tspan fill="var(--accent)">[OPT]</tspan> no · yes</text>
+      <text x="652" y="37"><tspan fill="var(--accent)">[Q]</tspan> poe?</text>
+      <text x="652" y="50"><tspan fill="var(--accent)">[OPT]</tspan> no · yes</text>
+    </g>
+    <g font-size="10" fill="var(--muted)">
+      <text x="220" y="70" text-anchor="middle">slot 1</text>
+      <text x="409" y="70" text-anchor="middle">slot 2</text>
+      <text x="586" y="70" text-anchor="middle">slot 3</text>
+      <text x="702" y="70" text-anchor="middle">slot 4</text>
+      <text x="75" y="70" text-anchor="middle">state</text>
+    </g>
+    <line x1="380" y1="78" x2="380" y2="100" stroke="currentColor" stroke-width="1.2" marker-end="url(#pk-ar)"/>
+    <rect x="186" y="102" width="388" height="44" rx="6" fill="var(--surface)" stroke="var(--accent)"/>
+    <text x="380" y="120" text-anchor="middle" font-weight="600">ModernBERT-base, 22 layers, one pass</text>
+    <text x="380" y="136" text-anchor="middle" font-size="11" fill="var(--muted)">local attention window 128 tokens, global attention every 3rd layer</text>
+    <text x="592" y="128" font-size="10.5" fill="var(--muted)">a late option span reaches the</text>
+    <text x="592" y="141" font-size="10.5" fill="var(--muted)">state only via the global layers</text>
+    <line x1="380" y1="146" x2="380" y2="168" stroke="currentColor" stroke-width="1.2" marker-end="url(#pk-ar)"/>
+    <rect x="0" y="170" width="366" height="76" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
+    <text x="12" y="190" font-weight="600">the head's only two inputs</text>
+    <text x="12" y="208" font-size="11" fill="var(--muted)">q = mean of the question's instruction tokens</text>
+    <text x="12" y="223" font-size="11" fill="var(--muted)">o = mean of that option's text tokens</text>
+    <text x="12" y="238" font-size="11" fill="var(--muted)">score = MLP([q ; o ; q·o]), softmax within the question</text>
+    <line x1="366" y1="208" x2="390" y2="208" stroke="currentColor" stroke-width="1.2" marker-end="url(#pk-ar)"/>
+    <rect x="394" y="170" width="366" height="76" rx="6" fill="var(--bad-soft)" stroke="var(--bad)"/>
+    <text x="406" y="190" font-weight="600" fill="var(--bad)">what is missing</text>
+    <text x="406" y="208" font-size="11">no question id, no slot index, no separator between</text>
+    <text x="406" y="223" font-size="11">batteries: q and o are contextual vectors, so they carry</text>
+    <text x="406" y="238" font-size="11">where the span sat along with what it said</text>
+    <text x="0" y="272" font-size="11" fill="var(--muted)">Consequence: the layout is part of the input. Change the number of questions or their order and every vector the head</text>
+    <text x="0" y="288" font-size="11" fill="var(--muted)">scores changes with it, even though the question text is byte-identical.</text>
+    <rect x="0" y="302" width="760" height="38" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="12" y="318" font-size="11" font-weight="600">Round 1 trained on exactly one layout:</text>
+    <text x="12" y="333" font-size="11">985 packs, all four questions, always tool · command · is_write · touches_poe_power, plus 1,620 packs holding a single gate question.</text>
+  </g>
+</svg>
+<figcaption>The packed format is what makes a four-question battery cost one forward pass. It is also why "the command question" is not a portable object: the head identifies it by a span whose vector depends on its neighbours.</figcaption>
+</figure>
+
+<h2>The measurement</h2>
+<p>Both bundles, the 126 held-out rows, the same questions and the same option strings. "Packed" is the battery in the order it was trained on. "Alone" is the same question with nothing else in the sequence, which is what a caller does when it wants one answer.</p>
+
+<figure>
+<img src="packed-evaluation-pack-shape.png" alt="Bar chart. Asked packed, round 1 scores 70.6, 65.1, 81.7 and 82.5 percent on tool, command, is_write and touches_poe_power, and round 2 scores 88.1, 77.8, 95.2 and 96.8. Asked alone, round 1 falls to 65.9, 31.7, 37.3 and 82.5, and round 2 to 85.7, 73.0, 46.0 and 23.0.">
+<figcaption>Packed against alone, 126 held-out rows. Round 1 loses the two middle questions; round 2, trained with the question order shuffled, holds the two choice questions and loses both yes/no questions instead.</figcaption>
+</figure>
+
+<div class="tablewrap"><table>
+<tr><th>question</th><th class="n">round 1 packed</th><th class="n">round 1 alone</th><th class="n">round 2 packed</th><th class="n">round 2 alone</th></tr>
+<tr><td>tool (8-way)</td><td class="n">70.6%</td><td class="n">65.9%</td><td class="n">88.1%</td><td class="n">85.7%</td></tr>
+<tr class="lead"><td>command (24-way)</td><td class="n">65.1%</td><td class="n">31.7%</td><td class="n">77.8%</td><td class="n">73.0%</td></tr>
+<tr><td><code>is_write</code></td><td class="n">81.7%</td><td class="n">37.3%</td><td class="n">95.2%</td><td class="n">46.0%</td></tr>
+<tr><td><code>touches_poe_power</code></td><td class="n">82.5%</td><td class="n">82.5%</td><td class="n">96.8%</td><td class="n">23.0%</td></tr>
+</table></div>
+<p style="font-size:.86rem;color:var(--muted)">What the lone questions answer instead: round 1 says <code>none_of_these</code> on 119 of the 126 command rows and "no" to <code>is_write</code> on 124; round 2 says "no" to <code>is_write</code> on 97 and "yes" to <code>touches_poe_power</code> on 119.</p>
+<p style="font-size:.86rem;color:var(--muted)">NOUL is Jev's yes/no question type, one probability. Accuracy is plain gold accuracy, the row's listed alternatives not allowed, so these cells are directly comparable with the fine-tune page's first column. The held-out rows are 25% of the evaluation set, grouped by seed request; 77 of 126 are writes and 22 touch PoE power, so "no" on every row scores 38.9% on <code>is_write</code> and 82.5% on <code>touches_poe_power</code>. That second number is exactly round 1's alone score on that question: it is the prior, not an answer.</p>
+
+<p>The preprint records this defect as 55% falling to 7%. That came from a 40-row probe run while the bug was being found, which also showed <code>tool</code> unchanged at 78% and <code>is_write</code> dropping from 75% to 28%. The full 126-row rerun above says 65.1% to 31.7%, and the gap between 7% and 31.7% is a base rate, not a disagreement. 34 of the 126 held-out rows have <code>none_of_these</code> as the gold command; round 1 asked alone answers <code>none_of_these</code> on 119 rows, so it gets all 34 of those right and only 6 of the 92 rows that map to a real command: 6.5%. The probe's 40 rows had no <code>none_of_these</code> golds at all, so its 7% is that 6.5% seen without the prior. On the 92 real-command rows the packed scores are 59.8% for round 1 and 75.0% for round 2; asked alone they are 6.5% and 65.2%.</p>
+
+<p>The collapse is confident. Round 1's alone answers on the command question average 0.896 top-class probability against 31.7% accuracy, higher than the 0.636 it reports when asked packed and right twice as often. Temperature scaling cannot see this: the model is not uncertain, it is answering a different question. That is the practical danger, because a gate reading <code>p &gt; 0.9</code> off a mis-shaped call sees nothing wrong.</p>
+
+<h2>Order inside the pack</h2>
+<p>Asking each battery in all 24 orders of its four questions separates "this head memorised a slot" from "this head memorised a layout".</p>
+
+<figure>
+<img src="packed-evaluation-orders.png" alt="Dot and range chart. Across the 24 question orders, round 1's accuracy spans 13 points on tool, 54 on command, 45 on is_write and 38 on touches_poe_power. Round 2 spans 6, 6, 2 and 2 points respectively, at much higher accuracy.">
+<figcaption>One point per question order. Round 1's command accuracy runs from 11.1% to 65.1% depending only on where the other three questions sit; round 2's runs from 74.6% to 80.2%.</figcaption>
+</figure>
+
+<div class="tablewrap"><table class="runs">
+<tr><th>question</th><th class="n">trained</th><th class="n">mean</th><th class="n">min</th><th class="n">max</th><th class="n">s1</th><th class="n">s2</th><th class="n">s3</th><th class="n">s4</th></tr>
+<tr><td>tool, round 1</td><td class="n">70.6%</td><td class="n">65.3%</td><td class="n">57.9%</td><td class="n">70.6%</td><td class="n">70.1%</td><td class="n">64.6%</td><td class="n">62.7%</td><td class="n">64.0%</td></tr>
+<tr class="lead"><td>command, round 1</td><td class="n">65.1%</td><td class="n">44.9%</td><td class="n">11.1%</td><td class="n">65.1%</td><td class="n">46.7%</td><td class="n">45.6%</td><td class="n">45.8%</td><td class="n">41.4%</td></tr>
+<tr><td><code>is_write</code>, round 1</td><td class="n">81.7%</td><td class="n">72.7%</td><td class="n">38.1%</td><td class="n">83.3%</td><td class="n">63.0%</td><td class="n">72.6%</td><td class="n">78.3%</td><td class="n">76.9%</td></tr>
+<tr><td><code>touches_poe_power</code>, round 1</td><td class="n">82.5%</td><td class="n">74.9%</td><td class="n">45.2%</td><td class="n">83.3%</td><td class="n">65.5%</td><td class="n">73.4%</td><td class="n">78.0%</td><td class="n">82.5%</td></tr>
+<tr><td>tool, round 2</td><td class="n">88.1%</td><td class="n">87.8%</td><td class="n">84.9%</td><td class="n">90.5%</td><td class="n">88.4%</td><td class="n">88.5%</td><td class="n">87.4%</td><td class="n">86.8%</td></tr>
+<tr class="lead"><td>command, round 2</td><td class="n">77.8%</td><td class="n">78.2%</td><td class="n">74.6%</td><td class="n">80.2%</td><td class="n">77.1%</td><td class="n">78.8%</td><td class="n">79.0%</td><td class="n">78.0%</td></tr>
+<tr><td><code>is_write</code>, round 2</td><td class="n">95.2%</td><td class="n">94.4%</td><td class="n">92.9%</td><td class="n">95.2%</td><td class="n">94.6%</td><td class="n">94.0%</td><td class="n">94.8%</td><td class="n">94.0%</td></tr>
+<tr><td><code>touches_poe_power</code>, round 2</td><td class="n">96.8%</td><td class="n">96.8%</td><td class="n">96.0%</td><td class="n">97.6%</td><td class="n">96.7%</td><td class="n">97.0%</td><td class="n">96.8%</td><td class="n">96.8%</td></tr>
+</table></div>
+<p style="font-size:.86rem;color:var(--muted)"><b>trained</b> is the order the bundle was trained on; <b>mean</b>, <b>min</b> and <b>max</b> run over all 24 orders; <b>s1</b> to <b>s4</b> average the six orders that put the question in that slot, so they confound the slot with the questions around it. Each cell is 126 rows per order, 756 rows per slot.</p>
+
+<p>Two things follow. First, round 1's trained order is the best of the 24 for the command question, the only one that reaches 65.1%; its slot profile, on the other hand, is nearly flat at 41% to 47%. So "the head is position-aware" understates it. The head did not learn a slot index, it learned one layout, and the trained order is the single arrangement in which it performs. The two yes/no questions do show a slot gradient, rising from 63.0% and 65.5% in slot 1 to 78.3% and 82.5% in the slots they were trained in, which is what a pure slot effect looks like, but that gradient is small next to the 54-point spread on the command question.</p>
+<p>Second, shuffling works, and works completely, inside the pack size it saw. Round 2's spread is 2 to 6 points, its trained order is not special (18 of the other 23 orders match or beat it), and the slot columns are flat to within two points. For a question asked in a fixed four-question battery, the defect is closed.</p>
+
+<h2>Why the head could do this</h2>
+<p>The answer is in what each training set contained, not in the architecture.</p>
+
+<div class="tablewrap"><table>
+<tr><th>training set</th><th class="n">4-question packs</th><th class="n">orders</th><th class="n">1-question packs</th><th>what a 1-question pack meant</th></tr>
+<tr><td><code>data/td-desc</code>, round 1</td><td class="n">985</td><td class="n">1</td><td class="n">1,620</td><td>a confirm-gate question, 1,040 of them gold "no"</td></tr>
+<tr class="lead"><td><code>data/td-desc-shuf</code>, round 2</td><td class="n">1,970</td><td class="n">24</td><td class="n">0</td><td>never seen</td></tr>
+<tr><td><code>data/td-gate</code>, gate-only</td><td class="n">0</td><td class="n">n/a</td><td class="n">2,080</td><td>the only shape, 1,040 gold "no"</td></tr>
+</table></div>
+<p style="font-size:.86rem;color:var(--muted)">Round 1's 985 router packs always ran tool, command, <code>is_write</code>, <code>touches_poe_power</code>; round 2's 1,970 packs put the command question in slot 1 on 230 examples, slot 2 on 1,231, slot 3 on 237 and slot 4 on 272, because the fix emits one permuted copy and keeps the original.</p>
+
+<p>Round 1 therefore had a perfectly good rule available: a sequence holding one question is a gate question, and the gate's answer is usually no. It applies that rule. Asked <code>is_write</code> alone it says "no" on 124 of 126 rows; asked the command question alone it says <code>none_of_these</code> on 119 of 126, which is the closest thing to "no" that a 24-way question offers. The model is not broken, it is generalising from the shapes it was shown.</p>
+<p>Round 2 saw no single-question packs at all, so its behaviour there is unconstrained rather than mislearned, and it goes the other way: asked <code>touches_poe_power</code> alone it answers "yes" on 119 of 126 rows, inverting a question it gets right 96.8% of the time in the battery. Removing the misleading shape did not replace it with a good one.</p>
+
+<h2>The two fixes and what they cost</h2>
+<div class="tablewrap"><table>
+<tr><th>fix</th><th>what changes</th><th>cost</th><th>what it buys</th></tr>
+<tr class="lead"><td>shuffle the question order in training<br><span class="mono" style="font-size:.78rem;color:var(--muted)">make_td_data.py --shuffle-questions 1</span></td><td>each training example emitted once more with its four questions permuted: 985 packs become 1,970, 7,880 questions</td><td>12 min becomes 23 min on one GB10 GPU (652 steps to 992, 14.3 to 14.4 GiB peak, $0.79 to $1.51 by the trainer's H100-equivalent estimate)</td><td>order spread drops from 54 to 6 points; accuracy rises on every question</td></tr>
+<tr><td>evaluate packed, as trained<br><span class="mono" style="font-size:.78rem;color:var(--muted)">backend packs first, falls back per question</span></td><td>nothing in training; the caller sends the whole battery even when it wants one answer</td><td>on the board CPU at four threads the packed four-question battery is 2.51 s against 126 ms for one NOUL, so a single answer costs 20 times more</td><td>recovers round 1 from 31.7% to 65.1% with no retraining</td></tr>
+</table></div>
+<p style="font-size:.86rem;color:var(--muted)">Round 2 also went from 4 to 8 epochs, so its gains are shuffling and training length together, not shuffling alone; this note does not separate them, and a single seed sits under both runs. The training cost line is one GB10 in bf16 with the trainer's own wall clock. The latency line is measured on the board's CPU with the production NPU (neural processing unit) tenant running.</p>
+
+<p>The second fix is what the study shipped for evaluation, and it is a real constraint on the deployment, not a free repair. The router battery costs 2.51 s packed on the board against about 5.1 s for the 4B readout's four questions, so a two-fold advantage survives packing; the ten-fold advantage, 126 ms against 1.24 s per question, exists only for a caller that asks one question at a time, which is exactly the call this model answers badly. The way out is to make the shape the caller wants the shape the model was trained on, which is a training decision, not an inference one.</p>
+
+<h2>What shuffling does not fix</h2>
+<p>The production pre-turn hook does not ask four questions. It asks two, tool and <code>is_write</code>, and uses them to pick the tool schemas loaded into the agent's 4K context and to add a one-line hint. That pack size appears in neither training set.</p>
+
+<div class="tablewrap"><table>
+<tr><th>pack asked</th><th class="n">round 1 tool</th><th class="n">round 1 <code>is_write</code></th><th class="n">round 2 tool</th><th class="n">round 2 <code>is_write</code></th></tr>
+<tr class="lead"><td>4 questions, trained order</td><td class="n">70.6%</td><td class="n">81.7%</td><td class="n">88.1%</td><td class="n">95.2%</td></tr>
+<tr><td>2 questions: tool, <code>is_write</code></td><td class="n">65.9%</td><td class="n">79.4%</td><td class="n">84.9%</td><td class="n">89.7%</td></tr>
+<tr><td>2 questions, reversed</td><td class="n">58.7%</td><td class="n">38.9%</td><td class="n">85.7%</td><td class="n">66.7%</td></tr>
+<tr><td>1 question, alone</td><td class="n">65.9%</td><td class="n">37.3%</td><td class="n">85.7%</td><td class="n">46.0%</td></tr>
+</table></div>
+
+<p>Round 2 keeps the tool question across every shape, within four points. It does not keep <code>is_write</code>: 95.2% in the battery, 89.7% in the two-question pack the hook actually sends, 66.7% if that pack is written in the other order, 46.0% alone. Shuffling taught the model 24 arrangements of one pack size. It did not teach it that a question means the same thing in a pack of two.</p>
+<p>The sharpest version of the lesson: the defect was never about order. It is that the packed format makes the whole battery the input, and a span head will use every part of that input it is allowed to use. Order shuffling removes one degree of freedom. Pack size is another, and it is the one the production hook varies.</p>
+
+<h2>Guidance for anyone using a span-head recipe</h2>
+<ul>
+<li><b>Ask in the shape you trained.</b> Record the battery in the bundle's config next to the temperature, so a caller can see the shape rather than infer it. <code>open_jev_config.json</code> currently records states, questions, epochs, augmentation and seed, but not the pack shapes.</li>
+<li><b>Shuffle the question order, and sample the subset too.</b> If callers will ask two of your four questions, train on two of your four questions. The cost is the same one extra copy per example.</li>
+<li><b>Probe before you trust an evaluation.</b> Run the same rows twice, once packed and once one question at a time. If the two disagree, your harness is a variable in your results. It costs a few seconds per bundle on a GPU: the median call is 39 ms packed and 23 ms for a lone command question over these 126 rows.</li>
+<li><b>Expect the failure to be confident.</b> 0.896 mean probability at 31.7% accuracy. Calibration is fitted on in-shape data and says nothing about a shape it never saw, so a confidence threshold will not catch this.</li>
+<li><b>Watch the length refusal.</b> Packing is bounded: a 10-question pack drawn from these questions is 2,576 tokens for round 1 and 2,974 for round 2 against a 2,048 <code>max_len</code>, and the trainer records the refusal rather than truncating. Anything that must scale past the window has to split, which reintroduces the problem.</li>
+<li><b>Keep the fallback honest.</b> The study's backend tries the packed call first and drops to one question per pass only when the sequence does not fit, and it records which path ran in <code>mode</code>. A silent fallback would have hidden this for a second time.</li>
+</ul>
+
+<h2>Draft: a contribution to the trainer</h2>
+<div class="draft"><b>Draft only.</b> No pull request has been opened and nobody has been contacted. This is the change this study would propose to <a href="https://github.com/kotoba-lang/typed-decisions">kotoba-lang/typed-decisions</a>, written out so it can be reviewed here first. The line numbers and names below come from reading the checkout used for these runs.</div>
+
+<p>The trainer already has the right seam. <code>augment.py</code> holds gold-preserving operations that rewrite one question (shuffle its options, paraphrase its instructions, drop distractors, relabel score levels, negate a yes/no), and the training loop maps them over <code>e.questions</code> one question at a time (<code>train_encoder.py</code>, line 118), which preserves the list and therefore the layout. What is missing is an operation on the question <em>list</em>. Its natural home is beside the others, applied at the same call site.</p>
+
+<div class="card-demo">
+<div class="req">Pull request title</div>
+<div class="cmd">augment: permute and optionally subsample the questions of a packed example</div>
+<div class="req" style="margin-top:.8rem">Body</div>
+<div class="cmd">The span head is position-aware in a stronger sense than the README's OOD (out-of-distribution) notes
+record: it keys on the whole packed layout, not on a slot index.
+
+Measured on a downstream fine-tune of ModernBERT-base with this recipe (150.8M
+params, span pool, CE (cross-entropy) + Brier, augment 0.5, 4 epochs, seed 0), evaluated on 126
+held-out rows of a battery with an 8-way tool question, a 24-way command
+question and two NOULs:
+
+  * asked in the trained order:              command 65.1%
+  * asked one question per forward pass:     command 31.7%  (none_of_these on 119/126)
+  * across all 24 orders of the same 4 questions: 11.1% to 65.1%, mean 44.9%
+  * the trained order is the best of the 24; the per-slot means are flat (41-47%)
+
+Re-training with each example emitted once more with its questions permuted
+(8 epochs) closes it: the same spread becomes 74.6% to 80.2%, mean 78.2%, and
+the trained order is no longer special. It does not close the related case:
+that model scores 95.2% on a yes/no question in the 4-question battery, 89.7%
+in a 2-question pack and 46.0% alone, because it never saw a pack of 2 or 1.
+
+This patch moves both augmentations into the trainer so a recipe user gets them
+without rebuilding their dataset, and so the fix is recorded in report.json.
+
+Both operations are gold-preserving by construction: gold is carried on each
+Question, so reordering or subsetting the list remaps nothing.
+
+Defaults are 0.0, so existing runs are byte-identical.</div>
+</div>
+
+<h3>Patch sketch</h3>
+<div class="card-demo"><div class="cmd patch"><span class="hunk">--- a/src/typed_decisions/augment.py</span>
+<span class="hunk">+++ b/src/typed_decisions/augment.py</span>
+<span class="hunk">@@ after the per-question ops and OPS</span>
+<span class="add">+def permute_questions(questions: list[Question], rng: random.Random) -&gt; list[Question]:</span>
+<span class="add">+    """Reorder the questions of one packed example. Gold is carried on each Question,</span>
+<span class="add">+    so nothing is remapped; the span head sees a layout it has not memorised."""</span>
+<span class="add">+    qs = list(questions)</span>
+<span class="add">+    rng.shuffle(qs)</span>
+<span class="add">+    return qs</span>
+<span class="add">+</span>
+<span class="add">+</span>
+<span class="add">+def subsample_questions(questions, rng, min_k: int = 1) -&gt; list[Question]:</span>
+<span class="add">+    """Keep a random non-empty subset, in a random order: the pack sizes a caller asks."""</span>
+<span class="add">+    return rng.sample(list(questions), rng.randint(min_k, len(questions)))</span>
+<span class="add">+</span>
+<span class="add">+</span>
+<span class="add">+def augment_pack(questions, rng, p_order: float = 0.0, p_subset: float = 0.0):</span>
+<span class="add">+    qs = permute_questions(questions, rng) if p_order and rng.random() &lt; p_order else list(questions)</span>
+<span class="add">+    return subsample_questions(qs, rng) if p_subset and rng.random() &lt; p_subset else qs</span>
+
+<span class="hunk">--- a/src/typed_decisions/train_encoder.py</span>
+<span class="hunk">+++ b/src/typed_decisions/train_encoder.py</span>
+<span class="hunk">@@ line 17, the imports</span>
+<span class="del">-from .augment import augment, pair</span>
+<span class="add">+from .augment import augment, pair, augment_pack</span>
+<span class="hunk">@@ after line 58, the --augment argument</span>
+<span class="add">+    ap.add_argument("--augment-question-order", type=float, default=0.0,</span>
+<span class="add">+                    help="probability that a packed example's questions are reordered")</span>
+<span class="add">+    ap.add_argument("--augment-question-subset", type=float, default=0.0,</span>
+<span class="add">+                    help="probability that an example trains on a random subset of its questions")</span>
+<span class="hunk">@@ line 118, the training loop, where items is built (one line in the source)</span>
+<span class="del">-            items = [(e.state, [augment(q, random) if a.augment and random.random() &lt; a.augment else q for q in e.questions]) for e in chunk]</span>
+<span class="add">+            items = [(e.state, [augment(q, random) if a.augment and random.random() &lt; a.augment else q</span>
+<span class="add">+                                for q in augment_pack(e.questions, random, a.augment_question_order, a.augment_question_subset)])</span>
+<span class="add">+                     for e in chunk]</span>
+
+<span class="hunk">@@ the saved bundle config, so a caller can see the shape it may ask</span>
+<span class="add">+            "pack": {"order": "shuffled" if a.augment_question_order else "fixed",</span>
+<span class="add">+                     "subsets": bool(a.augment_question_subset),</span>
+<span class="add">+                     "questions_per_example": sorted({len(e.questions) for e in train})},</span>
+
+<span class="hunk">--- a/tests/test_augment.py</span>
+<span class="hunk">+++ b/tests/test_augment.py</span>
+<span class="add">+def test_pack_ops_keep_every_question_and_its_gold():</span>
+<span class="add">+    qs = [...]  # one choice, one noul, one score</span>
+<span class="add">+    out = augment_pack(qs, random.Random(0), p_order=1.0)</span>
+<span class="add">+    assert sorted(q.qid for q in out) == sorted(q.qid for q in qs)</span>
+<span class="add">+    assert all(o.gold == next(q.gold for q in qs if q.qid == o.qid) for o in out)</span>
+<span class="add">+    sub = augment_pack(qs, random.Random(0), p_order=1.0, p_subset=1.0)</span>
+<span class="add">+    assert 1 &lt;= len(sub) &lt;= len(qs) and {q.qid for q in sub} &lt;= {q.qid for q in qs}</span></div></div>
+
+<p>Two notes a reviewer would want. The operations belong in <code>augment.py</code> rather than in a dataset builder because the layout is a training-time property of the pack, not of the corpus, and because a recipe user who builds their own JSONL should get the fix without regenerating it. And <code>subsample_questions</code> changes the number of questions per step, which changes the loss denominator: <code>decision_loss</code> already averages over valid questions, so the effect is a smaller effective batch on subsetted steps, worth saying in the pull request rather than hiding.</p>
+
+<h2>Reproduce</h2>
+<div class="card-demo"><div class="cmd">python -m bench.packed_vs_single \
+    --bundle round1=runs/modernbert-base-desc/bundle \
+    --bundle round2=runs/modernbert-base-desc-shuf-e8/bundle \
+    --pkg $WORK/typed-decisions/src --split-manifest data/td-desc/split_manifest.json \
+    --device cuda --out results/packed-vs-single.json          # 297 s on one GB10
+
+python -m bench.pack_shapes data/td-desc data/td-desc-shuf data/td-gate \
+    --out results/pack-shapes.json
+python -m bench.figures_packed --outdir docs/artifact --prefix packed-evaluation-</div></div>
+<p style="font-size:.86rem;color:var(--muted)">The receipt holds every condition, including the per-order tables and the prediction histograms this page quotes. <code>TORCH_DISABLE_NATIVE_JIT=1</code> and <code>TORCHDYNAMO_DISABLE=1</code> are required on the development host, as for every other run in this study.</p>
+
+<h2>Limits</h2>
+<ul>
+<li>One recipe, one backbone, one dataset, one seed per round. The two rounds differ in epochs as well as in shuffling, so the training-side fix is not isolated.</li>
+<li>126 held-out rows: a few points of difference in any cell is noise, though the effects this page is about are 33 to 74 points wide.</li>
+<li>The accuracy runs are on the development host; the board contributed the latency line only, and no board accuracy run exists.</li>
+<li>Authored labels are LLM-written and LLM-verified, with human review pending.</li>
+<li>Untested here: whether subset augmentation actually recovers the two-question pack, which is the obvious next run and the reason the patch above is a draft rather than a claim.</li>
+</ul>
+
+<footer>
+<p>Companion to <a href="https://claude.ai/artifact/BBMh93V3pxKYzSMe7UcpN3">the Jevlet results page</a> and <a href="https://claude.ai/artifact/3cL2PYgWi5ti1gRXScxhKa">the encoder fine-tune page</a>. Code, data and receipts: <a href="https://github.com/kvapr/jevlet">github.com/kvapr/jevlet</a> (<code>bench/packed_vs_single.py</code>, <code>results/packed-vs-single.json</code>, <code>results/pack-shapes.json</code>). The long-form account is Result 5 of the <a href="https://kvapr.github.io/posts/jevlet-system-one-on-the-edge/">blog post</a>; the preprint is <a href="https://github.com/kvapr/jevlet/blob/main/paper/main.pdf">paper/main.pdf</a>, section E3. Trainer: <a href="https://github.com/kotoba-lang/typed-decisions">kotoba-lang/typed-decisions</a>. Backbone: answerdotai/ModernBERT-base. Fine-tune numbers measured 2026-09-21; this note's receipts 2026-09-22.</p>
+</footer>
+</main>

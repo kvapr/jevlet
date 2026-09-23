@@ -336,9 +336,12 @@ halves the confident errors; it cannot remove them. An earlier pass with a singl
 on a 15-way version of the question flipped 15.8% of predictions when the order was reversed;
 averaging three rotations is the cheap fix, and the price is three requests instead of one.
 
-The prompt wording matters more than I expected for NOUL. Two phrasings of "does this proposal
-match the request?" put the raw probability of *yes* on correct proposals at 0.21 and at 0.82.
-The ranking survived either way (AUROC 0.91 and 0.95); the thresholds did not. This is the
+The prompt wording matters more than I expected for NOUL. My first two gate passes put the raw
+probability of *yes* on correct proposals at 0.21 and at 0.82. A later controlled rerun (same 400
+pairs, only the instruction sentence changed) attributes about 0.09 of that gap to the sentence
+itself, 0.80 → 0.71, and most of the rest to the surrounding prompt lines, the Yes/No legend above
+all; the ranking did not move at all (AUROC 0.957 against 0.958), the thresholds did: 21 of 400
+decisions changed side at 0.5. This is the
 practical meaning of "calibrated": if you did not fit the threshold on your own labeled rows,
 you do not have one.
 
@@ -596,8 +599,9 @@ constant part. On the compiled path you get a text label and nothing else.
 - **Ask for a distribution, not a sentence, at the gate.** A confirm card that shows a probability
   has an operating point; a card that shows a reason does not.
 - **A probability you did not calibrate on your own labeled rows is not a probability.** The same
-  readout put 0.21 or 0.82 on correct proposals depending on wording; temperature scaling on
-  grouped folds is the minimum, and the fold grouping matters (paraphrases leak).
+  readout put 0.21 or 0.82 on correct proposals depending on the prompt around the question, and
+  a temperature cannot move a pair across 0.5; temperature scaling on grouped folds is the
+  minimum, and refit the thresholds whenever the question text changes.
 - **Rotate the options.** Order bias flips a double-digit share of a small model's multiple-choice
   answers; averaging rotations is training-free and costs K requests.
 - **Don't route through the model you are trying to check.** A text-label choice from the same 4B

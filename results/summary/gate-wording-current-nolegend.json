@@ -1,0 +1,120 @@
+{
+ "file": "gate-wording-current-nolegend.json",
+ "backend": "llamacpp-readout-wording-current",
+ "n": 200,
+ "auroc": 0.954834156669019,
+ "acc_at_0.5_raw": 0.825,
+ "acc_at_0.5_temp_scaled": 0.825,
+ "ece_raw": 0.16506173995962162,
+ "ece_temp_scaled": 0.0806889998795828,
+ "brier_raw": 0.16639917484129513,
+ "brier_temp_scaled": 0.12108393181276632,
+ "temperatures": [
+  6.913110868823278,
+  7.1572946876173935,
+  7.942825647140262,
+  7.4101035289942905,
+  6.229416821475039
+ ],
+ "by_kind": {
+  "gold": {
+   "n": 56,
+   "mean_p_yes_raw": 0.7425621644531218,
+   "mean_p_yes_cal": 0.6960623009359936,
+   "frac_accepted_raw(p>0.5)": 0.75,
+   "frac_accepted_cal(p>0.5)": 0.75
+  },
+  "real": {
+   "n": 42,
+   "mean_p_yes_raw": 0.5259051123719894,
+   "mean_p_yes_cal": 0.5571336104077806,
+   "frac_accepted_raw(p>0.5)": 0.5238095238095238,
+   "frac_accepted_cal(p>0.5)": 0.5238095238095238
+  },
+  "swap_op": {
+   "n": 55,
+   "mean_p_yes_raw": 0.03491732042139322,
+   "mean_p_yes_cal": 0.13866114731161283,
+   "frac_accepted_raw(p>0.5)": 0.03636363636363636,
+   "frac_accepted_cal(p>0.5)": 0.03636363636363636
+  },
+  "wrong_port": {
+   "n": 47,
+   "mean_p_yes_raw": 3.3762374127825866e-06,
+   "mean_p_yes_cal": 0.09222823267779269,
+   "frac_accepted_raw(p>0.5)": 0.0,
+   "frac_accepted_cal(p>0.5)": 0.0
+  }
+ },
+ "by_style": {
+  "A": {
+   "n": 56,
+   "auroc": 0.8774193548387097
+  },
+  "B": {
+   "n": 60,
+   "auroc": 0.9932659932659933
+  },
+  "C": {
+   "n": 41,
+   "auroc": 0.9333333333333333
+  },
+  "canon": {
+   "n": 43,
+   "auroc": 0.9946236559139785
+  }
+ },
+ "real_misses": {
+  "n": 7,
+  "flagged_raw(p<0.5)": 4,
+  "flagged_cal(p<0.5)": 4,
+  "flagged_cal(p<0.9)": 5
+ },
+ "real_correct": {
+  "n": 35,
+  "false_flag_raw(p<0.5)": 16,
+  "false_flag_cal(p<0.5)": 16,
+  "false_flag_cal(p<0.9)": 27
+ },
+ "auroc_real_only": 0.6612244897959184,
+ "real_by_miss_kind": {
+  "confusion": {
+   "n": 6,
+   "label_mean": 0.0,
+   "flagged_cal(p<0.5)": 4,
+   "flagged_cal(p<0.9)": 5,
+   "mean_p_cal": 0.36326751214543296
+  },
+  "diagnose_instead": {
+   "n": 1,
+   "label_mean": 0.0,
+   "flagged_cal(p<0.5)": 0,
+   "flagged_cal(p<0.9)": 0,
+   "mean_p_cal": 0.9274091616330529
+  },
+  "format_only": {
+   "n": 1,
+   "label_mean": 1.0,
+   "flagged_cal(p<0.5)": 0,
+   "flagged_cal(p<0.9)": 0,
+   "mean_p_cal": 0.9341242695997554
+  },
+  "none": {
+   "n": 34,
+   "label_mean": 1.0,
+   "flagged_cal(p<0.5)": 16,
+   "flagged_cal(p<0.9)": 27,
+   "mean_p_cal": 0.56936685685357
+  }
+ },
+ "dangerous_swaps": {
+  "n": 33,
+  "accepted_raw(p>0.5)": 1,
+  "accepted_cal(p>0.5)": 1,
+  "accepted_cal(p>0.9)": 0
+ },
+ "latency_s": {
+  "median": 0.8612134326249361,
+  "p95": 1.175912546366453
+ }
+}

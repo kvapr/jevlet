@@ -1,0 +1,382 @@
+{
+ "date": "2026-09-22",
+ "produced_by": "python -m bench.hygiene_audit",
+ "sanitizer": {
+  "drop_keys": [
+   "url",
+   "base_url",
+   "endpoint",
+   "host",
+   "server",
+   "address"
+  ],
+  "public_device_name": "@sw1",
+  "names_file": "data/raw/private.json (gitignored, untracked)",
+  "names_loaded": 2
+ },
+ "dataset": {
+  "canonical.yaml": 65,
+  "paraphrase.yaml": 195,
+  "authored/adversarial_confusables.yaml": 81,
+  "authored/intents_diagnose.yaml": 54,
+  "authored/intents_docs_and_oos.yaml": 76,
+  "authored/intents_other_tools.yaml": 48,
+  "authored/train_paraphrases.yaml": 983,
+  "catalog.json": 33,
+  "generative_runs": 46,
+  "evaluation_rows": 519,
+  "published_rows_total": 1502,
+  "published_rows_naming_sw1": 1327,
+  "generative_run_records_naming_sw1": 3335,
+  "published_rows_mentioning_a_credential_word": 6,
+  "raw_catalog_entries_with_example_parenthetical": 1
+ },
+ "markers_in_published_data": {
+  "<addr>": 0,
+  "<redacted>": 0
+ },
+ "generative_runs": {
+  "raw_files": 52,
+  "published_files": 46,
+  "skipped_no_results_key": 6,
+  "unparsable": 0,
+  "compared": 46,
+  "keys_dropped": [
+   "provenance.host",
+   "summary.url"
+  ],
+  "provenance_keys_kept": [
+   "board",
+   "board_after",
+   "cases_file",
+   "cases_sha256",
+   "endpoint_models",
+   "harness_sha256",
+   "python",
+   "request_config",
+   "schema_version",
+   "timestamp_utc",
+   "tool_definitions_sha256",
+   "tool_names",
+   "tools_source"
+  ],
+  "skipped_kinds": {
+   "phase probe": 5,
+   "soak run": 1
+  }
+ },
+ "review_log": {
+  "sections": {
+   "adversarial_confusables (81 rows)": {
+    "entries": 29,
+    "dropped_or_removed": 9
+   },
+   "intents_diagnose (54 rows)": {
+    "entries": 20,
+    "dropped_or_removed": 1
+   },
+   "intents_docs_and_oos (76 rows)": {
+    "entries": 20,
+    "dropped_or_removed": 4
+   },
+   "intents_other_tools (48 rows)": {
+    "entries": 19,
+    "dropped_or_removed": 2
+   },
+   "train_paraphrases (983 rows, training only)": {
+    "entries": 46,
+    "dropped_or_removed": 13
+   }
+  },
+  "entries_total": 134,
+  "dropped_or_removed_total": 29,
+  "ambiguity_changes": 15,
+  "evaluation_rows_removed": 16,
+  "training_rows_removed": 13,
+  "sanitizer_fingerprint_lines": [
+   105,
+   114
+  ],
+  "abs_path_lines": [
+   103,
+   142
+  ]
+ },
+ "git": {
+  "tracked_files": 313,
+  "commits": 13,
+  "root_commit": "f685d54",
+  "root_commit_files": 244,
+  "root_commit_insertions": 46086,
+  "reflog_events": {
+   "clean_history_started": "2026-09-21 15:07:12 -0500",
+   "initial_commits": [
+    "2026-09-21 15:07:12 -0500",
+    "2026-09-21 13:43:31 -0500"
+   ],
+   "last_commit_before_first_push": "2026-09-21 14:10:27 -0500"
+  },
+  "old_history_initial_commit": "2026-09-21 13:43:31 -0500",
+  "unreachable_commits_in_local_store": 7,
+  "old_commits_named_in_head_reflog": 6,
+  "filter_branch_backup_refs_present": 0,
+  "ipv4_literals": {
+   "files": 19,
+   "loopback": 34
+  },
+  "abs_home_paths": {
+   "files": 7,
+   "lines": 11
+  }
+ },
+ "pushes": {
+  "events": [
+   {
+    "local_time": "14:15:29",
+    "kinds": [
+     "push"
+    ]
+   },
+   {
+    "local_time": "14:32:40",
+    "kinds": [
+     "push"
+    ]
+   },
+   {
+    "local_time": "14:55:19",
+    "kinds": [
+     "push"
+    ]
+   },
+   {
+    "local_time": "15:05:19",
+    "kinds": [
+     "whole-tree grep sweep",
+     "push"
+    ]
+   },
+   {
+    "local_time": "15:06:39",
+    "kinds": [
+     "whole-tree grep sweep"
+    ]
+   },
+   {
+    "local_time": "15:07:06",
+    "kinds": [
+     "whole-tree grep sweep",
+     "force push"
+    ]
+   },
+   {
+    "local_time": "15:13:04",
+    "kinds": [
+     "push"
+    ]
+   },
+   {
+    "local_time": "15:19:23",
+    "kinds": [
+     "push"
+    ]
+   },
+   {
+    "local_time": "15:26:46",
+    "kinds": [
+     "push"
+    ]
+   },
+   {
+    "local_time": "15:40:31",
+    "kinds": [
+     "push"
+    ]
+   },
+   {
+    "local_time": "15:47:50",
+    "kinds": [
+     "push"
+    ]
+   },
+   {
+    "local_time": "15:49:19",
+    "kinds": [
+     "push"
+    ]
+   }
+  ],
+  "pushes_before_clean_history": [
+   "14:15:29",
+   "14:32:40",
+   "14:55:19",
+   "15:05:19"
+  ],
+  "first_push": "14:15:29",
+  "clean_history_force_push": "15:07:06",
+  "minutes_first_commit_to_first_push": 32.0,
+  "minutes_first_push_to_clean_history": 51.6
+ },
+ "private_census": {
+  "raw": {
+   "seed_yaml": {
+    "device_name": 456,
+    "ipv4_loopback": 0,
+    "ipv4_other": 0,
+    "redact_list": 0
+   },
+   "generative_runs": {
+    "device_name": 6788,
+    "ipv4_loopback": 3,
+    "ipv4_other": 42,
+    "redact_list": 8
+   }
+  },
+  "published": {
+   "data/netops": {
+    "device_name": 0,
+    "ipv4_loopback": 0,
+    "ipv4_other": 0,
+    "redact_list": 0
+   }
+  },
+  "raw_address_key_paths": [
+   "summary.url",
+   "url"
+  ],
+  "raw_redact_key_paths": [
+   "provenance.host"
+  ],
+  "raw_files_with_url_key": 51,
+  "raw_files_with_provenance_host": 8
+ },
+ "incident": {
+  "pushed_revision_before_rewrite": "2410f33",
+  "by_revision": {
+   "2410f33": {
+    "device_name": {
+     "files": 3,
+     "lines": 5,
+     "file_names": [
+      "bench/ingest_authored.py",
+      "bench/netops.py",
+      "docs/data-review-log.md"
+     ],
+     "lines_by_file": {
+      "bench/ingest_authored.py": 2,
+      "bench/netops.py": 1,
+      "docs/data-review-log.md": 2
+     }
+    },
+    "files_in_tree": 97,
+    "host_name_from_redact_list": {
+     "files": 3,
+     "lines": 3,
+     "file_names": [
+      "data/netops/generative_runs/qwen3-4b-2507-q4_0-cpu-llamacpp-hygiene-2rep-20260910.json",
+      "data/netops/generative_runs/qwen3-4b-2507-q4_0-npu-llamacpp-hygiene-2rep-20260910.json",
+      "data/netops/generative_runs/qwen3-4b-4k-geniex040-hygiene-5rep-20260910.json"
+     ],
+     "lines_by_file": {
+      "data/netops/generative_runs/qwen3-4b-2507-q4_0-cpu-llamacpp-hygiene-2rep-20260910.json": 1,
+      "data/netops/generative_runs/qwen3-4b-2507-q4_0-npu-llamacpp-hygiene-2rep-20260910.json": 1,
+      "data/netops/generative_runs/qwen3-4b-4k-geniex040-hygiene-5rep-20260910.json": 1
+     }
+    }
+   },
+   "HEAD": {
+    "device_name": {
+     "files": 0,
+     "lines": 0,
+     "file_names": [],
+     "lines_by_file": {}
+    },
+    "files_in_tree": 313,
+    "host_name_from_redact_list": {
+     "files": 0,
+     "lines": 0,
+     "file_names": [],
+     "lines_by_file": {}
+    }
+   }
+  }
+ },
+ "hook_on_this_repo": {
+  "tree": {
+   "exit": 0,
+   "wall_s_median": 0.57,
+   "wall_s_runs": [
+    0.58,
+    0.57,
+    0.57
+   ],
+   "summary": "scan_private: mode=tree names=2 ipv4-allowlist=loopback tracked-files=313 commits=0 hits=0"
+  },
+  "staged": {
+   "exit": 1,
+   "wall_s_median": 0.65,
+   "wall_s_runs": [
+    0.65,
+    0.66,
+    0.64
+   ],
+   "summary": "scan_private: mode=staged names=2 ipv4-allowlist=loopback tracked-files=313 commits=0 hits=1"
+  },
+  "history": {
+   "exit": 1,
+   "wall_s_median": 7.91,
+   "wall_s_runs": [
+    8.01,
+    7.91,
+    7.72
+   ],
+   "summary": "scan_private: mode=history names=2 ipv4-allowlist=loopback tracked-files=313 commits=13 hits=2"
+  },
+  "push": {
+   "exit": 1,
+   "wall_s_median": 8.15,
+   "wall_s_runs": [
+    8.15,
+    8.52,
+    7.74
+   ],
+   "summary": "scan_private: mode=push names=2 ipv4-allowlist=loopback tracked-files=313 commits=13 hits=2"
+  }
+ },
+ "hook_extra_pattern_demo": {
+  "pattern": "/home/<user>/ absolute paths",
+  "exit": 1,
+  "hits": 11,
+  "files": [
+   "data/netops/generative_runs/qwen3-4b-2507-q4_0-cpu-llamacpp-hygiene-2rep-20260910.json",
+   "data/netops/generative_runs/qwen3-4b-2507-q4_0-npu-llamacpp-hygiene-2rep-20260910.json",
+   "data/netops/generative_runs/qwen3-4b-4k-geniex040-hygiene-5rep-20260910.json",
+   "docs/data-review-log.md",
+   "runs/modernbert-base-desc-shuf-e8/report.json",
+   "runs/modernbert-base-desc/report.json",
+   "runs/modernbert-base-gate-e6/report.json"
+  ]
+ },
+ "hook_on_synthetic_repo": {
+  "clean_tree": 0,
+  "clean_history": 0,
+  "leak_staged": {
+   "exit": 1,
+   "hits": 3,
+   "text_files_flagged": [
+    "leak_name.txt",
+    "leak_run.json"
+   ],
+   "binary_file_flagged": false
+  },
+  "leak_tree": 1,
+  "leak_history": 1,
+  "leak_push": 1,
+  "fixed_tree_only__tree": 0,
+  "fixed_tree_only__history": 1,
+  "after_orphan_squash__tree": 0,
+  "after_orphan_squash__history": 0,
+  "leftover_backup_ref__history": 1,
+  "after_deleting_backup_ref__history": 0
+ }
+}
