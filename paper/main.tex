@@ -47,7 +47,7 @@ The readout is not a better router (84.6\% on a 24-way command question vs the g
 flip under option reordering on adversarial rows), but once temperature-scaled and
 rotation-averaged it gives the gate an AUROC-0.95 check that flags 15 of the agent's 20 real
 dangerous confusions at $p<0.5$ while false-flagging 30 of 151 correct proposals, and admits 1 of
-156 dangerous synthetic swaps; on the board's CPU it costs 1.3\,s per router question and 3\,s per
+156 dangerous negatives; on the board's CPU it costs 1.3\,s per router question and 3\,s per
 gate question with the question prefix cached. The zero-shot open reproductions are at chance on
 the gate and collapse above about six options. A 150M encoder fine-tuned on $\sim$2,000 rows
 with the question order shuffled becomes the better router than the readout on identical
@@ -194,7 +194,7 @@ of the request together with a proposed call and its one-line description:
 \emph{real} calls on the 195 paraphrases (label = its graded end-to-end correctness; 151
 positive, 44 negative), the gold call (positive), and synthetic negatives that swap the
 operation for its confusable neighbour or change the port: 939 pairs (195 real, 260 gold, 260
-swapped operation, 224 wrong port), of which 156 are ``dangerous'' swaps
+swapped operation, 224 wrong port), of which 140 are ``dangerous'' swaps; with the agent's 16 real dangerous confusions, 156 dangerous negatives
 (PoE-off$\leftrightarrow$shutdown, access$\leftrightarrow$trunk, speed$\leftrightarrow$shutdown,
 PoE mode$\leftrightarrow$limit). Among the 195 real calls, 34 are semantic misses (20 command
 confusions, 13 diagnose-instead, 1 parameter) and 10 are format slips whose command and
@@ -299,7 +299,7 @@ PoE-off$\to$\texttt{disable\_port} accounts for 8.
 \end{figure}
 \paragraph{The gate.} On the 939 pairs the readout reaches AUROC 0.952 (ECE 0.108$\to$0.030,
 $T\approx6.4$). Synthetic negatives are nearly airtight: swapped operations are accepted 7.3\%
-of the time, wrong ports never, and 1 of 156 dangerous swaps is accepted at $p>0.5$. On the
+of the time, wrong ports never, and 1 of 156 dangerous negatives is accepted at $p>0.5$. On the
 generative model's real calls (Table~\ref{tab:gate}) it flags 15 of the 20 command confusions
 and 7 of the 13 diagnose-instead calls at $p<0.5$, false-flags 2 of the 10 format slips, and
 false-flags 30 of the 151 correct calls (76 at $p<0.9$); AUROC on the real pairs alone is 0.714.
@@ -311,7 +311,7 @@ the same question put mean $p(\text{yes})$ on correct proposals at 0.21 (AUROC 0
 \resizebox{\linewidth}{!}{%
 \begin{tabular}{lrrrrr}
 \toprule
-backend & AUROC & ECE raw$\to$T & confusions flagged & correct false-flagged & dang.\ swaps accepted \\
+backend & AUROC & ECE raw$\to$T & confusions flagged & correct false-flagged & dang.\ negatives accepted \\
 \midrule
 readout Qwen3-4B & 0.952 & 0.108$\to$0.030 & 15 / 20 & 30 / 151 & 1 / 156 \\
 readout Qwen3.5-0.8B (no thinking) & 0.879 & 0.119$\to$0.047 & 13 / 20 & 36 / 151 & 25 / 156 \\
@@ -343,7 +343,7 @@ mass: after scaling none accepts a dangerous swap above 0.9. Laya's typed-decisi
 is the strongest zero-shot encoder on all 519 rows (tool 61.7\%, command 51.4\%, \texttt{is\_write}
 81.1\%, \texttt{touches\_poe\_power} 86.3\%) and its English checkpoint the strongest zero-shot
 gate (AUROC 0.757, real pairs 0.710), yet it flags 1 of the 20 real confusions at $p<0.5$ and
-accepts 101 of 156 dangerous swaps. On all 519 rows open-jev-deberta scores 31.6 / 45.1 / 75.3 /
+accepts 101 of 156 dangerous negatives. On all 519 rows open-jev-deberta scores 31.6 / 45.1 / 75.3 /
 39.7 and the NLI baseline 20.6 / 40.8 / 81.9 / 68.2.
 
 \paragraph{A sub-1B decoder.} Qwen3.5-0.8B reads out nothing in its default template (the first
@@ -351,7 +351,7 @@ generated token opens a thinking block: label mass 0); with thinking disabled it
 74.6\%, command 35.0\%, \texttt{is\_write} 81.9\%, \texttt{touches\_poe\_power} 80.8\% on the 260
 base rows with 71--84\% of the mass on the labels for the choice questions and a 95\% order-flip
 rate on the tool question (rotation averaging: 68.8$\to$74.6\%). As a gate: AUROC 0.879, 13 of
-20 real confusions flagged, 36 of 151 correct calls false-flagged, 25 of 156 dangerous swaps
+20 real confusions flagged, 36 of 151 correct calls false-flagged, 25 of 156 dangerous negatives
 accepted.
 
 \subsection{E3 --- a fine-tuned 150M encoder}

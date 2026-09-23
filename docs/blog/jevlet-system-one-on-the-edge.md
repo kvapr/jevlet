@@ -348,10 +348,10 @@ you do not have one.
 
 The gate question, readout backend, 939 pairs: AUROC 0.952 overall, ECE 0.108 → 0.030 after
 scaling. On the synthetic negatives it is nearly airtight — swapped operations accepted 7%,
-wrong ports 0%, and of 156 *dangerous* swaps (PoE-off↔shutdown, access↔trunk, …) it accepted one.
+wrong ports 0%, and of 156 *dangerous* negatives (140 swaps such as PoE-off↔shutdown or access↔trunk, plus the agent's 16 real dangerous confusions) it accepted one.
 
 On the generative model's real calls it is a more honest picture. Of the 20 real command
-confusions it flags 15 at p<0.5; of the 13 "diagnose instead of read" calls, 7; of the 10 format
+confusions it flags 15 at p<0.5; of the 13 "diagnose instead of the requested call" calls, 7; of the 10 format
 slips (which do match the request), it false-flags 2; and of the 151 correct calls it false-flags
 30 at p<0.5 (76 at p<0.9). So at the 0.5 operating point the card would carry a warning on 3 of
 4 dangerous misreads and on 1 in 5 correct proposals. Whether that trade is right is a product
@@ -379,7 +379,7 @@ or fine-tune.
 
 None of these is usable as a gate zero-shot. The best of them, Laya, reaches AUROC 0.76 on all
 939 pairs but flags 1 of the 20 real confusions at the 0.5 threshold and accepts 101 of 156
-dangerous swaps; the DeBERTa and the NLI baseline are at chance. They are honest about it:
+dangerous negatives; the DeBERTa and the NLI baseline are at chance. They are honest about it:
 their confidences on this domain are low, and after scaling none of them accepts a dangerous
 swap above 0.9. Fast, wrong and aware of it is a better starting point than fast and confidently
 wrong, but it is still not a product. On the board's CPU at four threads they answer a single
@@ -426,7 +426,7 @@ real, if weak, backend: tool 74.6%, command 35.0%, is_write 81.9%, touches_poe 8
 base rows, with 71–84% of the mass landing on the labels for the choice questions. It flips 95%
 of its tool answers across option orderings (averaging three rotations lifts the tool accuracy
 from 68.8% to 74.6%). As a gate it reaches AUROC 0.88, flags 13 of the 20 real confusions and
-false-flags 36 of 151 correct proposals, but it also accepts 25 of the 156 dangerous swaps. A
+false-flags 36 of 151 correct proposals, but it also accepts 25 of the 156 dangerous negatives. A
 middle point, at roughly a fifth of the 4B's cost; not yet a substitute.
 
 ## Result 7 — the adversarial rows

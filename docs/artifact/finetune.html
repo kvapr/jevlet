@@ -234,9 +234,9 @@
 </figure>
 
 <h2>Defect 2, unfixed: the gate did not learn</h2>
-<p>Three attempts, all scored on the 217 gate pairs built from the held-out groups (60 gold calls, 45 real calls of the generative model, 60 swapped operations, 52 wrong ports; 38 of the swaps are dangerous pairs). The readout is scored on the same subset so the rows compare directly.</p>
+<p>Three attempts, all scored on the 217 gate pairs built from the held-out groups (60 gold calls, 45 real calls of the generative model, 60 swapped operations, 52 wrong ports; 38 dangerous negatives among the swaps and the real calls). The readout is scored on the same subset so the rows compare directly. False-flag denominators differ by row: the 939-pair rows count the 151 end-to-end-correct real calls; the held-out rows count the 40 real correct calls including 3 format slips (10 of 37 for the readout on the end-to-end-correct ones).</p>
 <div class="tablewrap"><table>
-<tr><th>backend</th><th class="n">AUROC</th><th class="n">ECE raw → scaled</th><th class="n">real confusions flagged</th><th class="n">correct calls false-flagged</th><th class="n">dangerous swaps accepted</th></tr>
+<tr><th>backend</th><th class="n">AUROC</th><th class="n">ECE raw → scaled</th><th class="n">real confusions flagged</th><th class="n">correct calls false-flagged</th><th class="n">dangerous negatives accepted</th></tr>
 <tr class="lead"><td><span class="swatch" style="background:var(--readout)"></span>readout Qwen3-4B, held-out pairs</td><td class="n">0.967</td><td class="n">0.145 → 0.075</td><td class="n">2 / 2</td><td class="n">11 / 40</td><td class="n">0 / 38</td></tr>
 <tr><td><span class="swatch" style="background:var(--finetuned)"></span>round 1, gate head trained in the mix (1 : 2)</td><td class="n">0.647</td><td class="n">0.107 → 0.062</td><td class="n">2 / 2</td><td class="n">37 / 40</td><td class="n">0 / 38</td></tr>
 <tr><td><span class="swatch" style="background:var(--finetuned)"></span>round 2, same head after shuffling</td><td class="n">0.530</td><td class="n">0.063 → 0.012</td><td class="n">2 / 2</td><td class="n">29 / 40</td><td class="n">11 / 38</td></tr>
