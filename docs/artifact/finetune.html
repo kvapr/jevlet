@@ -97,7 +97,7 @@
 
 <h2>The recipe</h2>
 <figure>
-<svg viewBox="0 0 779 292" role="img" aria-label="One packed sequence carries the state and all four questions with their options through the encoder; a small head averages the token vectors of each question and option span, scores them, and applies a softmax inside each question; the loss is cross-entropy plus Brier.">
+<svg viewBox="0 0 795 292" role="img" aria-label="One packed sequence carries the state and all four questions with their options through the encoder; a small head averages the token vectors of each question and option span, scores them, and applies a softmax inside each question; the loss is cross-entropy plus Brier.">
   <defs><marker id="arf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
   <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
     <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">ONE PACKED SEQUENCE</text>
@@ -136,7 +136,7 @@
 
 <h2>The data and the split</h2>
 <figure>
-<svg viewBox="0 0 760 236" role="img" aria-label="Rows are grouped by seed request so that all paraphrases of one seed land in the same split; 81 groups form the held-out test set, 32 the validation set, the rest train. Each training row carries the four router questions; round 2 emits every training example twice with the question order permuted; the gate-only set is built from synthetic pairs and class-balanced.">
+<svg viewBox="0 0 770 236" role="img" aria-label="Rows are grouped by seed request so that all paraphrases of one seed land in the same split; 81 groups form the held-out test set, 32 the validation set, the rest train. Each training row carries the four router questions; round 2 emits every training example twice with the question order permuted; the gate-only set is built from synthetic pairs and class-balanced.">
   <defs><marker id="ard" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
   <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
     <rect x="0" y="10" width="220" height="118" rx="6" fill="var(--surface)" stroke="var(--rule)"/>
@@ -217,7 +217,7 @@
 
 <h2>Defect 1: the span head is position-aware</h2>
 <figure>
-<svg viewBox="0 0 760 164" role="img" aria-label="A question trained in the second slot of the packed sequence answers at 55 percent when asked in its slot and 7 percent when asked alone; round 2 fixes this by permuting question order in training and by evaluating bundles packed.">
+<svg viewBox="0 0 809 164" role="img" aria-label="A question trained in the second slot of the packed sequence answers at 55 percent when asked in its slot and 7 percent when asked alone; round 2 fixes this by permuting question order in training and by evaluating bundles packed.">
   <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
     <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">ROUND 1, ONE QUESTION TRAINED IN THE SECOND SLOT</text>
     <text x="150" y="46" text-anchor="end">asked packed, in its slot</text>

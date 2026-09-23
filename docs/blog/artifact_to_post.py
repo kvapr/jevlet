@@ -81,6 +81,47 @@ PAGES = {
     ),
 }
 
+PAGES.update({
+    "packed-evaluation": dict(
+        slug="packed-battery-gotcha",
+        date="September 2026",
+        desc="A small encoder trained to answer four questions in one packed sequence answers a different question when you ask it one at a time: 65.1% falls to 31.7% on the same rows, confidently. The effect measured across all 24 question orders and three pack sizes, located in the training data, and the two fixes priced.",
+        title=None,
+        subs=[
+            (r'Read this with <a href="[^"]*">the fine-tune page</a>, which has the recipe and the accuracy tables this note dissects\.',
+             f'The bundles come from a study that served typed, calibrated decisions beside an offline '
+             f'network-management assistant on a Qualcomm board, where a 150M encoder was fine-tuned to answer '
+             f'its router battery: <a href="{BLOG}">the write-up</a> has the recipe and the accuracy tables '
+             f'this note dissects, and <a href="{REPO}">the repository</a> has the receipts.'),
+        ],
+    ),
+    "data-hygiene": dict(
+        slug="sanitizing-a-private-dataset",
+        date="September 2026",
+        desc="Publishing an operator dataset cut from a live switch meant deleting every private string first. The sanitizer's four mechanisms and the rule that keeps the names out of the code, the leak that got past it and why none of it was in the data rows, and the pre-commit scan that now stands between the files and the server.",
+        title=None,
+        subs=[
+            (r'Read this with <a href="[^"]*">the Jevlet results page</a>, which uses the dataset this page is about\.',
+             f'The dataset belongs to a study that served typed, calibrated decisions beside an offline '
+             f'network-management assistant on a Qualcomm board: <a href="{BLOG}">the write-up</a> uses it, '
+             f'and <a href="{REPO}">the repository</a> holds it.'),
+        ],
+    ),
+    "confirm-card-design": dict(
+        slug="confirm-card-design",
+        date="September 2026",
+        desc="An agent proposes a command and a human approves it. Once that card carries a calibrated probability, the design question is what the extra line should say: three sentences, a threshold that turns out to move only the false-alarm rate, a cost model built from how much each command can break, and what to log.",
+        title=None,
+        subs=[
+            (r'<b>Read this with the main page\.</b> The <a href="[^"]*">Jevlet results page</a> measures the gate; this page designs the card it feeds\.',
+             f'<b>Where this comes from.</b> The card belongs to an offline network-management assistant on a '
+             f'Qualcomm board, and the gate that scores it comes from a study of typed, calibrated decisions '
+             f'served locally beside it: <a href="{BLOG}">the write-up</a> measures the gate, '
+             f'<a href="{REPO}">the repository</a> holds the code, and this page designs the card it feeds.'),
+        ],
+    ),
+})
+
 
 def site_style(site: Path) -> str:
     """The site's own post stylesheet, taken from an existing post so the two cannot drift."""

@@ -98,7 +98,7 @@
 
 <h2>Raw to public, in one pass</h2>
 <figure>
-<svg viewBox="0 0 760 296" role="img" aria-label="The build reads three private sources, applies four sanitizing mechanisms (name substitution from an untracked names file, a redaction list, an address mask and a recursive key drop), and writes the public dataset; the names file itself is gitignored and never committed.">
+<svg viewBox="0 0 777 296" role="img" aria-label="The build reads three private sources, applies four sanitizing mechanisms (name substitution from an untracked names file, a redaction list, an address mask and a recursive key drop), and writes the public dataset; the names file itself is gitignored and never committed.">
   <defs><marker id="arh1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
   <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
     <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--bad)" letter-spacing=".1em">PRIVATE · NEVER IN THE REPOSITORY</text>
@@ -191,7 +191,7 @@
 <h2>The incident</h2>
 <p>The pipeline above is the second version. The first push leaked, and the way it leaked is the useful part.</p>
 <figure>
-<svg viewBox="0 0 760 272" role="img" aria-label="Timeline: a first commit at 13:43, the first of four pushes at 14:15, a grep sweep at 15:05 that found six files, and a single clean commit force-pushed at 15:07. Below, the three root causes: a literal in the sanitizer's own source, a key the drop list did not name, and a review log the ingest never sanitized.">
+<svg viewBox="0 0 787 272" role="img" aria-label="Timeline: a first commit at 13:43, the first of four pushes at 14:15, a grep sweep at 15:05 that found six files, and a single clean commit force-pushed at 15:07. Below, the three root causes: a literal in the sanitizer's own source, a key the drop list did not name, and a review log the ingest never sanitized.">
   <defs><marker id="arh2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
   <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
     <line x1="10" y1="60" x2="750" y2="60" stroke="var(--rule)" stroke-width="1.5"/>
