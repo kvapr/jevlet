@@ -371,9 +371,10 @@ the whole trade-off.
 | Laya typed-decisions checkpoint, 421M (all 519 rows) | 61.7% | 51.4% | 81.1% | 0.73 |
 | Laya English checkpoint, 421M (all 519 rows) | 27.2% | 46.8% | 86.7% | 0.76 |
 
-\* Verdict collapses to one label once a question has more than about six options — the same
-four probe requests get the same answer at 12 — so on the 24-way question every row lands on
-`configure_trunk_allowed_vlans`. Its authors evaluate on 5-candidate tasks; Laya's card reports
+\* Verdict collapses to one label once a question has more than about six options *with
+descriptions* — the same four probe requests get the same answer at 12 — so on the 24-way question
+every row lands on `configure_trunk_allowed_vlans`; with bare option names it degrades gradually
+instead (46.2% at 24 options in a later probe, 42.7% on the 24-way question over 260 rows). Its authors evaluate on 5-candidate tasks; Laya's card reports
 the same weakness on Banking77. This is a real constraint for catalogs: either ask hierarchically
 or fine-tune.
 
@@ -601,7 +602,7 @@ constant part. On the compiled path you get a text label and nothing else.
   answers; averaging rotations is training-free and costs K requests.
 - **Don't route through the model you are trying to check.** A text-label choice from the same 4B
   was worse than its own tool call; independence, not cleverness, is what the gate needs.
-- **Zero-shot decision models need small option sets.** Above ~6 options the 151M encoder
+- **Zero-shot decision models need small option sets.** Above ~6 described options the 151M encoder
   collapsed; hierarchical questions or fine-tuning, not longer descriptions, are the fix.
 - **A fine-tuned small encoder can out-route the LM it sits next to, but shuffle the questions
   in training.** Span heads are position-aware; the difference between 65% and 78% on the

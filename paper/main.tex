@@ -49,7 +49,7 @@ rotation-averaged it gives the gate an AUROC-0.95 check that flags 15 of the age
 dangerous confusions at $p<0.5$ while false-flagging 30 of 151 correct proposals, and admits 1 of
 156 dangerous negatives; on the board's CPU it costs 1.3\,s per router question and 3\,s per
 gate question with the question prefix cached. The zero-shot open reproductions are at chance on
-the gate and collapse above about six options. A 150M encoder fine-tuned on $\sim$2,000 rows
+the gate, and one collapses above about six options when the options carry descriptions. A 150M encoder fine-tuned on $\sim$2,000 rows
 with the question order shuffled becomes the better router than the readout on identical
 held-out rows (tool 88.1\% vs 84.9\%, command 77.8\% vs 69.8\%) at 126\,ms per question on the
 board's CPU, but no encoder variant learns the gate (AUROC 0.53--0.65): the division of labour
@@ -334,8 +334,9 @@ calls on the 195 paraphrases.}
 None transfers to the 23-command catalog. openJev-verdict-2.0 answers the 8-way tool question at
 72.7\% (58.5\% with shortened descriptions) but returns the same label for every request on the
 24-way command question; probing with 6, 12, 16, 20 and 24 options shows the collapse begins at
-about six, consistent with its 5-candidate evaluation and with Laya's reported Banking77
-weakness. open-jev-deberta-v3-large answers the command question at 70.8\% (bare option names,
+about six with option descriptions (at 24 the prompt exceeds its 512-token window), while bare
+option names degrade gradually to 46.2\%; this is consistent with its 5-candidate evaluation and
+with Laya's reported Banking77 weakness. open-jev-deberta-v3-large answers the command question at 70.8\% (bare option names,
 one question per pass because of its 512-token context) and \texttt{is\_write} at 88.8\%, but
 the tool question at 23.8\%. The NLI cross-encoder reaches 53.1\% / 86.5\%. All three are at
 chance on the gate (Table~\ref{tab:gate}) and, being honest about it, abstain or spread their

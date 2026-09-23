@@ -90,7 +90,7 @@
 
 <h2>Why fine-tune at all</h2>
 <ul>
-<li><b>Zero-shot encoders were not usable as routers.</b> The best of them, Laya with its typed-decisions head, reached 61.7% on the 8-way tool question and 51.4% on the 24-way command question over all 519 rows; openJev-verdict collapses to one label above about six options.</li>
+<li><b>Zero-shot encoders were not usable as routers.</b> The best of them, Laya with its typed-decisions head, reached 61.7% on the 8-way tool question and 51.4% on the 24-way command question over all 519 rows; openJev-verdict collapses to one label above about six options when the options carry descriptions.</li>
 <li><b>The readout works but is slow for a per-turn job.</b> The 4B readout gives a probability the gate can use, at 1.24 s per router question and about 5 s for the four-question battery on the board's CPU.</li>
 <li><b>The question was narrow.</b> Can a 150M encoder trained on a few thousand of this deployment's own rows carry the router battery at encoder latency, and can it carry the gate?</li>
 </ul>
