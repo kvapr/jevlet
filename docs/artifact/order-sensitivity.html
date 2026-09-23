@@ -88,7 +88,7 @@
 
 <h2>How a rotation is built</h2>
 <figure>
-<svg viewBox="0 0 760 240" role="img" aria-label="Three cyclic rotations of an eight-option list: the letters A to H stay at their positions while the options shift by one per rotation, so option 0 is shown first in rotation 0, option 1 in rotation 1, option 2 in rotation 2. Each rotation is one prefill whose first-token distribution over the letters is read, mapped back to option order, and the three vectors are averaged in option space.">
+<svg viewBox="0 0 821 240" role="img" aria-label="Three cyclic rotations of an eight-option list: the letters A to H stay at their positions while the options shift by one per rotation, so option 0 is shown first in rotation 0, option 1 in rotation 1, option 2 in rotation 2. Each rotation is one prefill whose first-token distribution over the letters is read, mapped back to option order, and the three vectors are averaged in option space.">
   <defs><marker id="arro" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
   <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
     <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)" letter-spacing=".1em">THREE CYCLIC ROTATIONS OF ONE OPTION LIST (TOOL QUESTION, K = 8)</text>
@@ -132,7 +132,7 @@
     <text x="274" y="169" font-weight="600">map back to option order</text>
     <text x="274" y="186" font-size="11" fill="var(--muted)">p_r[option] = p(its letter in this rotation)</text>
     <line x1="498" y1="173" x2="522" y2="173" stroke="currentColor" stroke-width="1.2" marker-end="url(#arro)"/>
-    <rect x="524" y="150" width="236" height="46" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <rect x="524" y="150" width="266" height="46" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
     <text x="536" y="169" font-weight="600">average in option space</text>
     <text x="536" y="186" font-size="11" fill="var(--muted)">mean of the three vectors; its argmax wins</text>
     <text x="0" y="222" font-size="11" fill="var(--muted)">a flip = a row whose argmax differs between at least two rotations. Yes/no questions are not rotated. Each rotation has its own system prompt.</text>
